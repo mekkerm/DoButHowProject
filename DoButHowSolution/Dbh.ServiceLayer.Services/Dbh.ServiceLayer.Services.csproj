@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dbh.BusinessLayer.Contracts\Dbh.BusinessLayer.Contracts.csproj" />
+    <ProjectReference Include="..\Dbh.Common.IoCContainer\Dbh.Common.IoCContainer.csproj" />
+    <ProjectReference Include="..\Dbh.ServiceLayer.Contracts\Dbh.ServiceLayer.Contracts.csproj" />
+    <ProjectReference Include="..\Dbh.Model.EF.Interfaces\Dbh.Model.EF.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

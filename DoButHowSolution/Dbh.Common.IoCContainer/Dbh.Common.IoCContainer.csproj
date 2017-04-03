@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StructureMap" Version="4.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dbh.BusinessLayer.BL\Dbh.BusinessLayer.BL.csproj" />
+    <ProjectReference Include="..\Dbh.BusinessLayer.Contracts\Dbh.BusinessLayer.Contracts.csproj" />
+    <ProjectReference Include="..\Dbh.Model.EF.Interfaces\Dbh.Model.EF.Interfaces.csproj" />
+    <ProjectReference Include="..\Dbh.Model.DataLayer.EF\Dbh.Model.DataLayer.EF.csproj" />
+  </ItemGroup>
+
+</Project>
