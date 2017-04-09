@@ -13,7 +13,7 @@ namespace Dbh.ServiceLayer.Contracts
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<ApplicationUser> passwordHasher, IEnumerable<IUserValidator<ApplicationUser>> userValidators, IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger) : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
-            Console.WriteLine("myconstructor");
+            Console.WriteLine("ApplicationUserManager constructor");
         }
 
         public ApplicationUser GetNewUser(string username, string email)
