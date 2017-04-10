@@ -14,6 +14,7 @@ using WebClient.Services;
 using Dbh.ServiceLayer.Contracts;
 using Dbh.Model.EF.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Dbh.ServiceLayer.Services;
 
 namespace WebClient
 {
@@ -66,11 +67,11 @@ namespace WebClient
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<ApplicationSignInManager>();
             services.AddScoped<ApplicationUserManager>();
-            //services.AddTransient<IBlogsService>(serviceProvider =>
-            //{
-            //    // dependency injection here?
-            //    return null;//new BlogsService();
-            //}).AddDefaultTokenProviders();
+            services.AddSingleton<IQuestionServices>(serviceProvider =>
+            {
+                return new QuestionServices();
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

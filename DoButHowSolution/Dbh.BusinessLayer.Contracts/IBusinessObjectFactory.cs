@@ -7,7 +7,10 @@ namespace Dbh.BusinessLayer.Contracts
     public interface IBusinessObjectFactory
     {
         IBlogs Blogs { get; }
-        
-        void SaveChanges();
+
+
+        IQuestions Questions { get; }
+
+        int SaveChanges();
     }
 }

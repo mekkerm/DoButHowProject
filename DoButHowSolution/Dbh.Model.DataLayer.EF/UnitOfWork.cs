@@ -17,6 +17,8 @@ namespace Dbh.Model.EF.UnitOfWork
 
         private BlogRepository _blogRepo;
         private AppUserRepository _appUserRepo;
+        private QuestionRepository _questionRepo;
+
         public IBlogRepository Blogs {
             get {
                 if (_blogRepo == null)
@@ -26,7 +28,7 @@ namespace Dbh.Model.EF.UnitOfWork
                 return _blogRepo;
             }
         }
-        
+
         public IAppUserRepository AppUsers {
             get {
                 if (_appUserRepo == null)
@@ -34,6 +36,16 @@ namespace Dbh.Model.EF.UnitOfWork
                     _appUserRepo = new AppUserRepository(_context);
                 }
                 return _appUserRepo;
+            }
+        }
+
+        public IQuestionRepository Questions {
+            get {
+                if (_questionRepo == null)
+                {
+                    _questionRepo = new QuestionRepository(_context);
+                }
+                return _questionRepo;
             }
         }
         public void Dispose()

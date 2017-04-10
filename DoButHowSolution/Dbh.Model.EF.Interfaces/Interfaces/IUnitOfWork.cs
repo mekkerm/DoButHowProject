@@ -7,6 +7,8 @@ namespace Dbh.Model.EF.Interfaces
     {
         IBlogRepository Blogs { get; }
 
+        IQuestionRepository Questions { get; }
+
         IAppUserRepository AppUsers { get; }
         int SaveChanges();
     }

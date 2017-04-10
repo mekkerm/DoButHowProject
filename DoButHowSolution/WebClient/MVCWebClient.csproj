@@ -41,5 +41,8 @@
     <ProjectReference Include="..\Dbh.ServiceLayer.Contracts\Dbh.ServiceLayer.Contracts.csproj" />
     <ProjectReference Include="..\Dbh.ServiceLayer.Services\Dbh.ServiceLayer.Services.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Question\" />
+  </ItemGroup>
 
 </Project>

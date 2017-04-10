@@ -14,15 +14,14 @@ namespace Dbh.ServiceLayer.Services
         {
             var businessUoW = Resolver.Get<IBusinessObjectFactory>();
 
-            return businessUoW.Blogs.doWhateverYouWant();
+            return businessUoW.Blogs.DoWhateverYouWant();
         }
 
         public void JustDoSomething(Blog blog)
         {
-
             var businessUoW = Resolver.Get<IBusinessObjectFactory>();
 
-            businessUoW.Blogs.doWhateverYouWant();
+            businessUoW.Blogs.DoWhateverYouWant();
         }
     }
 }

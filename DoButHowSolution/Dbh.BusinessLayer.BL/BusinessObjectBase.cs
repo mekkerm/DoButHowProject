@@ -1,8 +1,4 @@
 ﻿using Dbh.Model.EF.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Dbh.BusinessLayer.BL
 {
     public class BusinessObjectBase

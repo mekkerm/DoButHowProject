@@ -9,8 +9,7 @@ namespace Dbh.BusinessLayer.Contracts
 {
     public interface IBlogs
     {
-
-        Blog doWhateverYouWant();
+        Blog DoWhateverYouWant();
 
     }
 }

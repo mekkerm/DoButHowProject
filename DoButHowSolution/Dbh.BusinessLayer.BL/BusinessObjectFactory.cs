@@ -26,11 +26,22 @@ namespace Dbh.BusinessLayer.BL
                 return _blogs;
             }
         }
-        
 
-        public void SaveChanges()
+        private IQuestions _questions;
+        public IQuestions Questions {
+            get {
+                if (_questions== null)
+                {
+                    _questions = new Questions(_uow);
+                }
+
+                return _questions;
+            }
+        }
+
+        public int SaveChanges()
         {
-            _uow.SaveChanges();
+            return _uow.SaveChanges();
         }
     }
 }
