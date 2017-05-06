@@ -55,6 +55,16 @@ namespace Dbh.ServiceLayer.Services
 
         }
 
+        public bool CreateNewQuestion(Question question, string creatorName)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            businessUoW.Questions.CreateQuestion(question, creatorName);
+
+            return businessUoW.SaveChanges() > 0;
+
+        }
+
         public IEnumerable<Question> GetQuestionsOfUser(string userId)
         {
             throw new NotImplementedException();

@@ -8,5 +8,9 @@ namespace Dbh.Model.EF.Interfaces.Interfaces
     public interface IAppUserRepository : IRepository<ApplicationUser>
     {
         ApplicationUser GetUser(string id);
+
+        ApplicationUser GetUserByName(string name);
+
+
     }
 }

@@ -8,6 +8,8 @@ namespace Dbh.ServiceLayer.Contracts
     public interface IQuestionServices
     {
         bool CreateNewQuestion(Question question, ApplicationUser creator);
+        
+        bool CreateNewQuestion(Question question, string creatorName);
         void ApproveQuestion(Question question, ApplicationUser approver);
 
         IEnumerable<Question> GetQuestionsOfUser(string userId);

@@ -44,7 +44,7 @@
     <ProjectReference Include="..\Dbh.ServiceLayer.Services\Dbh.ServiceLayer.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Question\" />
+    <Folder Include="Views\NewFolder\" />
   </ItemGroup>
 
 </Project>

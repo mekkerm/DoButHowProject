@@ -9,15 +9,15 @@ namespace MVCWebClient.Models.QuestionViewModels
     public class QuestionViewModel
     {
         [StringLength(80)]
-        public String Title;
+        public string Title { get; set; }
 
         [StringLength(250)]
-        public String Description;
+        public string Description { get; set; }
 
-        public String CreatorName;
+        public string CreatorName { get; set; }
 
-        public String CreatorId;
+        public string CreatorId { get; set; }
 
-        public int QuestionId;
+        public int QuestionId { get; set; }
     }
 }

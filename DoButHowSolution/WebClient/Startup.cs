@@ -16,6 +16,7 @@ using Dbh.Model.EF.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Dbh.ServiceLayer.Services;
 using MVCWebClient.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebClient
 {
@@ -47,18 +48,18 @@ namespace WebClient
             services.AddDbContext<Dbh.Model.EF.Context.UserDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(config=>
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
                 config.User.RequireUniqueEmail = true;
                 config.Password.RequiredLength = 5;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireDigit = false;
                 config.Password.RequireUppercase = false;
-                
+
             }).AddEntityFrameworkStores<Dbh.Model.EF.Context.UserDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc(config=>
+            services.AddMvc(config =>
             {
                 //config.Filters.Add(new RequireHttpsAttribute());
             });
@@ -76,11 +77,23 @@ namespace WebClient
             {
                 return new MapperService();
             });
-            
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Moderator"));
+                options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+                options.AddPolicy("RequireAtLeastUserRole", policy => policy.RequireRole("User", "Moderator", "Admin"));
+                options.AddPolicy("RequireAtLeastModeratorRole", policy => policy.RequireRole("Admin", "Moderator"));
+                options.AddPolicy("RequireAtLeastAdminRole", policy => policy.RequireRole("Admin"));
+
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -108,6 +121,51 @@ namespace WebClient
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            await CreateRoles(serviceProvider);
+        }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            //adding custom roles
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string[] roleNames = { "Admin", "Moderator", "User" };
+
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                //creating the roles and seeding them to the database
+                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+
+                if (!roleExist)
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            //creating a super user who could maintain the web app
+            var poweruser = new ApplicationUser
+            {
+                UserName = "admin@email.com",
+                Email = "admin@email.com"
+            };
+
+            string UserPassword = "admin@email.com";
+            var _user = await UserManager.FindByEmailAsync(poweruser.Email);
+
+            if (_user == null)
+            {
+                var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    //here we tie the new user to the "Admin" role 
+                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                }
+            }
+
         }
     }
 }

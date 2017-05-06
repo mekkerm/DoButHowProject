@@ -14,5 +14,8 @@ namespace Dbh.BusinessLayer.Contracts
         Question GetQuestionById(int id);
 
         void CreateQuestion(Question question, ApplicationUser creator);
+
+
+        void CreateQuestion(Question question, string creatorName);
     }
 }

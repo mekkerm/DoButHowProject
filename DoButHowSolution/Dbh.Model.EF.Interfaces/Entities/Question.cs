@@ -21,13 +21,16 @@ namespace Dbh.Model.EF.Entities
         public DateTime CreationDate { get; set; }
         public Boolean IsApproved { get; set; }
 
-        public DateTime ApproveDate { get; set; }
+        public DateTime? ApproveDate { get; set; }
 
         public string ApproverId { get; set; }
         //[ForeignKey("ApproverUserId")]
         public ApplicationUser Approver { get; set; }
+        
 
-        //TODO add asnwers as navigation property
+        public DateTime? RejectDate { get; set; }
+        public Boolean IsRejected { get; set; }
 
+        public string RejectReason { get; set; }
     }
 }

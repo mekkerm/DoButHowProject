@@ -24,7 +24,17 @@ namespace Dbh.BusinessLayer.BL
             question.CreationDate = DateTime.Now;
             question.CreatorId = creator.Id;
             question.IsApproved = false;
-            
+
+            _uow.Questions.Add(question);
+        }
+
+        public void CreateQuestion(Question question, string creator)
+        {
+            var user = _uow.AppUsers.GetUserByName(creator);
+            question.CreationDate = DateTime.Now;
+            question.CreatorId = user.Id;
+            question.IsApproved = false;
+
             _uow.Questions.Add(question);
         }
 

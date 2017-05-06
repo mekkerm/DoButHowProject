@@ -20,5 +20,14 @@ namespace MVCWebClient.Services
 
             return dest;
         }
+
+        public Question Map(QuestionViewModel source)
+        {
+            var dest = new Question();
+            dest.Title = source.Title;
+            dest.Description = source.Description;
+
+            return dest;
+        }
     }
 }

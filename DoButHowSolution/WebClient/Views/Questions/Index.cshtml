@@ -3,8 +3,18 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="questionsContainer">
-    <ul>
+<div class="questionsContainer" >
+    @if (User.Identity.IsAuthenticated)
+    { 
+        <a asp-action="AskQuestion">
+            <div class="btn btn-primary" style="right:0px; display:inline; position:absolute">
+                <i class="material-icons alignMiddle">help_outline</i>
+                <div class="position-inline">Put a Question</div>
+            </div>
+        </a>
+    }
+    </br>
+    <ul style="display:inline">
         @foreach (var question in Model.Questions)
         {
 
