@@ -15,6 +15,7 @@ using Dbh.ServiceLayer.Contracts;
 using Dbh.Model.EF.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Dbh.ServiceLayer.Services;
+using MVCWebClient.Services;
 
 namespace WebClient
 {
@@ -70,6 +71,10 @@ namespace WebClient
             services.AddSingleton<IQuestionServices>(serviceProvider =>
             {
                 return new QuestionServices();
+            });
+            services.AddSingleton(serviceProvider =>
+            {
+                return new MapperService();
             });
             
         }

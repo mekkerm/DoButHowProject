@@ -30,7 +30,13 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Question> GetAll()
         {
-            return _uow.Questions.GetAll();
+            var questions = _uow.Questions.GetAll();
+            foreach (var question in questions)
+            {
+                question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
+            }
+
+            return questions;
         }
 
         public Question GetQuestionById(int id)

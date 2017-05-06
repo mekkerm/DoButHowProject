@@ -7,6 +7,6 @@ namespace Dbh.Model.EF.Interfaces.Interfaces
 {
     public interface IAppUserRepository : IRepository<ApplicationUser>
     {
-        //TODO Additional methods
+        ApplicationUser GetUser(string id);
     }
 }

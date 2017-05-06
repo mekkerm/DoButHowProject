@@ -12,7 +12,7 @@ namespace Dbh.Model.EF.Repositories
     public class GenericRepository<TEntity> : IRepository<TEntity>
        where TEntity : BaseEntity
     {
-        private DbSet<TEntity> _dbSet;
+        protected DbSet<TEntity> _dbSet;
         private DbContext _ctx;
 
         public GenericRepository(DbContext context)

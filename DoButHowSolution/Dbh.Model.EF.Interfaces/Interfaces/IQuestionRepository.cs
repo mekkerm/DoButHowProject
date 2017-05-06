@@ -1,5 +1,6 @@
 ﻿using Dbh.Model.EF.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Dbh.Model.EF.Interfaces
 {
@@ -8,6 +9,8 @@ namespace Dbh.Model.EF.Interfaces
         IEnumerable<Question> GetNotApprovedQuestions();
 
         IEnumerable<Question> GetApprovedQuestions();
+
+        Task<IEnumerable<Question>> GetAllWithCreators();
 
     }
 }

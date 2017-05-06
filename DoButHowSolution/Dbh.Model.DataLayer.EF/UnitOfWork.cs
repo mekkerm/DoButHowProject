@@ -9,10 +9,12 @@ namespace Dbh.Model.EF.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserDbContext _userContext;
 
         public UnitOfWork()
         {
             _context = new ApplicationDbContext();
+            _userContext = new UserDbContext();
         }
 
         private BlogRepository _blogRepo;
@@ -33,7 +35,7 @@ namespace Dbh.Model.EF.UnitOfWork
             get {
                 if (_appUserRepo == null)
                 {
-                    _appUserRepo = new AppUserRepository(_context);
+                    _appUserRepo = new AppUserRepository(_userContext);
                 }
                 return _appUserRepo;
             }

@@ -59,6 +59,11 @@ namespace Dbh.Model.EF.Repositories
         {
             return _dbSet.SingleOrDefault(predicate);
         }
+
+        public ApplicationUser GetUser(string id)
+        {
+            return _dbSet.Find(id);
+        }
     }
 
 }

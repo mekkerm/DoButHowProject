@@ -1,4 +1,4 @@
-﻿using Dbh.ServiceLayer.Contracts;
+using Dbh.ServiceLayer.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using MVCWebClient.Models.QuestionViewModels;
 using MVCWebClient.Services;
@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace MVCWebClient.Controllers
 {
-    public class QuestionController : Controller
+    public class QuestionsController : Controller
     {
         private IQuestionServices _questionService;
         private readonly ApplicationUserManager _userManager;
         private readonly ApplicationSignInManager _signInManager;
         private readonly MapperService _mapper;
 
-        public QuestionController(IQuestionServices service,
+        public QuestionsController(IQuestionServices service,
             ApplicationUserManager userManager,
            ApplicationSignInManager signInManager,
            MapperService mapper)
@@ -28,17 +28,17 @@ namespace MVCWebClient.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index()
         {
-            
-            var question = _questionService.GetQuestionById(id);
-            if (question == null)
-            {
+            var model = new AllQuestionsViewModel();
 
-                return RedirectToAction("Index", "Home");
+            var questions = _questionService.GetAll();
+            foreach (var question in questions)
+            {
+                model.Questions.Add(_mapper.Map(question));
             }
 
-            return View(question);
+            return View(model);
         }
     }
 }

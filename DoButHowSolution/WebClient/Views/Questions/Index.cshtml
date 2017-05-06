@@ -1,0 +1,25 @@
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="questionsContainer">
+    <ul>
+        @foreach (var question in Model.Questions)
+        {
+
+            <li>
+
+                <a asp-area="" asp-controller="Question" asp-action="" asp-route-id="@question.QuestionId">
+                    <div class="questionTitle">@question.Title</div>
+                    <div class="questionDescription">@question.Description</div>
+                </a>
+            </li>
+
+        }
+    </ul>
+
+
+
+</div>
+
