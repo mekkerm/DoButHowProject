@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Dbh.Model.EF.Entities
 {
-    public class Question:BaseEntity
+    public class Question : BaseEntity
     {
         [MaxLength(80)]
         public string Title { get; set; }
@@ -24,12 +24,11 @@ namespace Dbh.Model.EF.Entities
         public DateTime? ApproveDate { get; set; }
 
         public string ApproverId { get; set; }
-        //[ForeignKey("ApproverUserId")]
-        public ApplicationUser Approver { get; set; }
         
-
         public DateTime? RejectDate { get; set; }
         public Boolean IsRejected { get; set; }
+
+        public string RejectorId{ get; set; }
 
         public string RejectReason { get; set; }
     }

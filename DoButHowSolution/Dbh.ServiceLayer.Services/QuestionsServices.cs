@@ -12,11 +12,20 @@ namespace Dbh.ServiceLayer.Services
     public class QuestionServices: IQuestionServices
     {
 
-        public void ApproveQuestion(Question question, ApplicationUser approver)
+        public void ApproveQuestion(int questionId, string username)
         {
             var businessUoW = Resolver.Get<IBusinessObjectFactory>();
 
-            businessUoW.Questions.ApproveQuestion(question, approver);
+            businessUoW.Questions.ApproveQuestion(questionId, username);
+
+            businessUoW.SaveChanges();
+        }
+         
+        public void RejectQuestion(int questionId, string rejectReason, string username)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            businessUoW.Questions.RejectQuestion(questionId, rejectReason, username);
 
             businessUoW.SaveChanges();
         }
@@ -30,12 +39,16 @@ namespace Dbh.ServiceLayer.Services
 
         public IEnumerable<Question> GetApprovedQuestions()
         {
-            throw new NotImplementedException();
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var questions = businessUoW.Questions.GetApprovedQuestions();
+            return questions;
         }
 
         public IEnumerable<Question> GetNotApprovedQuestions()
         {
-            throw new NotImplementedException();
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var questions = businessUoW.Questions.GetNotApprovedQuestions();
+            return questions;
         }
 
         public Question GetQuestionById(int id)
@@ -65,9 +78,11 @@ namespace Dbh.ServiceLayer.Services
 
         }
 
-        public IEnumerable<Question> GetQuestionsOfUser(string userId)
+        public IEnumerable<Question> GetQuestionsOfUser(string username)
         {
-            throw new NotImplementedException();
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var questions = businessUoW.Questions.GetQuestionsOfUser(username);
+            return questions;
         }
     }
 }

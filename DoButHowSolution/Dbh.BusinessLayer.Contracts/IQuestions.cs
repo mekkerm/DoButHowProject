@@ -7,7 +7,8 @@ namespace Dbh.BusinessLayer.Contracts
 {
     public interface IQuestions
     {
-        void ApproveQuestion(Question question, ApplicationUser approver);
+        void ApproveQuestion(int questionId, string username);
+        void RejectQuestion(int questionId, string rejectReason, string username);
 
         IEnumerable<Question> GetAll();
 
@@ -17,5 +18,10 @@ namespace Dbh.BusinessLayer.Contracts
 
 
         void CreateQuestion(Question question, string creatorName);
+        IEnumerable<Question> GetQuestionsOfUser(string username);
+        IEnumerable<Question> GetNotApprovedQuestions();
+
+
+        IEnumerable<Question> GetApprovedQuestions();
     }
 }

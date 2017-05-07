@@ -19,5 +19,11 @@ namespace MVCWebClient.Models.QuestionViewModels
         public string CreatorId { get; set; }
 
         public int QuestionId { get; set; }
+
+        public string RejectReason { get; set; }
+
+        public bool IsRejected { get; set; }
+
+        public bool IsApproved { get; set; }
     }
 }

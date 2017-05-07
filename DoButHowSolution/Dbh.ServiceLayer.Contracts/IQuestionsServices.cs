@@ -10,10 +10,17 @@ namespace Dbh.ServiceLayer.Contracts
         bool CreateNewQuestion(Question question, ApplicationUser creator);
         
         bool CreateNewQuestion(Question question, string creatorName);
-        void ApproveQuestion(Question question, ApplicationUser approver);
+        void ApproveQuestion(int questionId, string username);
 
-        IEnumerable<Question> GetQuestionsOfUser(string userId);
 
+        void RejectQuestion(int questionId, string rejectReason, string username);
+
+        IEnumerable<Question> GetQuestionsOfUser(string username);
+
+        /// <summary>
+        /// Returns the list of questions which are need to be approved.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<Question> GetNotApprovedQuestions();
 
         IEnumerable<Question> GetApprovedQuestions();

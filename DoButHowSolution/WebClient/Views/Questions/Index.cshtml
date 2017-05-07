@@ -3,9 +3,43 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="questionsContainer" >
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+<div class="questionsContainer">
     @if (User.Identity.IsAuthenticated)
-    { 
+    {
+        <ul id="questionsNavBar" class="nav nav-pills">
+            @switch ((string)(ViewBag.focus))
+            {
+                case "QuestionsToApprove":
+                    <li><a asp-action="">All questions</a></li>
+                    <li><a asp-action="MyQuestions">My questions</a></li>
+                    @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
+                    {
+                        <li class="active"><a asp-action="QuestionsToApprove">Questions to approve</a></li>
+                    }
+                    break;
+                case "MyQuestions":
+                    <li><a asp-action="">All questions</a></li>
+                    <li class="active"><a asp-action="MyQuestions">My questions</a></li>
+                    @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
+                    {
+                        <li><a asp-action="QuestionsToApprove">Questions to approve</a></li>
+                    }
+                    break;
+                default:
+                    <li class="active"><a asp-action="">All questions</a></li>
+                    <li><a asp-action="MyQuestions">My questions</a></li>
+                    @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
+                    {
+                        <li><a asp-action="QuestionsToApprove">Questions to approve</a></li>
+                    }
+                    break;
+            }
+        </ul>
+    }
+    @if (User.Identity.IsAuthenticated)
+    {
         <a asp-action="AskQuestion">
             <div class="btn btn-primary" style="right:0px; display:inline; position:absolute">
                 <i class="material-icons alignMiddle">help_outline</i>
@@ -13,18 +47,20 @@
             </div>
         </a>
     }
-    </br>
+    <br>
     <ul style="display:inline">
         @foreach (var question in Model.Questions)
         {
-
             <li>
-
                 <a asp-area="" asp-controller="Question" asp-action="" asp-route-id="@question.QuestionId">
                     <div class="questionTitle">@question.Title</div>
                     <div class="questionDescription">@question.Description</div>
                 </a>
             </li>
+        }
+        @if (Model.Questions.Count == 0)
+        {
+            <p>There are no questions!</p>
 
         }
     </ul>
@@ -32,4 +68,8 @@
 
 
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_QuestionScriptsPartial"); }
+}
 

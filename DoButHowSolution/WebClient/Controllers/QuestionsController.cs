@@ -34,12 +34,13 @@ namespace MVCWebClient.Controllers
         {
             var model = new AllQuestionsViewModel();
 
-            var questions = _questionService.GetAll();
+            var questions = _questionService.GetApprovedQuestions();
             foreach (var question in questions)
             {
                 model.Questions.Add(_mapper.Map(question));
             }
 
+            ViewBag.focus = "Index";
             return View(model);
         }
 
@@ -84,6 +85,53 @@ namespace MVCWebClient.Controllers
 
             return View();
 
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "RequireAtLeastUserRole")]
+        public IActionResult MyQuestions()
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var username = this.User.Identity.Name;
+                var questions = _questionService.GetQuestionsOfUser(username);
+                var model = new AllQuestionsViewModel();
+                
+                foreach (var question in questions)
+                {
+                    model.Questions.Add(_mapper.Map(question));
+                }
+                ViewBag.focus = "MyQuestions";
+                return View("Index", model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Policy = "RequireAtLeastModeratorRole")]
+        public IActionResult QuestionsToApprove()
+        {
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var username = this.User.Identity.Name;
+                var questions = _questionService.GetNotApprovedQuestions();
+                var model = new AllQuestionsViewModel();
+
+                foreach (var question in questions)
+                {
+                    model.Questions.Add(_mapper.Map(question));
+                }
+                ViewBag.focus = "QuestionsToApprove";
+                return View("Index", model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

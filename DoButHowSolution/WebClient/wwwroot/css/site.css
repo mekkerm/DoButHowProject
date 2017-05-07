@@ -146,3 +146,22 @@ textarea {
 .position-inline {
   display: inline-block;
 }
+.aclass {
+  display: block;
+  height: 38px;
+  width: 150px;
+}
+.floatrightbutton {
+  float: right;
+  margin-right: 10px;
+}
+.floatrightbutton .btn {
+  width: 150px;
+}
+.floatleftbutton {
+  float: left;
+  margin-right: 10px;
+}
+.floatleftbutton .btn {
+  width: 150px;
+}

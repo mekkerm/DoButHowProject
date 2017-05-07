@@ -15,8 +15,11 @@ namespace MVCWebClient.Services
             dest.QuestionId = source.Id;
             dest.Title = source.Title;
             dest.Description = source.Description;
-            dest.CreatorName = source.Creator.UserName;
+            dest.CreatorName = source.Creator != null?source.Creator.UserName:"";
             dest.CreatorId = source.CreatorId;
+            dest.IsApproved = source.IsApproved;
+            dest.IsRejected = source.IsRejected;
+
 
             return dest;
         }
@@ -26,6 +29,7 @@ namespace MVCWebClient.Services
             var dest = new Question();
             dest.Title = source.Title;
             dest.Description = source.Description;
+            dest.Id = source.QuestionId;
 
             return dest;
         }

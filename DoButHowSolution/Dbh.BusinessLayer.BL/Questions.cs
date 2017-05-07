@@ -12,11 +12,30 @@ namespace Dbh.BusinessLayer.BL
             : base(uow)
         { }
 
-        public void ApproveQuestion(Question question, ApplicationUser approver)
+        public void ApproveQuestion(int questionId, string username)
         {
-            question.ApproveDate = DateTime.Now;
-            question.Approver = approver;
-            question.IsApproved = true;
+            var oldQuestion = _uow.Questions.Get(questionId);
+            var user = _uow.AppUsers.GetUserByName(username);
+
+            oldQuestion.ApproveDate = DateTime.Now;
+            oldQuestion.IsApproved = true;
+            oldQuestion.IsRejected = false;
+            oldQuestion.RejectReason = null;
+            oldQuestion.ApproverId = user.Id;
+        }
+
+        public
+        void RejectQuestion(int questionId, string rejectReason, string username)
+        {
+            var oldQuestion = _uow.Questions.Get(questionId);
+            var user = _uow.AppUsers.GetUserByName(username);
+
+            oldQuestion.ApproveDate = null;
+            oldQuestion.RejectDate = DateTime.Now;
+            oldQuestion.IsApproved = false;
+            oldQuestion.IsRejected = true;
+            oldQuestion.RejectReason = rejectReason;
+            oldQuestion.RejectorId = user.Id;
         }
 
         public void CreateQuestion(Question question, ApplicationUser creator)
@@ -52,6 +71,38 @@ namespace Dbh.BusinessLayer.BL
         public Question GetQuestionById(int id)
         {
             return _uow.Questions.Get(id);
+        }
+
+        public IEnumerable<Question> GetQuestionsOfUser(string username)
+        {
+            var user = _uow.AppUsers.GetUserByName(username);
+            var questions = _uow.Questions.Find(q => q.CreatorId == user.Id);
+            foreach (var question in questions)
+            {
+                question.Creator = user;
+            }
+            return questions;
+        }
+
+
+        public IEnumerable<Question> GetNotApprovedQuestions()
+        {
+            var questions = _uow.Questions.Find(q => !q.IsApproved && !q.IsRejected);
+            foreach (var question in questions)
+            {
+                question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
+            }
+            return questions;
+        }
+
+        public IEnumerable<Question> GetApprovedQuestions()
+        {
+            var questions = _uow.Questions.Find(q => q.IsApproved);
+            foreach (var question in questions)
+            {
+                question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
+            }
+            return questions;
         }
     }
 }

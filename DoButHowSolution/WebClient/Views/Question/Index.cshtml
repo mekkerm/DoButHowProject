@@ -1,29 +1,68 @@
-
+@model QuestionViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 <div class="questionsContainer">
     @if (User.Identity.IsAuthenticated)
     {
-        <a asp-action="AskQuestion">
-            <div class="btn btn-primary" style="right:0px; display:inline; position:absolute">
-                <i class="material-icons alignMiddle">help_outline</i>
-                <div class="position-inline">Put a Question</div>
+        <div>
+            <div class="floatrightbutton">
+                <a asp-action="AskQuestion" asp-controller="Questions" class="aclass">
+                    <div class="btn btn-primary" style="display:inline; position:absolute">
+                        <i class="material-icons alignMiddle">help_outline</i>
+                        <div class="position-inline">Put a Question</div>
+                    </div>
+                </a>
             </div>
-        </a>
+        </div>
     }
-    </br>
-    <ul style="display:inline">
-
-        <li>
-
-            <div class="questionTitle">@Model.Title</div>
-            <div class="questionDescription">@Model.Description</div>
-        </li>
-    </ul>
-
-
-
+    <br><br><br>
+    <form class="form-horizontal" method="post">
+        <input asp-for="QuestionId" type="hidden" />
+        <input asp-for="CreatorName" type="hidden" />
+        <input asp-for="CreatorId" type="hidden" />
+        <div class="form-group">
+            <label asp-for="Title" class="control-label col-sm-2">Title:</label>
+            <div class="col-sm-10">
+                <input asp-for="Title" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label col-sm-2">Description:</label>
+            <div class="col-sm-10">
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2"></label>
+            <div class="col-sm-10">
+                <textarea name="RejectReason" placeholder="Why do you reject this question?" class="form-control" rows="5"></textarea>
+            </div>
+        </div>
+        @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
+        {
+            @if (!Model.IsApproved && !Model.IsRejected)
+            {
+            <div class="form-group">
+                <label class="control-label col-sm-2"></label>
+                <div class="col-sm-10">
+                    <div class="floatleftbutton">
+                        <button type="submit" class="btn btn-primary" asp-action="ApproveQuestion" asp-controller="Question">
+                            <span class="glyphicon glyphicon-ok"></span> Approve
+                        </button>
+                    </div>
+                    <div class="floatleftbutton">
+                        <button type="submit" class="btn btn-primary" asp-action="RejectQuestion" asp-controller="Question">
+                            <span class="glyphicon glyphicon-remove"></span> Reject
+                        </button>
+                    </div>
+                </div>
+            </div>
+            }
+        }
+    </form>
 </div>
 

@@ -37,8 +37,37 @@ namespace MVCWebClient.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
-
-            return View(question);
+            var model = _mapper.Map(question);
+            return View(model);
         }
+
+        [HttpPost]
+        public IActionResult ApproveQuestion(QuestionViewModel model)
+        {
+            var username = this.User.Identity.Name;
+            _questionService.ApproveQuestion(model.QuestionId, username);
+
+            ViewBag.message = "Question has been approved!";
+
+            var question = _questionService.GetQuestionById(model.QuestionId);
+            var updtedModel = _mapper.Map(question);
+            return View("Index", updtedModel);
+        }
+
+        [HttpPost]
+        public IActionResult RejectQuestion(QuestionViewModel model, string RejectReason)
+        {
+            _questionService.RejectQuestion(model.QuestionId, RejectReason, this.User.Identity.Name);
+
+            ViewBag.message = "Question has been rejected!";
+
+            var question = _questionService.GetQuestionById(model.QuestionId);
+            var updtedModel = _mapper.Map(question);
+            return View("Index", updtedModel);
+        }
+
+
+
+
     }
 }
