@@ -55,6 +55,8 @@
                 <a asp-area="" asp-controller="Question" asp-action="" asp-route-id="@question.QuestionId">
                     <div class="questionTitle">@question.Title</div>
                     <div class="questionDescription">@question.Description</div>
+                    <div style="float:right">@question.Status</div>
+                    <br />
                 </a>
             </li>
         }

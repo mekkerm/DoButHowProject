@@ -9,6 +9,7 @@ namespace Dbh.BusinessLayer.Contracts
     {
         void ApproveQuestion(int questionId, string username);
         void RejectQuestion(int questionId, string rejectReason, string username);
+        void CorrectQuestion(int questionId, string title, string description);
 
         IEnumerable<Question> GetAll();
 

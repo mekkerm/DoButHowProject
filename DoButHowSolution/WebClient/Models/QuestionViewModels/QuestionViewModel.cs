@@ -25,5 +25,9 @@ namespace MVCWebClient.Models.QuestionViewModels
         public bool IsRejected { get; set; }
 
         public bool IsApproved { get; set; }
+
+        public string Status { get; set; }
+        public bool CurrentUserIsTheOwner { get; set; }
+        public bool DisableInputs { get; set; }
     }
 }

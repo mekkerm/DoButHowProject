@@ -19,7 +19,9 @@ namespace MVCWebClient.Services
             dest.CreatorId = source.CreatorId;
             dest.IsApproved = source.IsApproved;
             dest.IsRejected = source.IsRejected;
-
+            dest.RejectReason = source.RejectReason;
+            dest.Status = source.IsApproved ? "Approved" :
+                source.IsRejected ? "Rejected" : "Created";
 
             return dest;
         }

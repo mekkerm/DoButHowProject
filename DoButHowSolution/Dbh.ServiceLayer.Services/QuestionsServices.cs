@@ -30,6 +30,15 @@ namespace Dbh.ServiceLayer.Services
             businessUoW.SaveChanges();
         }
 
+        public void CorrectQuestion(int questionId, string title, string description)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            businessUoW.Questions.CorrectQuestion(questionId, title, description);
+
+            businessUoW.SaveChanges();
+        }
+
         public IEnumerable<Question> GetAll()
         {
             var businessUoW = Resolver.Get<IBusinessObjectFactory>();

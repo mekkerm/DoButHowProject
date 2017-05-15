@@ -38,6 +38,19 @@ namespace Dbh.BusinessLayer.BL
             oldQuestion.RejectorId = user.Id;
         }
 
+        public void CorrectQuestion(int questionId, string title, string description)
+        {
+            var oldQuestion = _uow.Questions.Get(questionId);
+            oldQuestion.Title = title;
+            oldQuestion.Description = description;
+
+            oldQuestion.ApproveDate = null;
+            oldQuestion.RejectDate = null;
+            oldQuestion.IsApproved = false;
+            oldQuestion.IsRejected = false;
+            oldQuestion.RejectReason = null;
+        }
+
         public void CreateQuestion(Question question, ApplicationUser creator)
         {
             question.CreationDate = DateTime.Now;
@@ -63,6 +76,7 @@ namespace Dbh.BusinessLayer.BL
             foreach (var question in questions)
             {
                 question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
+                
             }
 
             return questions;
@@ -70,7 +84,9 @@ namespace Dbh.BusinessLayer.BL
 
         public Question GetQuestionById(int id)
         {
-            return _uow.Questions.Get(id);
+            var question = _uow.Questions.Get(id);
+            question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
+            return question;
         }
 
         public IEnumerable<Question> GetQuestionsOfUser(string username)

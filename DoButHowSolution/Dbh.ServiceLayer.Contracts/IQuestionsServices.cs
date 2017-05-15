@@ -14,6 +14,7 @@ namespace Dbh.ServiceLayer.Contracts
 
 
         void RejectQuestion(int questionId, string rejectReason, string username);
+        void CorrectQuestion(int questionId, string title, string description);
 
         IEnumerable<Question> GetQuestionsOfUser(string username);
 

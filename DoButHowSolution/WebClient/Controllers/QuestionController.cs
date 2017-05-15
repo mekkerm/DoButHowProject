@@ -38,6 +38,19 @@ namespace MVCWebClient.Controllers
                 return RedirectToAction("Index", "Home");
             }
             var model = _mapper.Map(question);
+
+            
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var username = this.User.Identity.Name;
+                model.CurrentUserIsTheOwner = (username == model.CreatorName);
+            }
+            else
+            {
+                model.CurrentUserIsTheOwner = false;
+            }
+
+            model.DisableInputs = !(model.CurrentUserIsTheOwner && model.IsRejected);
             return View(model);
         }
 
@@ -51,6 +64,8 @@ namespace MVCWebClient.Controllers
 
             var question = _questionService.GetQuestionById(model.QuestionId);
             var updtedModel = _mapper.Map(question);
+
+            updtedModel.DisableInputs = !(model.CurrentUserIsTheOwner && updtedModel.IsRejected);
             return View("Index", updtedModel);
         }
 
@@ -63,6 +78,22 @@ namespace MVCWebClient.Controllers
 
             var question = _questionService.GetQuestionById(model.QuestionId);
             var updtedModel = _mapper.Map(question);
+            updtedModel.DisableInputs = !(model.CurrentUserIsTheOwner && updtedModel.IsRejected);
+            return View("Index", updtedModel);
+        }
+
+        [HttpPost]
+        public IActionResult CorrectQuestion(QuestionViewModel model, string Title, string Description, int QuestionId)
+        {
+            _questionService.CorrectQuestion(QuestionId, Title, Description);
+
+            ViewBag.message = "Question has been rejected!";
+
+            var question = _questionService.GetQuestionById(QuestionId);
+            var updtedModel = _mapper.Map(question);
+
+            model.DisableInputs = !(model.CurrentUserIsTheOwner && model.IsRejected);
+
             return View("Index", updtedModel);
         }
 
