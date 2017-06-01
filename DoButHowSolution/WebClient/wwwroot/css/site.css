@@ -19,7 +19,7 @@
 input,
 select,
 textarea {
-  max-width: 280px;
+  /*max-width: 280px;*/
 }
 /* Carousel */
 .carousel-caption p {
@@ -128,8 +128,10 @@ textarea {
 .questionTitle {
   background: lightgrey;
 }
+.form-control {
+  cursor: auto!important;
+}
 .questionDescription {
-  background: grey;
   max-height: 3.6em;
   line-height: 1.8em;
   overflow: hidden;
@@ -151,12 +153,20 @@ textarea {
   height: 38px;
   width: 150px;
 }
+.bclass {
+  display: inline-block;
+  height: 38px;
+  width: 200px;
+}
 .floatrightbutton {
   float: right;
   margin-right: 10px;
 }
-.floatrightbutton .btn {
+.floatrightbutton .aclass .btn {
   width: 150px;
+}
+.floatrightbutton .blcass .btn {
+  width: 200px;
 }
 .floatleftbutton {
   float: left;

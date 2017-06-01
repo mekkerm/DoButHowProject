@@ -93,5 +93,12 @@ namespace Dbh.ServiceLayer.Services
             var questions = businessUoW.Questions.GetQuestionsOfUser(username);
             return questions;
         }
+
+        public string GetQuestionTitle(int questionId)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            return businessUoW.Questions.GetQuestionTitle(questionId);
+        }
     }
 }

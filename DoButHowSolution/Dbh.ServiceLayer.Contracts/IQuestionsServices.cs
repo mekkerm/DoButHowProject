@@ -29,6 +29,6 @@ namespace Dbh.ServiceLayer.Contracts
         IEnumerable<Question> GetAll();
 
         Question GetQuestionById(int id);
-
+        string GetQuestionTitle(int questionId);
     }
 }

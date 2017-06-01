@@ -1,4 +1,5 @@
 ﻿using Dbh.ServiceLayer.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVCWebClient.Models.QuestionViewModels;
 using MVCWebClient.Services;
@@ -12,11 +13,13 @@ namespace MVCWebClient.Controllers
     public class QuestionController : Controller
     {
         private IQuestionServices _questionService;
+        private IAnswerServices _answerService;
         private readonly ApplicationUserManager _userManager;
         private readonly ApplicationSignInManager _signInManager;
         private readonly MapperService _mapper;
 
         public QuestionController(IQuestionServices service,
+            IAnswerServices answerService,
             ApplicationUserManager userManager,
            ApplicationSignInManager signInManager,
            MapperService mapper)
@@ -25,6 +28,7 @@ namespace MVCWebClient.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _answerService = answerService;
         }
 
         [HttpGet]
@@ -97,7 +101,45 @@ namespace MVCWebClient.Controllers
             return View("Index", updtedModel);
         }
 
+        [HttpGet]
+        [Authorize(Policy = "RequireAtLeastUserRole")]
+        public IActionResult AnswerQuestion(int id)
+        {
+            var question = _questionService.GetQuestionById(id);
+            if (question == null)
+            {
 
+                return RedirectToAction("Index", "Home");
+            }
+            var model = _mapper.Map(question);
+
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var username = this.User.Identity.Name;
+                model.CurrentUserIsTheOwner = (username == model.CreatorName);
+            }
+            else
+            {
+                model.CurrentUserIsTheOwner = false;
+            }
+
+            model.DisableInputs = !(model.CurrentUserIsTheOwner && model.IsRejected);
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Authorize(Policy = "RequireAtLeastUserRole")]
+        public IActionResult AnswerTheQuestion(string Answer, QuestionViewModel question)
+        {
+            var questionId = question.QuestionId;
+            var currentUser = this.User.Identity.Name;
+
+            _answerService.AnswerQuestion(questionId, Answer, currentUser);
+
+            return View();
+        }
 
 
     }

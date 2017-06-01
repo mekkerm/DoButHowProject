@@ -21,7 +21,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
 
 /* Carousel */
@@ -141,8 +141,11 @@ textarea {
     background: lightgrey;
 }
 
+.form-control{
+    cursor:auto!important;
+}
+
 .questionDescription {
-    background: grey;
     max-height: 3.6em;
     line-height: 1.8em;
     overflow: hidden;
@@ -163,18 +166,33 @@ textarea {
 }
 
 
-.aclass{
-    display:block;
-    height:38px;
-    width:150px;
+.aclass {
+    display: block;
+    height: 38px;
+    width: 150px;
+}
+
+.bclass {
+    display: inline-block;
+    height: 38px;
+    width: 200px;
+    
 }
 
 .floatrightbutton {
     float: right;
     margin-right: 10px;
 
-    .btn {
-        width: 150px;
+    .aclass {
+        .btn {
+            width: 150px;
+        }
+    }
+
+    .blcass {
+        .btn {
+            width: 200px;
+        }
     }
 }
 

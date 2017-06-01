@@ -11,6 +11,9 @@ namespace Dbh.BusinessLayer.Contracts
 
         IQuestions Questions { get; }
 
+
+        IAnswers Answers { get; }
+
         int SaveChanges();
     }
 }

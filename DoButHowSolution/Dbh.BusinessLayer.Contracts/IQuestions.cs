@@ -24,5 +24,6 @@ namespace Dbh.BusinessLayer.Contracts
 
 
         IEnumerable<Question> GetApprovedQuestions();
+        string GetQuestionTitle(int questionId);
     }
 }

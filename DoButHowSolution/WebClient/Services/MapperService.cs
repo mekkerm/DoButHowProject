@@ -1,4 +1,5 @@
 ﻿using Dbh.Model.EF.Entities;
+using MVCWebClient.Models.AnswerViewModels;
 using MVCWebClient.Models.QuestionViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,25 @@ namespace MVCWebClient.Services
             dest.QuestionId = source.Id;
             dest.Title = source.Title;
             dest.Description = source.Description;
-            dest.CreatorName = source.Creator != null?source.Creator.UserName:"";
+            dest.CreatorName = source.Creator != null ? source.Creator.UserName : "";
+            dest.CreatorId = source.CreatorId;
+            dest.IsApproved = source.IsApproved;
+            dest.IsRejected = source.IsRejected;
+            dest.RejectReason = source.RejectReason;
+            dest.Status = source.IsApproved ? "Approved" :
+                source.IsRejected ? "Rejected" : "Created";
+
+            return dest;
+        }
+
+        public AnswerViewModel Map(Answer source)
+        {
+            var dest = new AnswerViewModel();
+            dest.AnswerId = source.Id;
+            dest.QuestionId = source.QuestionId;
+            dest.Response = source.Response;
+            
+            dest.CreatorName = source.Creator != null ? source.Creator.UserName : "";
             dest.CreatorId = source.CreatorId;
             dest.IsApproved = source.IsApproved;
             dest.IsRejected = source.IsRejected;

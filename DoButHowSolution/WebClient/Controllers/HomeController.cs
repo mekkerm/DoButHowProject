@@ -13,6 +13,13 @@ namespace WebClient.Controllers
             return View();
         }
 
+        [HttpGet]
+        public object GetMore()
+        {
+            var o1 = new { Id = 1, Name = "Foo" };
+            return Json(o1);
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

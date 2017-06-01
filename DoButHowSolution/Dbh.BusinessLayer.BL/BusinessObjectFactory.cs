@@ -30,12 +30,24 @@ namespace Dbh.BusinessLayer.BL
         private IQuestions _questions;
         public IQuestions Questions {
             get {
-                if (_questions== null)
+                if (_questions == null)
                 {
                     _questions = new Questions(_uow);
                 }
 
                 return _questions;
+            }
+        }
+
+        private IAnswers _answers;
+        public IAnswers Answers {
+            get {
+                if (_answers == null)
+                {
+                    _answers = new Answers(_uow);
+                }
+
+                return _answers;
             }
         }
 

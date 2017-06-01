@@ -10,6 +10,8 @@ namespace Dbh.Model.EF.Interfaces
         IQuestionRepository Questions { get; }
 
         IAppUserRepository AppUsers { get; }
+
+        IAnswerRepository Answers { get; }
         int SaveChanges();
     }
 }

@@ -27,3 +27,5 @@
 /DoButHowSolution/MVCWebApi/obj
 /DoButHowSolution/MVCWebApi/wwwroot/lib
 /DoButHowSolution/MVCWebApi/.bowerrc
+/.vs
+*/v14

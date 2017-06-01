@@ -2,7 +2,6 @@
 using Dbh.Model.EF.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-
 namespace Dbh.Model.EF.Context
 {
     public class ApplicationDbContext : DbContext
@@ -20,6 +19,8 @@ namespace Dbh.Model.EF.Context
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Question> Questions { get; set; }
+        
+        public DbSet<Answer> Answers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

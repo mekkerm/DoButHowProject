@@ -1,0 +1,19 @@
+﻿@model MVCWebClient.Models.AccountViewModels.ChangeUsersViewModel
+<div>
+    @foreach (var user in Model.Users)
+    {
+        <div>
+            
+            <form class="form-horizontal" method="post">
+                <div>@user.UserName</div>
+                
+                <input asp-for="@user.UserName" type="hidden" />
+                <div>
+                    <button asp-action="MakeUser" type="submit">User</button>
+                    <button asp-action="MakeModerator" type="submit">Moderator</button>
+                    <button asp-action="MakeAdmin" type="submit">Admin</button>
+                </div>
+            </form>
+        </div>
+    }
+</div>

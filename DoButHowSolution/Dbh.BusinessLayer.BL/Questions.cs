@@ -120,5 +120,12 @@ namespace Dbh.BusinessLayer.BL
             }
             return questions;
         }
+
+        public string GetQuestionTitle(int questionId)
+        {
+            var question = _uow.Questions.Get(questionId);
+
+            return question.Title;
+        }
     }
 }

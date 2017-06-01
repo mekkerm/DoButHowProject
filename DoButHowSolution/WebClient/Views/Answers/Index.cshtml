@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<ul style="display:inline">
+    @foreach (var answer in Model.AnswerList)
+    {
+        <li style="background-color:#f5f5f5">
+            <a asp-area="" asp-controller="Question" asp-action="" asp-route-id="@answer.QuestionId">
+                <div class="questionTitle">@answer.QuestionTitle</div>
+                <p class="questionDescription">@answer.Response</p>
+                <br />
+            </a>
+        </li>
+    }
+    @if (Model.AnswerList.Count == 0)
+    {
+        <p>There are no answers to approve!</p>
+
+    }
+</ul>

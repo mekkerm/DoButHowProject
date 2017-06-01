@@ -51,10 +51,10 @@
     <ul style="display:inline">
         @foreach (var question in Model.Questions)
         {
-            <li>
+            <li style="background-color:#f5f5f5">
                 <a asp-area="" asp-controller="Question" asp-action="" asp-route-id="@question.QuestionId">
                     <div class="questionTitle">@question.Title</div>
-                    <div class="questionDescription">@question.Description</div>
+                    <p class="questionDescription">@question.Description</p>
                     <div style="float:right">@question.Status</div>
                     <br />
                 </a>

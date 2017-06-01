@@ -69,9 +69,14 @@ namespace WebClient
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<ApplicationSignInManager>();
             services.AddScoped<ApplicationUserManager>();
-            services.AddSingleton<IQuestionServices>(serviceProvider =>
+            services.AddScoped<IQuestionServices>(serviceProvider =>
             {
                 return new QuestionServices();
+            });
+
+            services.AddScoped<IAnswerServices>(serviceProvider =>
+            {
+                return new AnswerServices();
             });
             services.AddSingleton(serviceProvider =>
             {
