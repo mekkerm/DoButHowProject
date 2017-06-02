@@ -1,4 +1,5 @@
 ﻿using Dbh.ServiceLayer.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVCWebClient.Models.AnswerViewModels;
 using MVCWebClient.Services;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MVCWebClient.Controllers
 {
+    [Authorize(Policy = "RequireAtLeastModeratorRole")]
     public class AnswersController:Controller
     {
         private IQuestionServices _questionService;

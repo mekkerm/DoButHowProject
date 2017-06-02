@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Mvc;
 using Dbh.ServiceLayer.Services;
 using MVCWebClient.Services;
 using Microsoft.AspNetCore.Identity;
+using NToastNotify;
+using NToastNotify.Constants;
 
 namespace WebClient
 {
@@ -59,6 +61,12 @@ namespace WebClient
             }).AddEntityFrameworkStores<Dbh.Model.EF.Context.UserDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddNToastNotify(new ToastOption()
+            {
+                ProgressBar = false,
+                PositionClass = ToastPositions.BottomRight
+            });
+
             services.AddMvc(config =>
             {
                 //config.Filters.Add(new RequireHttpsAttribute());
@@ -82,6 +90,7 @@ namespace WebClient
             {
                 return new MapperService();
             });
+
 
             services.AddAuthorization(options =>
             {

@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
     </environment>
+    <link rel="stylesheet" href="~/lib/toastr/toastr.min.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     @Html.Raw(JavaScriptSnippet.FullScript)
@@ -87,6 +88,7 @@
         </span>
     </div>
     <div id="bodyPart" class="container body-content" style="bottom: 0px;">
+
         <div class="divElement">
             <p>
                 @if (!string.IsNullOrEmpty(ViewBag.message))
@@ -126,6 +128,12 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 
+
+    <script src="~/lib/toastr/toastr.min.js"></script>
+    @await Component.InvokeAsync("NToastNotify.Toastr")
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>
+
+

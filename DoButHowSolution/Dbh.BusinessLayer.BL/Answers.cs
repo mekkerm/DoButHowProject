@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Dbh.Model.EF.Interfaces;
 using Dbh.Model.EF.Entities;
+using System.Linq;
 
 namespace Dbh.BusinessLayer.BL
 {
@@ -17,6 +18,12 @@ namespace Dbh.BusinessLayer.BL
         {
             var user = _uow.AppUsers.GetUserByName(creatorName);
 
+            var answers = _uow.Answers.Find(a => a.CreatorId == user.Id && a.QuestionId == questionId).ToList();
+            if (answers.Any())
+            {
+                throw new BusinessException("You have anwsered already this question!");
+            }
+
             var answer = new Answer();
             answer.QuestionId = questionId;
             answer.Response = response;
@@ -27,6 +34,7 @@ namespace Dbh.BusinessLayer.BL
 
             _uow.Answers.Add(answer);
             return true;
+            
         }
 
         public IEnumerable<Answer> GetNotApprovedAnswers()
@@ -37,6 +45,47 @@ namespace Dbh.BusinessLayer.BL
                 answer.Creator = _uow.AppUsers.GetUser(answer.CreatorId);
             }
             return answers;
+        }
+
+        public Answer GetAnswerById(int id)
+        {
+            var answer = _uow.Answers.Get(id);
+
+            answer.Creator = _uow.AppUsers.GetUser(answer.CreatorId);
+            
+            return answer;
+        }
+
+        public void ApproveAnswer(int answerId, string username)
+        {
+            var answer = _uow.Answers.Get(answerId);
+            if (!answer.IsApproved && !answer.IsRejected)
+            {
+                var approver = _uow.AppUsers.GetUserByName(username);
+
+                answer.ApproveDate = DateTime.Now;
+                answer.ApproverId = approver.Id;
+                answer.IsApproved = true;
+                answer.IsRejected = false;
+                answer.RejectReason = null;
+            }
+            
+        }
+
+        public void RejectAnswer(int answerId, string rejectReason, string username)
+        {
+            var answer = _uow.Answers.Get(answerId);
+            if (!answer.IsRejected)
+            {
+                var rejector = _uow.AppUsers.GetUserByName(username);
+
+                answer.RejectDate = DateTime.Now;
+                answer.RejectorId = rejector.Id;
+                answer.IsApproved = false;
+                answer.IsRejected = true;
+                answer.RejectReason = rejectReason;
+                answer.ApproveDate = null;
+            }
         }
     }
 }

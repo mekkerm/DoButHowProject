@@ -15,8 +15,14 @@ namespace Dbh.ServiceLayer.Services
         public bool AnswerQuestion(int questionId, string answer, string currentUser)
         {
             var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            try
+            {
+                var result = businessUoW.Answers.CreateAnswer(questionId, answer, currentUser);
 
-            businessUoW.Answers.CreateAnswer(questionId, answer, currentUser);
+            }catch(BusinessException ex)
+            {
+                throw new ServiceException(ex);
+            }
 
             return businessUoW.SaveChanges() > 0;
         }
@@ -26,6 +32,32 @@ namespace Dbh.ServiceLayer.Services
             var businessUoW = Resolver.Get<IBusinessObjectFactory>();
 
             return businessUoW.Answers.GetNotApprovedAnswers().ToList();
+        }
+
+        public Answer GetAnswerById(int id)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            return businessUoW.Answers.GetAnswerById(id);
+        }
+
+        public void ApproveAnswer(int answerId, string username)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            businessUoW.Answers.ApproveAnswer(answerId, username);
+
+            businessUoW.SaveChanges();
+        }
+
+        public
+        void RejectAnswer(int answerId, string rejectReason, string username)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            businessUoW.Answers.RejectAnswer(answerId, rejectReason, username);
+
+            businessUoW.SaveChanges();
         }
     }
 }

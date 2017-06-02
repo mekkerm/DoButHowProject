@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using NToastNotify;
 
 namespace MVCWebClient.Controllers
 {
@@ -17,16 +18,19 @@ namespace MVCWebClient.Controllers
         private readonly ApplicationUserManager _userManager;
         private readonly ApplicationSignInManager _signInManager;
         private readonly MapperService _mapper;
+        private readonly IToastNotification _toaster;
 
         public QuestionsController(IQuestionServices service,
             ApplicationUserManager userManager,
            ApplicationSignInManager signInManager,
-           MapperService mapper)
+           MapperService mapper,
+           IToastNotification toaster)
         {
             _questionService = service;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _toaster = toaster;
         }
 
         [HttpGet]
@@ -70,11 +74,11 @@ namespace MVCWebClient.Controllers
                 var result = _questionService.CreateNewQuestion(_mapper.Map(model), creatorName);
                 if (result)
                 {
-                    ViewBag.message = "Your question has been created!";
+                    _toaster.AddToastMessage("Your question has been created!", "", ToastEnums.ToastType.Success);
                 }
                 else
                 {
-                    ViewBag.message = "Your question has not been created!";
+                    _toaster.AddToastMessage("Your question has not been created!", "", ToastEnums.ToastType.Error);
                 }
 
             }
@@ -83,7 +87,7 @@ namespace MVCWebClient.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View();
+            return RedirectToAction("Index", "Questions");
 
         }
 

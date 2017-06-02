@@ -34,6 +34,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
+    <PackageReference Include="NToastNotify" Version="1.0.6" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
@@ -43,8 +44,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Dbh.ServiceLayer.Contracts\Dbh.ServiceLayer.Contracts.csproj" />
     <ProjectReference Include="..\Dbh.ServiceLayer.Services\Dbh.ServiceLayer.Services.csproj" />
-  </ItemGroup>
-  <ItemGroup>
   </ItemGroup>
 
 </Project>

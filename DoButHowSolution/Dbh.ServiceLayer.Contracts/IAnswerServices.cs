@@ -10,5 +10,8 @@ namespace Dbh.ServiceLayer.Contracts
 
         bool AnswerQuestion(int questionId, string answer, string currentUser);
         List<Answer> GetNotApprovedAnswers();
+        Answer GetAnswerById(int id);
+        void ApproveAnswer(int answerId, string username);
+        void RejectAnswer(int answerId, string rejectReason, string username);
     }
 }

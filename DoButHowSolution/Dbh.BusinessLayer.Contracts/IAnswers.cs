@@ -9,5 +9,8 @@ namespace Dbh.BusinessLayer.Contracts
     {
         bool CreateAnswer(int questionId, string response, string creatorName);
         IEnumerable<Answer> GetNotApprovedAnswers();
+        Answer GetAnswerById(int id);
+        void ApproveAnswer(int answerId, string username);
+        void RejectAnswer(int answerId, string rejectReason, string username);
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVCWebClient.Models.QuestionViewModels;
 using MVCWebClient.Services;
+using NToastNotify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +18,21 @@ namespace MVCWebClient.Controllers
         private readonly ApplicationUserManager _userManager;
         private readonly ApplicationSignInManager _signInManager;
         private readonly MapperService _mapper;
+        private readonly IToastNotification _toaster;
 
         public QuestionController(IQuestionServices service,
             IAnswerServices answerService,
             ApplicationUserManager userManager,
            ApplicationSignInManager signInManager,
-           MapperService mapper)
+           MapperService mapper,
+           IToastNotification toaster)
         {
             _questionService = service;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _answerService = answerService;
+            _toaster = toaster;
         }
 
         [HttpGet]
@@ -55,35 +59,43 @@ namespace MVCWebClient.Controllers
             }
 
             model.DisableInputs = !(model.CurrentUserIsTheOwner && model.IsRejected);
+            
+            
             return View(model);
         }
 
+        [Authorize(Policy = "RequireAtLeastModeratorRole")]
         [HttpPost]
         public IActionResult ApproveQuestion(QuestionViewModel model)
         {
             var username = this.User.Identity.Name;
             _questionService.ApproveQuestion(model.QuestionId, username);
 
-            ViewBag.message = "Question has been approved!";
+            _toaster.AddToastMessage("Question has been approved!", "", ToastEnums.ToastType.Success);
 
             var question = _questionService.GetQuestionById(model.QuestionId);
             var updtedModel = _mapper.Map(question);
 
             updtedModel.DisableInputs = !(model.CurrentUserIsTheOwner && updtedModel.IsRejected);
-            return View("Index", updtedModel);
+
+            ViewBag.focus = "QuestionsToApprove";
+
+            return RedirectToAction("Index", "Questions");
         }
 
+        [Authorize(Policy = "RequireAtLeastModeratorRole")]
         [HttpPost]
         public IActionResult RejectQuestion(QuestionViewModel model, string RejectReason)
         {
             _questionService.RejectQuestion(model.QuestionId, RejectReason, this.User.Identity.Name);
 
-            ViewBag.message = "Question has been rejected!";
+            _toaster.AddToastMessage("Question has been rejected!", "", ToastEnums.ToastType.Success);
 
             var question = _questionService.GetQuestionById(model.QuestionId);
             var updtedModel = _mapper.Map(question);
             updtedModel.DisableInputs = !(model.CurrentUserIsTheOwner && updtedModel.IsRejected);
-            return View("Index", updtedModel);
+            
+            return RedirectToAction("Index", "Questions");
         }
 
         [HttpPost]
@@ -91,14 +103,14 @@ namespace MVCWebClient.Controllers
         {
             _questionService.CorrectQuestion(QuestionId, Title, Description);
 
-            ViewBag.message = "Question has been rejected!";
+            _toaster.AddToastMessage("Your question has been corrected!", "", ToastEnums.ToastType.Success);
 
             var question = _questionService.GetQuestionById(QuestionId);
             var updtedModel = _mapper.Map(question);
 
             model.DisableInputs = !(model.CurrentUserIsTheOwner && model.IsRejected);
 
-            return View("Index", updtedModel);
+            return RedirectToAction("Index", "Questions");
         }
 
         [HttpGet]
@@ -136,9 +148,22 @@ namespace MVCWebClient.Controllers
             var questionId = question.QuestionId;
             var currentUser = this.User.Identity.Name;
 
-            _answerService.AnswerQuestion(questionId, Answer, currentUser);
+            try
+            {
+                _answerService.AnswerQuestion(questionId, Answer, currentUser);
+                _toaster.AddToastMessage("Answer submitted!", "", ToastEnums.ToastType.Success);
+                
+            }catch(ServiceException ex)
+            {
+                _toaster.AddToastMessage(ex.Message, "Answer was not submitted!", ToastEnums.ToastType.Error);
+                
+            }
 
-            return View();
+            var quest = _questionService.GetQuestionById(questionId);
+            var updtedModel = _mapper.Map(quest);
+            updtedModel.DisableInputs = !(updtedModel.CurrentUserIsTheOwner && updtedModel.IsRejected);
+
+            return View("Index", updtedModel);
         }
 
 
