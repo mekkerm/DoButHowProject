@@ -1,19 +1,34 @@
 ﻿// Write your Javascript code.
 
-(function (self) {
-    self.openNav = function () {
-        $("#mySidenav").width("250px");
-        $("#bodyPart").css('margin-left', "250px");
-        $("#openNavBar").css('display', "none");
-        $("#closeNavBar").css('display', "inline-block");
-    };
+if (window.viewModels) {
+    $.each(window.viewModels, function (index, item) {
+        window[item.name] = new item.init();
+        ko.applyBindings(window[item.name], $("#" + item.containerId)[0]);
+    });
+}
 
-    /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-    self.closeNav = function () {
-        $("#mySidenav").width("0px");
-        $("#bodyPart").css('margin-left', 0);
-        $("#openNavBar").css('display', "inline-block");
-        $("#closeNavBar").css('display', "none");
-    };
-    ko.applyBindings(self);
-})(window.navbar = window.navbar || {});
+
+$(document).ready(function () {
+    var win = $(window);
+    $('#loading').hide();
+    // Each time the user scrolls
+    win.scroll(function () {
+        // End of the document reached?
+        if ($(document).height() - win.height() === win.scrollTop()) {
+            $('#loading').show();
+
+            window.answerViewModel.LoadMore(function () {
+                $('#loading').hide();
+            });
+        }
+    });
+});
+
+
+
+
+
+
+
+
+

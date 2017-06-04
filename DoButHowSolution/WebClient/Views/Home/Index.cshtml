@@ -2,6 +2,18 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script src="~/js/answerViewModel.js" asp-append-version="true"></script>
 <div>
-
+    <div id="answerContainer">
+        <div data-bind="template: { name: 'asdasd', foreach: window.answerViewModel.answers }"></div>
+    </div>
+    <p id="loading">
+        <img src="images/loading.gif" alt="Loading…" />
+    </p>
 </div>
+
+<script type="text/html" id="asdasd">
+    <p data-bind="text: $data.response">
+        
+    </p>
+</script>

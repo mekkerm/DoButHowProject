@@ -59,6 +59,8 @@ namespace Dbh.BusinessLayer.BL
         public void ApproveAnswer(int answerId, string username)
         {
             var answer = _uow.Answers.Get(answerId);
+            var question = _uow.Questions.Get(answer.QuestionId);
+            
             if (!answer.IsApproved && !answer.IsRejected)
             {
                 var approver = _uow.AppUsers.GetUserByName(username);
@@ -68,6 +70,8 @@ namespace Dbh.BusinessLayer.BL
                 answer.IsApproved = true;
                 answer.IsRejected = false;
                 answer.RejectReason = null;
+
+                question.HasAnwser = true;
             }
             
         }
@@ -86,6 +90,11 @@ namespace Dbh.BusinessLayer.BL
                 answer.RejectReason = rejectReason;
                 answer.ApproveDate = null;
             }
+        }
+
+        public IEnumerable<Answer> GetAnswers(int skip, int take)
+        {
+            return _uow.Answers.Find(a => a.IsApproved).Skip(skip).Take(take);
         }
     }
 }

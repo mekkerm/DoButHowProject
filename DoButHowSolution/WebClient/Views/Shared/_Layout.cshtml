@@ -107,10 +107,11 @@
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jscroll/jquery.jscroll.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/knockout/dist/knockout.debug.js"></script>
 
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -125,11 +126,16 @@
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jscroll/jquery.jscroll.js"></script>
     </environment>
 
 
     <script src="~/lib/toastr/toastr.min.js"></script>
+    <script src="~/js/dataservices.js" asp-append-version="true"></script>
+    <script src="~/js/utils.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/navigationBarViewModel.js" asp-append-version="true"></script>
+
     @await Component.InvokeAsync("NToastNotify.Toastr")
     @RenderSection("Scripts", required: false)
 

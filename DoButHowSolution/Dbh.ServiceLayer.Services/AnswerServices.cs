@@ -50,14 +50,20 @@ namespace Dbh.ServiceLayer.Services
             businessUoW.SaveChanges();
         }
 
-        public
-        void RejectAnswer(int answerId, string rejectReason, string username)
+        public void RejectAnswer(int answerId, string rejectReason, string username)
         {
             var businessUoW = Resolver.Get<IBusinessObjectFactory>();
 
             businessUoW.Answers.RejectAnswer(answerId, rejectReason, username);
 
             businessUoW.SaveChanges();
+        }
+
+        public List<Answer> GetAnswers(int skip, int take)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            return businessUoW.Answers.GetAnswers(skip, take).ToList();
         }
     }
 }

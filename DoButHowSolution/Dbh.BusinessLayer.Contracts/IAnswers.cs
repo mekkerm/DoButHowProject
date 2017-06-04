@@ -12,5 +12,6 @@ namespace Dbh.BusinessLayer.Contracts
         Answer GetAnswerById(int id);
         void ApproveAnswer(int answerId, string username);
         void RejectAnswer(int answerId, string rejectReason, string username);
+        IEnumerable<Answer> GetAnswers(int skip, int take);
     }
 }

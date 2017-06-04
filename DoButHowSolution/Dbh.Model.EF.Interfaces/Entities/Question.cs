@@ -31,5 +31,7 @@ namespace Dbh.Model.EF.Entities
         public string RejectorId{ get; set; }
 
         public string RejectReason { get; set; }
+
+        public Boolean? HasAnwser { get; set; }
     }
 }

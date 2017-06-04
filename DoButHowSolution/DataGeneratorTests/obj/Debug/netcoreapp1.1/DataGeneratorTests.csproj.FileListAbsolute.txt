@@ -1,0 +1,16 @@
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\xunit.runner.utility.netstandard15.dll
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\xunit.runner.reporters.netstandard15.dll
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\DataGeneratorTests.deps.json
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\DataGeneratorTests.runtimeconfig.json
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\DataGeneratorTests.runtimeconfig.dev.json
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\DataGeneratorTests.dll
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\Dbh.Model.DataLayer.EF.dll
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\Dbh.Model.EF.Interfaces.dll
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\Dbh.Model.DataLayer.EF.pdb
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\Dbh.Model.EF.Interfaces.pdb
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\obj\Debug\netcoreapp1.1\DataGeneratorTests.csprojResolveAssemblyReference.cache
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\obj\Debug\netcoreapp1.1\DataGeneratorTests.AssemblyInfo.cs
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\bin\Debug\netcoreapp1.1\DataGeneratorTests.pdb
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\obj\Debug\netcoreapp1.1\DataGeneratorTests.dll
+F:\A Egyetem\Master 4\Dissertation\Project\DoButHowSolution\DataGeneratorTests\obj\Debug\netcoreapp1.1\DataGeneratorTests.pdb

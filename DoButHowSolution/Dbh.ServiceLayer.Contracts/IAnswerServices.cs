@@ -13,5 +13,6 @@ namespace Dbh.ServiceLayer.Contracts
         Answer GetAnswerById(int id);
         void ApproveAnswer(int answerId, string username);
         void RejectAnswer(int answerId, string rejectReason, string username);
+        List<Answer> GetAnswers(int skip, int take);
     }
 }

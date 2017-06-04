@@ -100,5 +100,12 @@ namespace Dbh.ServiceLayer.Services
 
             return businessUoW.Questions.GetQuestionTitle(questionId);
         }
+
+        public IEnumerable<Question> GetAnsweredQuestions(int skip, int take)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            return businessUoW.Questions.GetAnsweredQuestions(skip, take);
+        }
     }
 }

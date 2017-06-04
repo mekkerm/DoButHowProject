@@ -127,5 +127,11 @@ namespace Dbh.BusinessLayer.BL
 
             return question.Title;
         }
+
+        public List<Question> GetAnsweredQuestions(int skip, int take)
+        {
+            //_uow.Questions.Find(q=>q.)
+                return null;
+        }
     }
 }
