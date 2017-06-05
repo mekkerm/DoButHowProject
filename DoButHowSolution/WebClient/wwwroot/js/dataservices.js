@@ -1,6 +1,6 @@
 ﻿(function (self) {
 
-    self.GetInitialAnswers = function (skip, take) {
+    self.GetAnwseredQuestions = function (skip, take) {
         return $.ajax({
             url: utils.baseUrl() + '/' + 'Home/GetInitialAnswers',
             data: {

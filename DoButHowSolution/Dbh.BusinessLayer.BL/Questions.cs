@@ -3,6 +3,7 @@ using Dbh.Model.EF.Entities;
 using Dbh.Model.EF.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Dbh.BusinessLayer.BL
 {
@@ -128,10 +129,9 @@ namespace Dbh.BusinessLayer.BL
             return question.Title;
         }
 
-        public List<Question> GetAnsweredQuestions(int skip, int take)
+        public IEnumerable<Question> GetAnsweredQuestions(int skip, int take)
         {
-            //_uow.Questions.Find(q=>q.)
-                return null;
+            return _uow.Questions.Find(q => bool.Equals(q.HasAnwser, true)).Skip(skip).Take(take);
         }
     }
 }

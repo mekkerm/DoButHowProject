@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Dbh.ServiceLayer.Contracts;
 using MVCWebClient.Services;
+using MVCWebClient.Models.QuestionViewModels;
 
 namespace WebClient.Controllers
 {
@@ -31,10 +32,13 @@ namespace WebClient.Controllers
         [HttpGet(Name = "GetInitialAnswers")]
         public IActionResult GetInitialAnswers(int skip, int take)
         {
-            var initialAnswers = _answerService.GetAnswers(skip, take);
             var answeredQuestions = _questionService.GetAnsweredQuestions(skip, take);
-            var o1 = new { Id = 1, Name = "Foo" };
-            return Json(initialAnswers);
+            var results = new List<QuestionViewModel>();
+            foreach(var a in answeredQuestions)
+            {
+                results.Add(_mapper.Map(a));
+            }
+            return Json(results);
         }
 
         
