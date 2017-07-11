@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MVCWebClient.Controllers
 {
-    [Authorize(Policy = "RequireAtLeastModeratorRole")]
+    [Authorize(Policy = "RequireAtLeastUserRole")]
     public class AnswersController:Controller
     {
         private IQuestionServices _questionService;
@@ -34,19 +34,56 @@ namespace MVCWebClient.Controllers
 
         public IActionResult Index()
         {
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var username = this.User.Identity.Name;
+                var model = new AllAnswersViewModel();
+                var answers = _answerService.GetAnswersOfUser(username);
+                foreach (var answer in answers)
+                {
+                    model.AnswerList.Add(_mapper.Map(answer));
+                }
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public IActionResult MyRejectedAnswers()
+        {
             var model = new AllAnswersViewModel();
-            var asnwers = _answerService.GetNotApprovedAnswers();
-            
+            var username = this.User.Identity.Name;
+            var asnwers = _answerService.GetRejectedQuestionsOfUser(username);
+
             foreach (var answer in asnwers)
             {
                 var ans = _mapper.Map(answer);
                 ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
                 model.AnswerList.Add(ans);
-                
+
+            }
+            ViewBag.focus = "MyRejectedAnswers";
+            return View("Index", model);
+        }
+
+        public IActionResult AnswersToApprove()
+        {
+            var model = new AllAnswersViewModel();
+            var asnwers = _answerService.GetNotApprovedAnswers();
+
+            foreach (var answer in asnwers)
+            {
+                var ans = _mapper.Map(answer);
+                ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
+                model.AnswerList.Add(ans);
+
             }
 
-            ViewBag.focus = "Index";
-            return View(model);
+            ViewBag.focus = "AnswersToApprove";
+            return View("Index", model);
         }
     }
 }

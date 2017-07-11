@@ -19,10 +19,10 @@ namespace Dbh.BusinessLayer.BL
             var user = _uow.AppUsers.GetUserByName(creatorName);
 
             var answers = _uow.Answers.Find(a => a.CreatorId == user.Id && a.QuestionId == questionId).ToList();
-            if (answers.Any())
-            {
-                throw new BusinessException("You have anwsered already this question!");
-            }
+            //if (answers.Any())
+            //{
+            //    throw new BusinessException("You have anwsered already this question!");
+            //}
 
             var answer = new Answer();
             answer.QuestionId = questionId;
@@ -95,6 +95,25 @@ namespace Dbh.BusinessLayer.BL
         public IEnumerable<Answer> GetAnswers(int skip, int take)
         {
             return _uow.Answers.Find(a => a.IsApproved).Skip(skip).Take(take);
+        }
+
+        public IEnumerable<Answer> GetAnswersOfQuestion(int questionId)
+        {
+            return _uow.Answers.Find(a => a.QuestionId == questionId && a.IsApproved);
+        }
+
+        public IEnumerable<Answer> GetAnswersOfUser(string username)
+        {
+            var user = _uow.AppUsers.GetUserByName(username);
+
+            return _uow.Answers.Find(a => a.CreatorId == user.Id);
+        }
+
+        public IEnumerable<Answer> GetRejectedAnswersOfUser(string username)
+        {
+            var user = _uow.AppUsers.GetUserByName(username);
+
+            return _uow.Answers.Find(a => a.CreatorId == user.Id && a.IsRejected);
         }
     }
 }

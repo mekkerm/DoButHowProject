@@ -2,22 +2,59 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 
-
-<ul style="display:inline">
-    @foreach (var answer in Model.AnswerList)
+<div class="questionsContainer">
+    @if (User.Identity.IsAuthenticated)
     {
-        <li style="background-color:#f5f5f5">
-            <a asp-area="" asp-controller="Answer" asp-action="" asp-route-id="@answer.AnswerId">
-                <div class="questionTitle">@answer.QuestionTitle</div>
-                <p class="questionDescription">@answer.Response</p>
-                <br />
-            </a>
-        </li>
+        <ul id="questionsNavBar" class="nav nav-pills">
+            @switch ((string)(ViewBag.focus))
+            {
+                case "MyRejectedAnswers":
+                    <li><a asp-action="">My Answers</a></li>
+                    <li class="active"><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+                    @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
+                    {
+                        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
+                    }
+                    break;
+                case "AnswersToApprove":
+                    <li><a asp-action="">My Answers</a></li>
+                    <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+                    @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
+                    {
+                        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
+                    }
+                    break;
+                default:
+                    <li class="active"><a asp-action="">My Answers</a></li>
+                    <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+                   @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
+                    {
+                        <li><a asp-action="AnswersToApprove">Answers to approve</a></li>
+                    }
+                    
+                    break;
+            }
+        </ul>
     }
-    @if (Model.AnswerList.Count == 0)
-    {
-        <p>There are no answers to approve!</p>
+</div>
+    <ul style="display:inline">
+        @foreach (var answer in Model.AnswerList)
+        {
+            <li style="background-color:#f5f5f5">
+                <a asp-area="" asp-controller="Answer" asp-action="" asp-route-id="@answer.AnswerId">
+                    <div class="questionTitle">@answer.QuestionTitle</div>
+                    <p class="questionDescription">@answer.Response</p>
+                    <br />
+                </a>
+                <p>asdasd</p>
+            </li>
+        }
+        @if (Model.AnswerList.Count == 0)
+        {
+            <p>There are no answers to approve!</p>
 
-    }
-</ul>
+        }
+    </ul>

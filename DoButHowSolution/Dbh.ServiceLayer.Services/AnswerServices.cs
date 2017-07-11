@@ -65,5 +65,26 @@ namespace Dbh.ServiceLayer.Services
 
             return businessUoW.Answers.GetAnswers(skip, take).ToList();
         }
+
+        public List<Answer> GetAnswersOfQuestion(int questionId)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            return businessUoW.Answers.GetAnswersOfQuestion(questionId).ToList();
+        }
+
+        public List<Answer> GetAnswersOfUser(string username)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            return businessUoW.Answers.GetAnswersOfUser(username).ToList();
+        }
+
+        public List<Answer> GetRejectedQuestionsOfUser(string username)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            return businessUoW.Answers.GetRejectedAnswersOfUser(username).ToList();
+        }
     }
 }

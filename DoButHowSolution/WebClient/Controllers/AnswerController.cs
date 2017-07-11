@@ -31,7 +31,7 @@ namespace MVCWebClient.Controllers
             _toaster = toaster;
         }
 
-        [Authorize(Policy = "RequireAtLeastModeratorRole")]
+        [Authorize(Policy = "RequireAtLeastUserRole")]
         public IActionResult Index(int id)
         {
             var model = GetAnswerQuestion(id);

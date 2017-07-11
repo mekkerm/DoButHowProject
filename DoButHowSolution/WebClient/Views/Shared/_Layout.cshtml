@@ -68,7 +68,7 @@
         <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 
         <a asp-area="" asp-controller="Questions" asp-action="Index">Questions</a>
-        @if (User.Identity.IsAuthenticated && await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
+        @if (User.Identity.IsAuthenticated && await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastUserRole"))
         {
             <a asp-area="" asp-controller="Answers" asp-action="Index">Answers</a>
 

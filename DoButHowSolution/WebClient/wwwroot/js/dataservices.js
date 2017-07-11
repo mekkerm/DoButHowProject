@@ -13,4 +13,13 @@
         });
     };
 
+    self.AuthorizedGet = function () {
+        return $.ajax({
+            url: utils.baseUrl() + '/' + 'AnswerFor/AuthorizedGet',
+            dataType: 'json',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8'
+        });
+    }
+
 })(window.dataServices = window.dataServices || {});
