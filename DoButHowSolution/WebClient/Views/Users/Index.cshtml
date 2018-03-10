@@ -5,13 +5,14 @@
         <div>
             
             <form class="form-horizontal" method="post">
-                <div>@user.UserName</div>
-                
-                <input asp-for="@user.UserName" type="hidden" />
+                <div>@user.UserName [ @user.CurrentRole ]</div>
+
+                <input name="emailAddress" asp-for="@user.Email" type="hidden" />
+                <input name="currentRole" asp-for="@user.CurrentRole" type="hidden" />
                 <div>
-                    <button asp-action="MakeUser" type="submit">User</button>
-                    <button asp-action="MakeModerator" type="submit">Moderator</button>
-                    <button asp-action="MakeAdmin" type="submit">Admin</button>
+                    <button asp-action="MakeUser"       type="submit" disabled='@(@user.IsUser == true ? "disabled" : null)'>User</button>
+                    <button asp-action="MakeModerator"  type="submit" disabled='@(@user.IsModerator == true ? "disabled" : null)'>Moderator</button>
+                    <button asp-action="MakeAdmin"      type="submit" disabled='@(@user.IsAdmin == true ? "disabled" : null)'>Admin</button>
                 </div>
             </form>
         </div>

@@ -107,7 +107,7 @@ namespace WebClient
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, RoleManager<IdentityRole> roleManager)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -139,115 +139,10 @@ namespace WebClient
             // Time to seed the database
             var initializer = new CompositeDatabaseInitializer(new IDatabaseInitializer[]
             {
-                 new AddDefaultRolesDatabaseInititalizer(app.ApplicationServices.GetRequiredService<RoleManager<IdentityRole>>())
+                 new AddDefaultRolesDatabaseInititalizer(app.ApplicationServices.GetRequiredService<RoleManager<IdentityRole>>(), app.ApplicationServices.GetRequiredService<UserManager<ApplicationUser>>())
             });
 
             initializer.Seed();
-
-            //await CreateRoles(serviceProvider, roleManager);
-        }
-
-        private async Task CreateRoles(IServiceProvider serviceProvider, RoleManager<IdentityRole> roleManager)
-        {
-            //adding custom roles
-            //var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            string[] roleNames = { "Admin", "Moderator", "User" };
-
-            IdentityResult roleResult;
-
-            foreach (var roleName in roleNames)
-            {
-                //creating the roles and seeding them to the database
-                var roleExist = await roleManager.RoleExistsAsync(roleName);
-
-                if (!roleExist)
-                {
-                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-
-            //creating a super user who could maintain the web app
-            var poweruser = new ApplicationUser
-            {
-                UserName = "admin@email.com",
-                Email = "admin@email.com"
-            };
-
-            string UserPassword = "admin@email.com";
-            var _user = await UserManager.FindByEmailAsync(poweruser.Email);
-
-            if (_user == null)
-            {
-                var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
-                if (createPowerUser.Succeeded)
-                {
-                    //here we tie the new user to the "Admin" role 
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
-                }
-            }
-
-        }
-    }
-
-    public interface IDatabaseInitializer
-    {
-        int Order { get; }
-
-        void Seed();
-    }
-
-    public class AddDefaultRolesDatabaseInititalizer : IDatabaseInitializer
-    {
-        private readonly RoleManager<IdentityRole> _roleManager;
-
-        public AddDefaultRolesDatabaseInititalizer(RoleManager<IdentityRole> roleManager)
-        {
-            _roleManager = roleManager;
-        }
-
-        public int Order { get; } = 1;
-
-        public void Seed()
-        {
-            using (_roleManager)
-            {
-                if (_roleManager.Roles.Any()) return;
-
-                var roles = new[]
-                { "Admin", "Moderator", "User" }; 
-
-                foreach (var role in roles)
-                {
-                    var result = _roleManager.CreateAsync(new IdentityRole { Name = role }).Result;
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception("Error creating roles.");
-                    }
-                }
-            }
-
-        }
-    }
-
-    public class CompositeDatabaseInitializer : IDatabaseInitializer
-    {
-        private readonly IEnumerable<IDatabaseInitializer> _databaseInitializers;
-
-        public CompositeDatabaseInitializer(IEnumerable<IDatabaseInitializer> databaseInitializers)
-        {
-            _databaseInitializers = databaseInitializers;
-        }
-
-        public int Order { get; } = 0;
-
-        public void Seed()
-        {
-            foreach (var databaseInitializer in _databaseInitializers.OrderBy(initializer => initializer.Order))
-            {
-                databaseInitializer.Seed();
-            }
-            
         }
     }
 }

@@ -36,14 +36,21 @@ namespace MVCWebClient.Controllers
         {
             var model = new ChangeUsersViewModel();
 
-            var users = _userManager.Users.ToList();
+            var users = _userManager.Users.OrderBy(x=>x.UserName).ToList();
             foreach (var user in users)
             {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var userRole = userRoles.FirstOrDefault();
+                userRole = userRole != null ? userRole : "User";
+
                 model.Users.Add(new ChangeUserRoleViewModel
                 {
                     UserName = user.UserName,
                     Email = user.Email,
-                    CurrentRole = "Moderator"
+                    CurrentRole = userRole,
+                    IsUser = userRole == "User",
+                    IsModerator = userRole == "Moderator",
+                    IsAdmin = userRole == "Admin",
                 });
             }
             //var roles = await _userManager.GetRolesAsync(users[1]);
@@ -54,5 +61,47 @@ namespace MVCWebClient.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> MakeUser(string emailAddress, string currentRole)
+        {
+            var result = ChangeRole(emailAddress, currentRole, "User");
+            //TODO: add toast
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MakeModerator(string emailAddress, string currentRole)
+        {
+            var result = ChangeRole(emailAddress, currentRole, "Moderator");
+            //TODO: add toast
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MakeAdmin(string emailAddress, string currentRole)
+        {
+            var result = ChangeRole(emailAddress, currentRole, "Admin");
+            //TODO: add toast
+
+            return RedirectToAction("Index", "Users");
+        }
+
+        private bool ChangeRole(string email, string currentRole, string targetRole)
+        {
+            var userToChange = _userManager.Users.FirstOrDefault(x => x.Email == email);
+            var result = _userManager.RemoveFromRoleAsync(userToChange, currentRole);
+            if (!result.Result.Succeeded) { 
+                return false;
+            }
+
+            var result2 = _userManager.AddToRoleAsync(userToChange, targetRole);
+            if (result2.Result.Succeeded)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
