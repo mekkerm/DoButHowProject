@@ -71,7 +71,7 @@ namespace MVCWebClient.Controllers
             var username = this.User.Identity.Name;
             _questionService.ApproveQuestion(model.QuestionId, username);
 
-            _toaster.AddToastMessage("Question has been approved!", "", ToastEnums.ToastType.Success);
+            _toaster.AddToastMessage("Question has been approved!", "", Enums.ToastType.Success);
 
             var question = _questionService.GetQuestionById(model.QuestionId);
             var updtedModel = _mapper.Map(question);
@@ -89,7 +89,7 @@ namespace MVCWebClient.Controllers
         {
             _questionService.RejectQuestion(model.QuestionId, RejectReason, this.User.Identity.Name);
 
-            _toaster.AddToastMessage("Question has been rejected!", "", ToastEnums.ToastType.Success);
+            _toaster.AddToastMessage("Question has been rejected!", "", Enums.ToastType.Success);
 
             var question = _questionService.GetQuestionById(model.QuestionId);
             var updtedModel = _mapper.Map(question);
@@ -103,7 +103,7 @@ namespace MVCWebClient.Controllers
         {
             _questionService.CorrectQuestion(QuestionId, Title, Description);
 
-            _toaster.AddToastMessage("Your question has been corrected!", "", ToastEnums.ToastType.Success);
+            _toaster.AddToastMessage("Your question has been corrected!", "", Enums.ToastType.Success);
 
             var question = _questionService.GetQuestionById(QuestionId);
             var updtedModel = _mapper.Map(question);
@@ -151,11 +151,11 @@ namespace MVCWebClient.Controllers
             try
             {
                 _answerService.AnswerQuestion(questionId, Answer, currentUser);
-                _toaster.AddToastMessage("Answer submitted!", "", ToastEnums.ToastType.Success);
+                _toaster.AddToastMessage("Answer submitted!", "", Enums.ToastType.Success);
                 
             }catch(ServiceException ex)
             {
-                _toaster.AddToastMessage(ex.Message, "Answer was not submitted!", ToastEnums.ToastType.Error);
+                _toaster.AddToastMessage(ex.Message, "Answer was not submitted!", Enums.ToastType.Error);
                 
             }
 

@@ -17,5 +17,6 @@ namespace Dbh.ServiceLayer.Contracts
         List<Answer> GetAnswersOfQuestion(int questionId);
         List<Answer> GetAnswersOfUser(string username);
         List<Answer> GetRejectedQuestionsOfUser(string username);
+        void CorrectAnswer(int answerId, string response);
     }
 }

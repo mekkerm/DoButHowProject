@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using WebClient.Models;
 using WebClient.Services;
 using Dbh.ServiceLayer.Contracts;
 using Dbh.Model.EF.Entities;
-using Microsoft.AspNetCore.Mvc;
 using Dbh.ServiceLayer.Services;
 using MVCWebClient.Services;
 using Microsoft.AspNetCore.Identity;
 using NToastNotify;
-using NToastNotify.Constants;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WebClient
 {
@@ -61,11 +58,11 @@ namespace WebClient
             }).AddEntityFrameworkStores<Dbh.Model.EF.Context.UserDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddNToastNotify(new ToastOption()
+            services.AddMvc().AddNToastNotify(new ToastOption()
             {
                 ProgressBar = false,
-                PositionClass = ToastPositions.BottomRight
-            });
+                PositionClass = ToastPositions.BottomCenter
+            });;
 
             services.AddMvc(config =>
             {
@@ -77,6 +74,7 @@ namespace WebClient
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<ApplicationSignInManager>();
             services.AddScoped<ApplicationUserManager>();
+
             services.AddScoped<IQuestionServices>(serviceProvider =>
             {
                 return new QuestionServices();
@@ -102,12 +100,14 @@ namespace WebClient
                 options.AddPolicy("RequireAtLeastAdminRole", policy => policy.RequireRole("Admin"));
 
             });
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //     .AddCookie();
 
-
+            services.AddScoped<RoleManager<IdentityRole>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider, RoleManager<IdentityRole> roleManager)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -125,7 +125,7 @@ namespace WebClient
 
             app.UseStaticFiles();
 
-            app.UseIdentity();
+            app.UseAuthentication();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
@@ -136,14 +136,21 @@ namespace WebClient
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            // Time to seed the database
+            var initializer = new CompositeDatabaseInitializer(new IDatabaseInitializer[]
+            {
+                 new AddDefaultRolesDatabaseInititalizer(app.ApplicationServices.GetRequiredService<RoleManager<IdentityRole>>())
+            });
 
-            await CreateRoles(serviceProvider);
+            initializer.Seed();
+
+            //await CreateRoles(serviceProvider, roleManager);
         }
 
-        private async Task CreateRoles(IServiceProvider serviceProvider)
+        private async Task CreateRoles(IServiceProvider serviceProvider, RoleManager<IdentityRole> roleManager)
         {
             //adding custom roles
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            //var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             string[] roleNames = { "Admin", "Moderator", "User" };
 
@@ -152,11 +159,11 @@ namespace WebClient
             foreach (var roleName in roleNames)
             {
                 //creating the roles and seeding them to the database
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
 
                 if (!roleExist)
                 {
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
 
@@ -180,6 +187,67 @@ namespace WebClient
                 }
             }
 
+        }
+    }
+
+    public interface IDatabaseInitializer
+    {
+        int Order { get; }
+
+        void Seed();
+    }
+
+    public class AddDefaultRolesDatabaseInititalizer : IDatabaseInitializer
+    {
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public AddDefaultRolesDatabaseInititalizer(RoleManager<IdentityRole> roleManager)
+        {
+            _roleManager = roleManager;
+        }
+
+        public int Order { get; } = 1;
+
+        public void Seed()
+        {
+            using (_roleManager)
+            {
+                if (_roleManager.Roles.Any()) return;
+
+                var roles = new[]
+                { "Admin", "Moderator", "User" }; 
+
+                foreach (var role in roles)
+                {
+                    var result = _roleManager.CreateAsync(new IdentityRole { Name = role }).Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception("Error creating roles.");
+                    }
+                }
+            }
+
+        }
+    }
+
+    public class CompositeDatabaseInitializer : IDatabaseInitializer
+    {
+        private readonly IEnumerable<IDatabaseInitializer> _databaseInitializers;
+
+        public CompositeDatabaseInitializer(IEnumerable<IDatabaseInitializer> databaseInitializers)
+        {
+            _databaseInitializers = databaseInitializers;
+        }
+
+        public int Order { get; } = 0;
+
+        public void Seed()
+        {
+            foreach (var databaseInitializer in _databaseInitializers.OrderBy(initializer => initializer.Order))
+            {
+                databaseInitializer.Seed();
+            }
+            
         }
     }
 }

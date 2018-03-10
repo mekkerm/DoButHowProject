@@ -16,5 +16,6 @@ namespace Dbh.BusinessLayer.Contracts
         IEnumerable<Answer> GetAnswersOfQuestion(int questionId);
         IEnumerable<Answer> GetAnswersOfUser(string username);
         IEnumerable<Answer> GetRejectedAnswersOfUser(string username);
+        void CorrectAnswer(int answerId, string response);
     }
 }

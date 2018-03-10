@@ -8,36 +8,36 @@
 <div class="questionsContainer">
     @if (User.Identity.IsAuthenticated)
     {
-        <ul id="questionsNavBar" class="nav nav-pills">
-            @switch ((string)(ViewBag.focus))
-            {
-                case "MyRejectedAnswers":
-                    <li><a asp-action="">My Answers</a></li>
-                    <li class="active"><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
-                    @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
-                    {
-                        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
-                    }
-                    break;
-                case "AnswersToApprove":
-                    <li><a asp-action="">My Answers</a></li>
-                    <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
-                    @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
-                    {
-                        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
-                    }
-                    break;
-                default:
-                    <li class="active"><a asp-action="">My Answers</a></li>
-                    <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
-                   @if (await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole"))
-                    {
-                        <li><a asp-action="AnswersToApprove">Answers to approve</a></li>
-                    }
-                    
-                    break;
-            }
-        </ul>
+    <ul id="questionsNavBar" class="nav nav-pills">
+        @switch ((string)(ViewBag.focus))
+        {
+        case "MyRejectedAnswers":
+        <li><a asp-action="">My Answers</a></li>
+        <li class="active"><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+        {
+        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
+        }
+        break;
+        case "AnswersToApprove":
+        <li><a asp-action="">My Answers</a></li>
+        <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+        {
+        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
+        }
+        break;
+        default:
+        <li class="active"><a asp-action="">My Answers</a></li>
+        <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+        {
+        <li><a asp-action="AnswersToApprove">Answers to approve</a></li>
+        }
+
+        break;
+        }
+    </ul>
     }
 </div>
     <ul style="display:inline">
@@ -49,7 +49,6 @@
                     <p class="questionDescription">@answer.Response</p>
                     <br />
                 </a>
-                <p>asdasd</p>
             </li>
         }
         @if (Model.AnswerList.Count == 0)

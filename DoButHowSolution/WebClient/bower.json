@@ -7,8 +7,8 @@
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "less": "v2.7.2",
-    "knockout": "3.4.2",
     "toastr": "2.1.3",
-    "jscroll": "jquery.jscroll#v2.3.9"
+    "jscroll": "jquery.jscroll#v2.3.9",
+    "knockout": "v3.4.2"
   }
 }

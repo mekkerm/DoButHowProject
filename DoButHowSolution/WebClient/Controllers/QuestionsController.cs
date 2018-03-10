@@ -74,11 +74,11 @@ namespace MVCWebClient.Controllers
                 var result = _questionService.CreateNewQuestion(_mapper.Map(model), creatorName);
                 if (result)
                 {
-                    _toaster.AddToastMessage("Your question has been created!", "", ToastEnums.ToastType.Success);
+                    _toaster.AddToastMessage("Your question has been created!", "", Enums.ToastType.Success);
                 }
                 else
                 {
-                    _toaster.AddToastMessage("Your question has not been created!", "", ToastEnums.ToastType.Error);
+                    _toaster.AddToastMessage("Your question has not been created!", "", Enums.ToastType.Error);
                 }
 
             }

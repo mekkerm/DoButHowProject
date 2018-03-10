@@ -11,5 +11,6 @@ namespace MVCWebClient.Models.AnswerViewModels
         public AnswerViewModel Answer { get; set; }
 
         public QuestionViewModel Question { get; set; }
+        public bool DisableInputs { get; set; }
     }
 }

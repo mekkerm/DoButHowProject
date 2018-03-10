@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
     </environment>
-    <link rel="stylesheet" href="~/lib/toastr/toastr.min.css"/>
+    <link rel="stylesheet" href="~/lib/toastr/toastr.min.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     @Html.Raw(JavaScriptSnippet.FullScript)
@@ -38,7 +38,7 @@
 
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">
                     @*<img src="~/images/Logo.jpg" class="img-responsive" />*@
-                    <img src="~/images/Logo.svg" class="logo"/>
+                    <img src="~/images/Logo.svg" class="logo" />
                 </a>
             </div>
             <div class="navbar-collapse collapse">
@@ -68,14 +68,14 @@
         <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 
         <a asp-area="" asp-controller="Questions" asp-action="Index">Questions</a>
-        @if (User.Identity.IsAuthenticated && await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastUserRole"))
+        @if (User.Identity.IsAuthenticated && (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastUserRole").Result.Succeeded))
         {
-            <a asp-area="" asp-controller="Answers" asp-action="Index">Answers</a>
+        <a asp-area="" asp-controller="Answers" asp-action="Index">Answers</a>
 
         }
-        @if (User.Identity.IsAuthenticated && await AuthorizationService.AuthorizeAsync(User, "RequireAtLeastAdminRole"))
-            {
-            <a asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+        @if (User.Identity.IsAuthenticated && (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastAdminRole").Result.Succeeded))
+        {
+        <a asp-area="" asp-controller="Users" asp-action="Index">Users</a>
 
         }
 
@@ -95,7 +95,7 @@
                 @if (!string.IsNullOrEmpty(ViewBag.message))
                 {
 
-                    @ViewBag.message
+                @ViewBag.message
                 }
             </p>
 
@@ -110,9 +110,9 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/jscroll/jquery.jscroll.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/knockout/dist/knockout.debug.js"></script>
+        <script src="~/lib/knockout/dist/knockout.js"></script>
 
-        
+
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

@@ -86,5 +86,14 @@ namespace Dbh.ServiceLayer.Services
 
             return businessUoW.Answers.GetRejectedAnswersOfUser(username).ToList();
         }
+
+        public void CorrectAnswer(int answerId, string response)
+        {
+            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+
+            businessUoW.Answers.CorrectAnswer(answerId, response);
+
+            businessUoW.SaveChanges();
+        }
     }
 }

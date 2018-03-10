@@ -28,14 +28,13 @@ namespace WebClient.Controllers
         public ManageController(
           ApplicationUserManager userManager,
           ApplicationSignInManager signInManager,
-          IOptions<IdentityCookieOptions> identityCookieOptions,
           IEmailSender emailSender,
           ISmsSender smsSender,
           ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
+            //_externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
@@ -293,12 +292,13 @@ namespace WebClient.Controllers
                 return View("Error");
             }
             var userLogins = await _userManager.GetLoginsAsync(user);
-            var otherLogins = _signInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+            //var otherLogins = await _signInManager.GetExternalAuthenticationSchemesAsync().ToAsyncEnumerable().Where(auth => userLogins.All(ul => auth.FirstOrDefault().Name!= ul.LoginProvider)).ToList();
+            //await _signInManager.GetExternalAuthenticationSchemesAsync().ToAsyncEnumerable().Where
             ViewData["ShowRemoveButton"] = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
             {
-                CurrentLogins = userLogins,
-                OtherLogins = otherLogins
+                CurrentLogins = userLogins/*,
+                OtherLogins = otherLogins*/
             });
         }
 

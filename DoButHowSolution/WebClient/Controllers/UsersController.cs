@@ -48,7 +48,7 @@ namespace MVCWebClient.Controllers
             }
             //var roles = await _userManager.GetRolesAsync(users[1]);
             var roles = _roleManager.Roles.Select(r=>r.Name).ToList();
-            var theusers = _roleManager.Roles.Where(r=>r.Name=="Admin").Select(r => r.Users);
+            //var theusers = _roleManager.Roles.Where(r=>r.Name=="Admin").Select(r => r.Users);
             model.Roles = roles;
             //_roleManager.
             return View(model);

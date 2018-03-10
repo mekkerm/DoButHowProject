@@ -26,5 +26,7 @@ namespace MVCWebClient.Models.AnswerViewModels
         public bool DisableInputs { get; set; }
 
         public string QuestionTitle { get; set; }
+        
+        public bool CurrentUserIsTheOwner { get; set; }
     }
 }

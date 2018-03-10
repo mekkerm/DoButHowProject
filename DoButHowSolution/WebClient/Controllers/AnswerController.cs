@@ -47,10 +47,13 @@ namespace MVCWebClient.Controllers
 
             _answerService.ApproveAnswer(AnswerId, username);
 
-            _toaster.AddToastMessage("The answer has been approved!", "", ToastEnums.ToastType.Success);
+            _toaster.AddToastMessage("The answer has been approved!", "", Enums.ToastType.Success);
 
             var model = GetAnswerQuestion(AnswerId);
-
+            //IAuthorizationService serv = null;
+            
+            //serv.AuthorizeAsync(null, "RequireAtLeastUserRole").Result.Succeeded
+            
             return RedirectToAction("Index", "Answers");
         }
 
@@ -62,7 +65,7 @@ namespace MVCWebClient.Controllers
 
             _answerService.RejectAnswer(AnswerId, RejectReason, username);
 
-            _toaster.AddToastMessage("The answer has been rejected!", "", ToastEnums.ToastType.Success);
+            _toaster.AddToastMessage("The answer has been rejected!", "", Enums.ToastType.Success);
 
             var model = GetAnswerQuestion(AnswerId);
 
@@ -80,8 +83,36 @@ namespace MVCWebClient.Controllers
             model.Answer = _mapper.Map(answer);
             model.Question = _mapper.Map(question);
 
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var username = this.User.Identity.Name;
+                model.Answer.CurrentUserIsTheOwner = (username == model.Answer.CreatorName);
+            }
+            else
+            {
+                model.Answer.CurrentUserIsTheOwner = false;
+            }
+
+
+            model.DisableInputs = !(model.Answer.CurrentUserIsTheOwner && model.Answer.IsRejected);
+
             ViewBag.focus = "Index";
             return model;
+        }
+
+        [HttpPost]
+        public IActionResult CorrectAnswer(int AnswerId, string Response)
+        {
+            _answerService.CorrectAnswer(AnswerId, Response);
+
+            _toaster.AddToastMessage("Your answer has been corrected!", "", Enums.ToastType.Success);
+
+            var answer = _answerService.GetAnswerById(AnswerId);
+            var updtedModel = _mapper.Map(answer);
+
+            updtedModel.DisableInputs = !(updtedModel.CurrentUserIsTheOwner && updtedModel.IsRejected);
+
+            return RedirectToAction("Index", "Answers");
         }
     }
 }
