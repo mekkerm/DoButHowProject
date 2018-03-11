@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCWebClient.Models.AnswerViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,5 +30,10 @@ namespace MVCWebClient.Models.QuestionViewModels
         public string Status { get; set; }
         public bool CurrentUserIsTheOwner { get; set; }
         public bool DisableInputs { get; set; }
+    }
+
+    public class QuestionFullModel : QuestionViewModel
+    {
+        public IList<AnswerViewModel> AnswerList;
     }
 }

@@ -124,6 +124,7 @@ namespace WebClient
             }
 
             app.UseStaticFiles();
+            app.UseNToastNotify();
 
             app.UseAuthentication();
 

@@ -27,13 +27,28 @@ namespace MVCWebClient.Services
             return dest;
         }
 
+        public void Map(Question source, QuestionViewModel dest)
+        {
+            dest.QuestionId = source.Id;
+            dest.Title = source.Title;
+            dest.Description = source.Description;
+            dest.CreatorName = source.Creator != null ? source.Creator.UserName : "";
+            dest.CreatorId = source.CreatorId;
+            dest.IsApproved = source.IsApproved;
+            dest.IsRejected = source.IsRejected;
+            dest.RejectReason = source.RejectReason;
+            dest.Status = source.IsApproved ? "Approved" :
+                source.IsRejected ? "Rejected" : "Created";
+            
+        }
+
         public AnswerViewModel Map(Answer source)
         {
             var dest = new AnswerViewModel();
             dest.AnswerId = source.Id;
             dest.QuestionId = source.QuestionId;
             dest.Response = source.Response;
-            
+
             dest.CreatorName = source.Creator != null ? source.Creator.UserName : "";
             dest.CreatorId = source.CreatorId;
             dest.IsApproved = source.IsApproved;
@@ -43,6 +58,16 @@ namespace MVCWebClient.Services
                 source.IsRejected ? "Rejected" : "Created";
 
             return dest;
+        }
+
+        public List<AnswerViewModel> Map(IEnumerable<Answer> sourceList)
+        {
+            var results = new List<AnswerViewModel>();
+            foreach (var source in sourceList)
+            {
+                results.Add(Map(source));
+            }
+            return results; ;
         }
 
         public Question Map(QuestionViewModel source)

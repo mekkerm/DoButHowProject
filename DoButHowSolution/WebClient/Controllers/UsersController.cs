@@ -1,9 +1,11 @@
 ﻿using Dbh.ServiceLayer.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using MVCWebClient.Models.AccountViewModels;
 using MVCWebClient.Services;
+using NToastNotify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,19 +20,23 @@ namespace MVCWebClient.Controllers
         private readonly ApplicationSignInManager _signInManager;
         private readonly MapperService _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IToastNotification _toaster;
 
         public UsersController(IQuestionServices service,
             ApplicationUserManager userManager,
            ApplicationSignInManager signInManager,
-           MapperService mapper, RoleManager<IdentityRole> roleManager)
+           MapperService mapper, RoleManager<IdentityRole> roleManager,
+           IToastNotification toaster)
         {
             _questionService = service;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _roleManager = roleManager;
+            _toaster = toaster;
         }
 
+        [Authorize(Policy = "RequireAtLeastAdminRole")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -41,9 +47,7 @@ namespace MVCWebClient.Controllers
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var userRole = userRoles.FirstOrDefault();
-                userRole = userRole != null ? userRole : "User";
-
-                model.Users.Add(new ChangeUserRoleViewModel
+                var userVM = new ChangeUserRoleViewModel
                 {
                     UserName = user.UserName,
                     Email = user.Email,
@@ -51,9 +55,27 @@ namespace MVCWebClient.Controllers
                     IsUser = userRole == "User",
                     IsModerator = userRole == "Moderator",
                     IsAdmin = userRole == "Admin",
-                });
+                };
+                switch (userRole)
+                {
+                    case "Admin":
+                        {
+                            model.Administrators.Add(userVM);
+                            break;
+                        }
+                    case "Moderator":
+                        {
+                            model.Moderators.Add(userVM);
+                            break;
+                        }
+                    default:
+                        {
+                            model.Users.Add(userVM);
+                            break;
+                        }
+                }
             }
-            //var roles = await _userManager.GetRolesAsync(users[1]);
+            
             var roles = _roleManager.Roles.Select(r=>r.Name).ToList();
             //var theusers = _roleManager.Roles.Where(r=>r.Name=="Admin").Select(r => r.Users);
             model.Roles = roles;
@@ -61,29 +83,53 @@ namespace MVCWebClient.Controllers
             return View(model);
         }
 
+        [Authorize(Policy = "RequireAtLeastAdminRole")]
         [HttpPost]
-        public async Task<IActionResult> MakeUser(string emailAddress, string currentRole)
+        public async Task<IActionResult> MakeUser(string userName, string emailAddress, string currentRole)
         {
             var result = ChangeRole(emailAddress, currentRole, "User");
-            //TODO: add toast
+            if (result)
+            {
+                _toaster.AddToastMessage("'"+ userName+"'" +" role changed to 'User'", "", Enums.ToastType.Success);
+            }
+            else
+            {
+                _toaster.AddToastMessage("Role change did not succeeded!", "", Enums.ToastType.Error);
+            }
 
             return RedirectToAction("Index", "Users");
         }
 
+        [Authorize(Policy = "RequireAtLeastAdminRole")]
         [HttpPost]
-        public async Task<IActionResult> MakeModerator(string emailAddress, string currentRole)
+        public async Task<IActionResult> MakeModerator(string userName, string emailAddress, string currentRole)
         {
             var result = ChangeRole(emailAddress, currentRole, "Moderator");
-            //TODO: add toast
+            if (result)
+            {
+                _toaster.AddToastMessage("'" + userName + "'" + " role changed to 'Moderator'", "", Enums.ToastType.Success);
+            }
+            else
+            {
+                _toaster.AddToastMessage("Role change did not succeeded!", "", Enums.ToastType.Error);
+            }
 
             return RedirectToAction("Index", "Users");
         }
 
+        [Authorize(Policy = "RequireAtLeastAdminRole")]
         [HttpPost]
-        public async Task<IActionResult> MakeAdmin(string emailAddress, string currentRole)
+        public async Task<IActionResult> MakeAdmin(string userName, string emailAddress, string currentRole)
         {
             var result = ChangeRole(emailAddress, currentRole, "Admin");
-            //TODO: add toast
+            if (result)
+            {
+                _toaster.AddToastMessage("'" + userName + "'" + " role changed to 'Administrator'", "", Enums.ToastType.Success);
+            }
+            else
+            {
+                _toaster.AddToastMessage("Role change did not succeeded!", "", Enums.ToastType.Error);
+            }
 
             return RedirectToAction("Index", "Users");
         }
@@ -97,7 +143,7 @@ namespace MVCWebClient.Controllers
             }
 
             var result2 = _userManager.AddToRoleAsync(userToChange, targetRole);
-            if (result2.Result.Succeeded)
+            if (!result2.Result.Succeeded)
             {
                 return false;
             }

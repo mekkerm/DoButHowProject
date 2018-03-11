@@ -16,10 +16,11 @@ $(document).ready(function () {
         // End of the document reached?
         if ($(document).height() - win.height() === win.scrollTop()) {
             $('#loading').show();
-
-            window.answerViewModel.LoadMore(function () {
-                $('#loading').hide();
-            });
+            if (window.answerViewModel) {
+                window.answerViewModel.LoadMore(function () {
+                    $('#loading').hide();
+                });
+            }
         }
     });
 });

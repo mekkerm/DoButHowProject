@@ -1,20 +1,56 @@
 ﻿@model MVCWebClient.Models.AccountViewModels.ChangeUsersViewModel
-<div>
+<div class="divElement">
+    <h1>Users:</h1>
     @foreach (var user in Model.Users)
     {
-        <div>
-            
-            <form class="form-horizontal" method="post">
-                <div>@user.UserName [ @user.CurrentRole ]</div>
+    <div>
+        <form class="form-horizontal" method="post">
+            <h5>@user.UserName </h5>
 
-                <input name="emailAddress" asp-for="@user.Email" type="hidden" />
-                <input name="currentRole" asp-for="@user.CurrentRole" type="hidden" />
-                <div>
-                    <button asp-action="MakeUser"       type="submit" disabled='@(@user.IsUser == true ? "disabled" : null)'>User</button>
-                    <button asp-action="MakeModerator"  type="submit" disabled='@(@user.IsModerator == true ? "disabled" : null)'>Moderator</button>
-                    <button asp-action="MakeAdmin"      type="submit" disabled='@(@user.IsAdmin == true ? "disabled" : null)'>Admin</button>
-                </div>
-            </form>
-        </div>
+            <input name="userName" asp-for="@user.UserName" type="hidden" />
+            <input name="emailAddress" asp-for="@user.Email" type="hidden" />
+            <input name="currentRole" asp-for="@user.CurrentRole" type="hidden" />
+            <div>
+                <button class="w-100" asp-action="MakeModerator" type="submit" disabled='@(@user.IsModerator == true ? "disabled" : null)'>Moderator</button>
+                <button class="w-100 m-left-30" asp-action="MakeAdmin" type="submit" disabled='@(@user.IsAdmin == true ? "disabled" : null)'>Administrator</button>
+            </div>
+        </form>
+    </div>
+    }
+
+    <h1>Moderators:</h1>
+    @foreach (var user in Model.Moderators)
+    {
+    <div>
+        <form class="form-horizontal" method="post">
+            <h5>@user.UserName </h5>
+
+            <input name="userName" asp-for="@user.UserName" type="hidden" />
+            <input name="emailAddress" asp-for="@user.Email" type="hidden" />
+            <input name="currentRole" asp-for="@user.CurrentRole" type="hidden" />
+            <div>
+                <button class="w-100" asp-action="MakeUser" type="submit" disabled='@(@user.IsUser == true ? "disabled" : null)'>User</button>
+                <button class="w-100 m-left-30" asp-action="MakeAdmin" type="submit" disabled='@(@user.IsAdmin == true ? "disabled" : null)'>Administrator</button>
+            </div>
+        </form>
+    </div>
+    }
+
+    <h1>Administrators:</h1>
+    @foreach (var user in Model.Administrators)
+    {
+    <div>
+        <form class="form-horizontal" method="post">
+            <h5>@user.UserName</h5>
+
+            <input name="emailAddress" asp-for="@user.Email" type="hidden" />
+            <input name="emailAddress" asp-for="@user.Email" type="hidden" />
+            <input name="currentRole" asp-for="@user.CurrentRole" type="hidden" />
+            <div>
+                <button class="w-100" asp-action="MakeUser" type="submit" disabled='@(@user.IsUser == true ? "disabled" : null)'>User</button>
+                <button class="w-100 m-left-30" asp-action="MakeModerator" type="submit" disabled='@(@user.IsModerator == true ? "disabled" : null)'>Moderator</button>
+            </div>
+        </form>
+    </div>
     }
 </div>

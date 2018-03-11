@@ -205,3 +205,15 @@ button[disabled] {
   background-color: #cccccc;
   color: #666666;
 }
+.w-100 {
+  width: 100px;
+}
+.w-250 {
+  width: 100px;
+}
+.m-left-30 {
+  margin-left: 30px;
+}
+textarea {
+  resize: none;
+}

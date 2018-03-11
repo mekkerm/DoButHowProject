@@ -1,7 +1,7 @@
 ﻿window.viewModels = window.viewModels || [];
 
 
-var init = function () {
+var answerVM = function () {
     
     this.skip = this.initialSkip;
     this.take = this.initialTake;
@@ -39,10 +39,10 @@ var init = function () {
     this.LoadMore();
 }
 
-init.prototype.initialTake = 40;
-init.prototype.initialSkip = 0;
+answerVM.prototype.initialTake = 40;
+answerVM.prototype.initialSkip = 0;
 
-init.prototype.adjustParameters = function () {
+answerVM.prototype.adjustParameters = function () {
     this.skip += 20;
     this.take = 20;
 }
@@ -54,5 +54,5 @@ init.prototype.adjustParameters = function () {
 window.viewModels.push({
     name: "answerViewModel",
     containerId: "answerContainer",
-    init: init
+    init: answerVM
 });

@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/js/QuestionAnswerViewModel.js" asp-append-version="true"></script>
+
+
+<div class="questionsContainer" id="questionAnswerContainer">
+    <!-- ko if: $data.Question() != undefined -->
+    <form class="form-horizontal" data-bind="with: $data.Question">
+        <div class="form-group">
+            <label for="Title" class="control-label col-sm-3">Title:</label>
+            <div class="col-sm-9">
+                <input name="Title" type="text" class="form-control" disabled data-bind="value: $data.title">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Description" class="control-label col-sm-3">Description:</label>
+            <div class="col-sm-9">
+                <textarea name="Description" class="form-control" rows="5" disabled data-bind="value: $data.description"></textarea>
+            </div>
+        </div>
+    </form>
+
+<div data-bind="template: {name:'answerTemplate', foreach: $data.Question().answerList}">
+
+</div>
+    <!-- /ko-->
+</div>
+
+<script id="answerTemplate" type="text/html">
+<input data-bind="value: $data.response">
+</script>
