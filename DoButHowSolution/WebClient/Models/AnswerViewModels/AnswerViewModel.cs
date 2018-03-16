@@ -28,5 +28,9 @@ namespace MVCWebClient.Models.AnswerViewModels
         public string QuestionTitle { get; set; }
         
         public bool CurrentUserIsTheOwner { get; set; }
+
+        public decimal CurrentRating { get; set; }
+
+        public decimal CurrentUserRating { get; set; }
     }
 }

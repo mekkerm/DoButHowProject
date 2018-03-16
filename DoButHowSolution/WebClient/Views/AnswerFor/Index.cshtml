@@ -23,12 +23,32 @@
         </div>
     </form>
 
-<div data-bind="template: {name:'answerTemplate', foreach: $data.Question().answerList}">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-action="AnswerQuestion" asp-controller="Question" asp-route-id="@Model" style="float:right;" class="bclass">
+            <div class="btn btn-primary" style="display:inline; position:absolute">
+                <i class="material-icons alignMiddle">reply</i>
+                <div class="position-inline">Answer this question</div>
+            </div>
+        </a>
+    }
+    <br />
+    <br />
+    <br />
+    <br />
+    <div data-bind="template: {name:'answerTemplate', foreach: $data.Question().answerList}">
 
-</div>
+    </div>
     <!-- /ko-->
 </div>
 
 <script id="answerTemplate" type="text/html">
-<input data-bind="value: $data.response">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="Response" class="control-label col-sm-3">Response:</label>
+            <div class="col-sm-9">
+                <textarea name="Response" class="form-control" rows="10" disabled data-bind="value: $data.response"></textarea>
+            </div>
+        </div>
+    </form>
 </script>

@@ -14,9 +14,12 @@ namespace Dbh.ServiceLayer.Contracts
         void ApproveAnswer(int answerId, string username);
         void RejectAnswer(int answerId, string rejectReason, string username);
         List<Answer> GetAnswers(int skip, int take);
-        List<Answer> GetAnswersOfQuestion(int questionId);
+        List<Answer> GetAnswersOfQuestion(int questionId, string username);
         List<Answer> GetAnswersOfUser(string username);
         List<Answer> GetRejectedQuestionsOfUser(string username);
         void CorrectAnswer(int answerId, string response);
+
+        void AddOrModifyAnswerRating(int answerId, string username, decimal rating);
+        void RemoveAnswerRating(int answerId, string username);
     }
 }

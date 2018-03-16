@@ -18,7 +18,7 @@ namespace Dbh.BusinessLayer.BL
         {
             var user = _uow.AppUsers.GetUserByName(creatorName);
 
-            var answers = _uow.Answers.Find(a => a.CreatorId == user.Id && a.QuestionId == questionId ).ToList();
+            var answers = _uow.Answers.FindAll(a => a.CreatorId == user.Id && a.QuestionId == questionId ).ToList();
             //if (answers.Any())
             //{
             //    throw new BusinessException("You have anwsered already this question!");
@@ -39,7 +39,7 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Answer> GetNotApprovedAnswers()
         {
-            var answers = _uow.Answers.Find(q => !q.IsApproved && !q.IsRejected);
+            var answers = _uow.Answers.FindAll(q => !q.IsApproved && !q.IsRejected);
             foreach (var answer in answers)
             {
                 answer.Creator = _uow.AppUsers.GetUser(answer.CreatorId);
@@ -94,26 +94,40 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Answer> GetAnswers(int skip, int take)
         {
-            return _uow.Answers.Find(a => a.IsApproved).Skip(skip).Take(take);
+            return _uow.Answers.FindAll(a => a.IsApproved).Skip(skip).Take(take);
         }
 
-        public IEnumerable<Answer> GetAnswersOfQuestion(int questionId)
+        public IEnumerable<Answer> GetAnswersOfQuestion(int questionId, string username)
         {
-            return _uow.Answers.Find(a => a.QuestionId == questionId && a.IsApproved);
+            var answers = _uow.Answers.FindAll(a => a.QuestionId == questionId && a.IsApproved);
+            
+            
+            foreach (var answer in answers)
+            {
+                var ratings = _uow.AnswerRatings.FindAll(x => x.AnswerId == answer.Id);
+                answer.AverageRating = ratings.Any() ? ratings.Average(x => x.Rate) : 0;
+                if (!string.IsNullOrEmpty(username))
+                {
+                    var userId = _uow.AppUsers.GetUserIdByName(username);
+                    var usersRating = ratings.FirstOrDefault(x => x.UserId == userId);
+                    answer.CurrentUserRating = usersRating != null ? usersRating.Rate : 0;
+                }
+            }
+            return answers;
         }
 
         public IEnumerable<Answer> GetAnswersOfUser(string username)
         {
             var user = _uow.AppUsers.GetUserByName(username);
 
-            return _uow.Answers.Find(a => a.CreatorId == user.Id);
+            return _uow.Answers.FindAll(a => a.CreatorId == user.Id);
         }
 
         public IEnumerable<Answer> GetRejectedAnswersOfUser(string username)
         {
             var user = _uow.AppUsers.GetUserByName(username);
 
-            return _uow.Answers.Find(a => a.CreatorId == user.Id && a.IsRejected);
+            return _uow.Answers.FindAll(a => a.CreatorId == user.Id && a.IsRejected);
         }
 
         public void CorrectAnswer(int answerId, string response)
@@ -131,6 +145,53 @@ namespace Dbh.BusinessLayer.BL
             var answer = _uow.Answers.Get(answerId);
             var question = _uow.Questions.Get(answer.QuestionId);
             question.HasAnwser = true;
+        }
+
+        public void AddOrModifyAnswerRating(int answerId, string username, decimal rating)
+        {
+            var userId = _uow.AppUsers.GetUserIdByName(username);
+            if (userId != null)
+            {
+                var answerRating = _uow.AnswerRatings.SingleOrDefault(x => x.AnswerId == answerId && x.UserId == userId);
+
+                if(answerRating == null)
+                {
+                    //create
+                    var newRating = new AnswerRatings();
+                    newRating.AnswerId = answerId;
+                    newRating.Rate = rating;
+                    newRating.RateDate = DateTime.Now;
+                    newRating.UserId = userId;
+                    _uow.AnswerRatings.Add(newRating);
+                }
+                else
+                {
+                    //update 
+                    if(answerRating.Rate != rating) {
+                        answerRating.Rate = rating;
+                    }
+                }
+            }
+        }
+
+
+        public void RemoveAnswerRating(int answerId, string username)
+        {
+            var userId = _uow.AppUsers.GetUserIdByName(username);
+            if (userId != null)
+            {
+                var answerRating = _uow.AnswerRatings.SingleOrDefault(x => x.AnswerId == answerId && x.UserId == userId);
+
+                if (answerRating == null)
+                {
+                   //do nothing
+                }
+                else
+                {
+                    //remove the existing rating
+                    _uow.AnswerRatings.Remove(answerRating);
+                }
+            }
         }
     }
 }

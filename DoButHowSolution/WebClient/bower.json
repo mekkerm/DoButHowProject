@@ -10,6 +10,10 @@
     "jscroll": "jquery.jscroll#v2.3.9",
     "knockout": "v3.4.2",
     "toastr": "2.1.3",
-    "knockout-mapping-js": "2.4.2"
+    "knockout-mapping-js": "2.4.2",
+    "jquery-ui": "jquery.ui#1.12.1"
+  },
+  "resolutions": {
+    "jquery": ">= 1.7.2"
   }
 }

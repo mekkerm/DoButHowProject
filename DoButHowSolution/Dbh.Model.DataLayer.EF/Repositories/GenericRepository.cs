@@ -31,7 +31,7 @@ namespace Dbh.Model.EF.Repositories
             _dbSet.AddRange(entities);
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        public IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.Where(predicate);
         }
@@ -59,6 +59,14 @@ namespace Dbh.Model.EF.Repositories
         public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.SingleOrDefault(predicate);
+        }
+
+        public IEnumerable<TEntity> FindAllOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            var results = _dbSet.Where(predicate);
+            if (results.Any())
+                return results;
+            return new List<TEntity>();
         }
     }
 }

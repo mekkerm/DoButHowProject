@@ -21,6 +21,7 @@ namespace Dbh.Model.EF.UnitOfWork
         private AppUserRepository _appUserRepo;
         private QuestionRepository _questionRepo;
         private AnswerRepository _answerRepo;
+        private AnswerRatingsRepository _answerRatingsRepo;
 
         public IBlogRepository Blogs {
             get {
@@ -59,6 +60,16 @@ namespace Dbh.Model.EF.UnitOfWork
                     _answerRepo = new AnswerRepository(_context);
                 }
                 return _answerRepo;
+            }
+        }
+
+        public IAnswerRatingsRepository AnswerRatings {
+            get {
+                if (_answerRatingsRepo == null)
+                {
+                    _answerRatingsRepo = new AnswerRatingsRepository(_context);
+                }
+                return _answerRatingsRepo;
             }
         }
         public void Dispose()

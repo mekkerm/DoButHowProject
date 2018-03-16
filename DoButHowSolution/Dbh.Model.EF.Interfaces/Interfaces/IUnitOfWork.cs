@@ -12,6 +12,8 @@ namespace Dbh.Model.EF.Interfaces
         IAppUserRepository AppUsers { get; }
 
         IAnswerRepository Answers { get; }
+
+        IAnswerRatingsRepository AnswerRatings { get; }
         int SaveChanges();
     }
 }

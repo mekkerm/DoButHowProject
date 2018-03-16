@@ -8,18 +8,18 @@ using Dbh.Common.IoCContainer;
 
 namespace Dbh.ServiceLayer.Services
 {
-    public class BlogsService : IBlogsService
+    public class BlogsService : ServiceBase, IBlogsService
     {
         public Blog Create(Blog blog)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             return businessUoW.Blogs.DoWhateverYouWant();
         }
 
         public void JustDoSomething(Blog blog)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             businessUoW.Blogs.DoWhateverYouWant();
         }

@@ -9,12 +9,12 @@ using System.Text;
 
 namespace Dbh.ServiceLayer.Services
 {
-    public class AnswerServices : IAnswerServices
+    public class AnswerServices :ServiceBase, IAnswerServices
     {
 
         public bool AnswerQuestion(int questionId, string answer, string currentUser)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
             try
             {
                 var result = businessUoW.Answers.CreateAnswer(questionId, answer, currentUser);
@@ -29,21 +29,21 @@ namespace Dbh.ServiceLayer.Services
 
         public List<Answer> GetNotApprovedAnswers()
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             return businessUoW.Answers.GetNotApprovedAnswers().ToList();
         }
 
         public Answer GetAnswerById(int id)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             return businessUoW.Answers.GetAnswerById(id);
         }
 
         public void ApproveAnswer(int answerId, string username)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             businessUoW.Answers.ApproveAnswer(answerId, username);
 
@@ -52,7 +52,7 @@ namespace Dbh.ServiceLayer.Services
 
         public void RejectAnswer(int answerId, string rejectReason, string username)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             businessUoW.Answers.RejectAnswer(answerId, rejectReason, username);
 
@@ -61,37 +61,56 @@ namespace Dbh.ServiceLayer.Services
 
         public List<Answer> GetAnswers(int skip, int take)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             return businessUoW.Answers.GetAnswers(skip, take).ToList();
         }
 
-        public List<Answer> GetAnswersOfQuestion(int questionId)
+        public List<Answer> GetAnswersOfQuestion(int questionId, string username)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
-            return businessUoW.Answers.GetAnswersOfQuestion(questionId).ToList();
+            return businessUoW.Answers.GetAnswersOfQuestion(questionId, username).ToList();
         }
 
         public List<Answer> GetAnswersOfUser(string username)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             return businessUoW.Answers.GetAnswersOfUser(username).ToList();
         }
 
         public List<Answer> GetRejectedQuestionsOfUser(string username)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             return businessUoW.Answers.GetRejectedAnswersOfUser(username).ToList();
         }
 
         public void CorrectAnswer(int answerId, string response)
         {
-            var businessUoW = Resolver.Get<IBusinessObjectFactory>();
+            var businessUoW = GetUoW();
 
             businessUoW.Answers.CorrectAnswer(answerId, response);
+
+            businessUoW.SaveChanges();
+        }
+
+        public void AddOrModifyAnswerRating(int answerId, string username, decimal rating)
+        {
+
+            var businessUoW = GetUoW();
+
+            businessUoW.Answers.AddOrModifyAnswerRating(answerId, username, rating);
+
+            businessUoW.SaveChanges();
+        }
+        public void RemoveAnswerRating(int answerId, string username)
+        {
+
+            var businessUoW = GetUoW();
+
+            businessUoW.Answers.RemoveAnswerRating(answerId, username);
 
             businessUoW.SaveChanges();
         }

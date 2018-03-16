@@ -93,7 +93,7 @@ namespace Dbh.BusinessLayer.BL
         public IEnumerable<Question> GetQuestionsOfUser(string username)
         {
             var user = _uow.AppUsers.GetUserByName(username);
-            var questions = _uow.Questions.Find(q => q.CreatorId == user.Id);
+            var questions = _uow.Questions.FindAll(q => q.CreatorId == user.Id);
             foreach (var question in questions)
             {
                 question.Creator = user;
@@ -104,7 +104,7 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Question> GetNotApprovedQuestions()
         {
-            var questions = _uow.Questions.Find(q => !q.IsApproved && !q.IsRejected);
+            var questions = _uow.Questions.FindAll(q => !q.IsApproved && !q.IsRejected);
             foreach (var question in questions)
             {
                 question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
@@ -114,7 +114,7 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Question> GetApprovedQuestions()
         {
-            var questions = _uow.Questions.Find(q => q.IsApproved);
+            var questions = _uow.Questions.FindAll(q => q.IsApproved);
             foreach (var question in questions)
             {
                 question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
@@ -131,7 +131,7 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Question> GetAnsweredQuestions(int skip, int take)
         {
-            return _uow.Questions.Find(q => bool.Equals(q.HasAnwser, true)).Skip(skip).Take(take);
+            return _uow.Questions.FindAll(q => bool.Equals(q.HasAnwser, true)).Skip(skip).Take(take);
         }
     }
 }

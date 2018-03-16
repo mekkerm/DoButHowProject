@@ -9,7 +9,7 @@ namespace Dbh.Model.EF.Interfaces
     {
         TEntity Get(int id);
         IEnumerable<TEntity> GetAll();
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        IEnumerable<TEntity> FindAll(Expression<Func<TEntity, bool>> predicate);
 
         // This method was not in the videos, but I thought it would be useful to add.
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
@@ -19,5 +19,7 @@ namespace Dbh.Model.EF.Interfaces
 
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
+
+        IEnumerable<TEntity> FindAllOrDefault(Expression<Func<TEntity, bool>> predicate);
     }
 }

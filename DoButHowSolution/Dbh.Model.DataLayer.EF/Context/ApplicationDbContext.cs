@@ -16,8 +16,7 @@ namespace Dbh.Model.EF.Context
         {
         }
 
-        public DbSet<Blog> Blogs { get; set; }
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<AnswerRatings> AnswerRatings { get; set; }
 
         public DbSet<Question> Questions { get; set; }
         
@@ -37,6 +36,7 @@ namespace Dbh.Model.EF.Context
             modelBuilder.Ignore<IdentityUserToken<string>>();
             modelBuilder.Ignore<IdentityUser<string>>();
             modelBuilder.Ignore<ApplicationUser>();
+
         }
         
     }

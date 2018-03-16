@@ -30,7 +30,7 @@ namespace Dbh.Model.EF.Repositories
             _dbSet.AddRange(entities);
         }
 
-        public IEnumerable<ApplicationUser> Find(Expression<Func<ApplicationUser, bool>> predicate)
+        public IEnumerable<ApplicationUser> FindAll(Expression<Func<ApplicationUser, bool>> predicate)
         {
             return _dbSet.Where(predicate);
         }
@@ -68,6 +68,28 @@ namespace Dbh.Model.EF.Repositories
         public ApplicationUser GetUserByName(string name)
         {
             return _dbSet.FirstOrDefault(u => u.UserName == name);
+        }
+
+        public string GetUserIdByName(string name)
+        {
+            var user = GetUserByName(name);
+            if(user != null)
+            {
+                return user.Id;
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
+
+        public IEnumerable<ApplicationUser> FindAllOrDefault(Expression<Func<ApplicationUser, bool>> predicate)
+        {
+            var results = _dbSet.Where(predicate);
+            if (results.Any())
+                return results;
+            return new List<ApplicationUser>();
         }
     }
 

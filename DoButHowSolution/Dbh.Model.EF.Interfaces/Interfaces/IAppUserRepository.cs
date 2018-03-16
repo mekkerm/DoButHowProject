@@ -11,6 +11,10 @@ namespace Dbh.Model.EF.Interfaces.Interfaces
 
         ApplicationUser GetUserByName(string name);
 
+        string GetUserIdByName(string name);
+
+        
+
 
     }
 }

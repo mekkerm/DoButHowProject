@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Dbh.Model.EF.Entities
@@ -32,5 +33,11 @@ namespace Dbh.Model.EF.Entities
         public string RejectorId { get; set; }
 
         public string RejectReason { get; set; }
+
+        [NotMapped]
+        public decimal AverageRating { get; set; }
+
+        [NotMapped]
+        public decimal CurrentUserRating { get; set; }
     }
 }

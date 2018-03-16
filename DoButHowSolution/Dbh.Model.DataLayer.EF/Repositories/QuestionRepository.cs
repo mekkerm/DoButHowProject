@@ -16,22 +16,22 @@ namespace Dbh.Model.EF.Repositories
 
         public IEnumerable<Question> GetNotApprovedQuestions()
         {
-            return base.Find(q => ! q.IsApproved);
+            return base.FindAll(q => ! q.IsApproved);
         }
 
         public IEnumerable<Question> GetApprovedQuestions()
         {
-            return base.Find(q => q.IsApproved);
+            return base.FindAll(q => q.IsApproved);
         }
 
         public IEnumerable<Question> GetQuestionOfUser(ApplicationUser user)
         {
-            return base.Find(q => q.CreatorId == user.Id);
+            return base.FindAll(q => q.CreatorId == user.Id);
         }
 
         public IEnumerable<Question> GetQuestionOfUser(string UserId )
         {
-            return base.Find(q => q.CreatorId == UserId);
+            return base.FindAll(q => q.CreatorId == UserId);
         }
 
         public async Task<IEnumerable<Question>> GetAllWithCreators()
