@@ -32,5 +32,6 @@ namespace MVCWebClient.Models.AnswerViewModels
         public decimal CurrentRating { get; set; }
 
         public decimal CurrentUserRating { get; set; }
+        public decimal CurrentRatingCount { get; set; }
     }
 }

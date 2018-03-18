@@ -1,4 +1,5 @@
 ﻿using Dbh.Model.EF.Entities;
+using Dbh.Model.EF.Utility;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,5 +22,7 @@ namespace Dbh.BusinessLayer.Contracts
         void AddOrModifyAnswerRating(int answerId, string username, decimal rating);
 
         void RemoveAnswerRating(int answerId, string username);
+
+        RatingInformation GetRatingInformation(int asnwerId, string username);
     }
 }

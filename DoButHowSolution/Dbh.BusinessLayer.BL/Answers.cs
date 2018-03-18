@@ -5,6 +5,7 @@ using System.Text;
 using Dbh.Model.EF.Interfaces;
 using Dbh.Model.EF.Entities;
 using System.Linq;
+using Dbh.Model.EF.Utility;
 
 namespace Dbh.BusinessLayer.BL
 {
@@ -104,14 +105,11 @@ namespace Dbh.BusinessLayer.BL
             
             foreach (var answer in answers)
             {
-                var ratings = _uow.AnswerRatings.FindAll(x => x.AnswerId == answer.Id);
-                answer.AverageRating = ratings.Any() ? ratings.Average(x => x.Rate) : 0;
-                if (!string.IsNullOrEmpty(username))
-                {
-                    var userId = _uow.AppUsers.GetUserIdByName(username);
-                    var usersRating = ratings.FirstOrDefault(x => x.UserId == userId);
-                    answer.CurrentUserRating = usersRating != null ? usersRating.Rate : 0;
-                }
+                var ratingInfo = GetRatingInformation(answer.Id, username);
+
+                answer.AverageRating = ratingInfo.AverageRating;
+                answer.CurrentRatingCount = ratingInfo.RatingCount;
+                answer.CurrentUserRating = ratingInfo.CurrentUserRating;
             }
             return answers;
         }
@@ -192,6 +190,24 @@ namespace Dbh.BusinessLayer.BL
                     _uow.AnswerRatings.Remove(answerRating);
                 }
             }
+        }
+
+        public RatingInformation GetRatingInformation(int asnwerId, string username)
+        {
+            var result = new RatingInformation();
+
+            var ratings = _uow.AnswerRatings.FindAll(x => x.AnswerId == asnwerId);
+            result.AverageRating = ratings.Any() ? ratings.Average(x => x.Rate) : 0;
+            result.RatingCount = ratings.Count();
+            if (!string.IsNullOrEmpty(username))
+            {
+                var userId = _uow.AppUsers.GetUserIdByName(username);
+                var usersRating = ratings.FirstOrDefault(x => x.UserId == userId);
+                result.CurrentUserRating = usersRating != null ? usersRating.Rate : 0;
+
+            }
+
+            return result;
         }
     }
 }

@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/js/QuestionAnswerViewModel.js" asp-append-version="true"></script>
+<script src="~/js/QuestionAnswerViewModel.js"></script>
 
 
 <div class="questionsContainer" id="questionAnswerContainer">
@@ -43,6 +43,7 @@
 </div>
 
 <script id="answerTemplate" type="text/html">
+   
     <form class="form-horizontal">
         <div class="form-group">
             <label for="Response" class="control-label col-sm-3">Response:</label>
@@ -50,5 +51,20 @@
                 <textarea name="Response" class="form-control" rows="10" disabled data-bind="value: $data.response"></textarea>
             </div>
         </div>
+        <div class="form-group">
+            <label for="currentRating" class="control-label col-sm-3">Rated:</label>
+            <div  class="col-sm-9">
+                <div style="display:inline" name="currentRating" data-bind="text: $data.currentRating"></div>
+                @if (User.Identity.IsAuthenticated)
+            {
+            <span style="float:right;display: inline" data-bind="foreach: $data.rateVM.ratingValues">
+                <i style="cursor:pointer;width:24px" class="material-icons" data-bind="text: $data.icon, click: $parent.rateVM.onStarClick"></i>
+
+            </span>
+            }           
+            </div>
+            
+        </div>
+        
     </form>
 </script>

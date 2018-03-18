@@ -57,6 +57,10 @@ namespace MVCWebClient.Services
             dest.Status = source.IsApproved ? "Approved" :
                 source.IsRejected ? "Rejected" : "Created";
 
+            dest.CurrentRating = source.AverageRating;
+            dest.CurrentUserRating = source.CurrentUserRating;
+            dest.CurrentRatingCount = source.CurrentRatingCount;
+
             return dest;
         }
 

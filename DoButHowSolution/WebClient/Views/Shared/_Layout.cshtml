@@ -70,12 +70,12 @@
         <a asp-area="" asp-controller="Questions" asp-action="Index">Questions</a>
         @if (User.Identity.IsAuthenticated && (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastUserRole").Result.Succeeded))
         {
-        <a asp-area="" asp-controller="Answers" asp-action="Index">Answers</a>
+            <a asp-area="" asp-controller="Answers" asp-action="Index">Answers</a>
 
         }
         @if (User.Identity.IsAuthenticated && (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastAdminRole").Result.Succeeded))
         {
-        <a asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+            <a asp-area="" asp-controller="Users" asp-action="Index">Users</a>
 
         }
 
@@ -90,12 +90,12 @@
     </div>
     <div id="bodyPart" class="container body-content" style="bottom: 0px;">
 
-        <div class="divElement h-100" >
+        <div class="divElement h-100">
             <p>
                 @if (!string.IsNullOrEmpty(ViewBag.message))
                 {
 
-                @ViewBag.message
+                    @ViewBag.message
                 }
             </p>
 
@@ -138,7 +138,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/navigationBarViewModel.js" asp-append-version="true"></script>
 
-    @await Component.InvokeAsync("NToastNotify.Toastr")
+    @*@await Component.InvokeAsync("NToastNotify.Toastr")*@ @*TODO wait for fix https://github.com/nabinked/NToastNotify/issues/30*@
     @RenderSection("Scripts", required: false)
 
 </body>

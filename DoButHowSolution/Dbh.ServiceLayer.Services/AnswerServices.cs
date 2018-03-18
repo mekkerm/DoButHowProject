@@ -1,6 +1,7 @@
 ﻿using Dbh.BusinessLayer.Contracts;
 using Dbh.Common.IoCContainer;
 using Dbh.Model.EF.Entities;
+using Dbh.Model.EF.Utility;
 using Dbh.ServiceLayer.Contracts;
 using System;
 using System.Collections.Generic;
@@ -113,6 +114,13 @@ namespace Dbh.ServiceLayer.Services
             businessUoW.Answers.RemoveAnswerRating(answerId, username);
 
             businessUoW.SaveChanges();
+        }
+
+        public RatingInformation GetRatingInformation(int asnwerId, string username)
+        {
+            var buow = GetUoW();
+
+            return buow.Answers.GetRatingInformation(asnwerId, username);
         }
     }
 }

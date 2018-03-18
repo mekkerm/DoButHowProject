@@ -25,6 +25,12 @@
 
     self.RateAnswer = function (answerId, rate) {
         return $.ajax({
+            beforeSend: function (request) {
+                //request.setRequestHeader("Authority", "blabla");
+                //request.setRequestHeader("X-NToastNotify-Request-Type", "afsgtdhjasd");
+                //request.
+                //request.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            },
             url: utils.baseUrl() + '/' + 'AnswerFor/RateAnswer',
             data: {
                 answerId: answerId,
@@ -36,16 +42,5 @@
         });
     };
 
-    self.UnRateAnswer = function (answerId) {
-        return $.ajax({
-            url: utils.baseUrl() + '/' + 'AnswerFor/UnRateAnswer',
-            data: {
-                answerId: answerId
-            },
-            dataType: 'json',
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8'
-        });
-    };
 
 })(window.dataServices = window.dataServices || {});

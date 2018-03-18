@@ -39,5 +39,7 @@ namespace Dbh.Model.EF.Entities
 
         [NotMapped]
         public decimal CurrentUserRating { get; set; }
+        [NotMapped]
+        public decimal CurrentRatingCount { get; set; }
     }
 }
