@@ -22,6 +22,8 @@ namespace Dbh.Model.EF.Context
         
         public DbSet<Answer> Answers { get; set; }
 
+        public DbSet<QuestionCategory> QuestionCategories { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=MARK-PC;Initial Catalog=TestDb2;Integrated Security=True");

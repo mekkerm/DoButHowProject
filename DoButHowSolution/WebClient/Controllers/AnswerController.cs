@@ -46,8 +46,8 @@ namespace MVCWebClient.Controllers
             var username = this.User.Identity.Name;
 
             _answerService.ApproveAnswer(AnswerId, username);
-
-            _toaster.AddToastMessage("The answer has been approved!", "", Enums.ToastType.Success);
+            _toaster.AddSuccessToastMessage("The answer has been approved!");
+            
 
             var model = GetAnswerQuestion(AnswerId);
             //IAuthorizationService serv = null;
@@ -65,7 +65,7 @@ namespace MVCWebClient.Controllers
 
             _answerService.RejectAnswer(AnswerId, RejectReason, username);
 
-            _toaster.AddToastMessage("The answer has been rejected!", "", Enums.ToastType.Success);
+            _toaster.AddSuccessToastMessage("The answer has been rejected!");
 
             var model = GetAnswerQuestion(AnswerId);
 
@@ -105,7 +105,7 @@ namespace MVCWebClient.Controllers
         {
             _answerService.CorrectAnswer(AnswerId, Response);
 
-            _toaster.AddToastMessage("Your answer has been corrected!", "", Enums.ToastType.Success);
+            _toaster.AddSuccessToastMessage("Your answer has been corrected!");
 
             var answer = _answerService.GetAnswerById(AnswerId);
             var updtedModel = _mapper.Map(answer);

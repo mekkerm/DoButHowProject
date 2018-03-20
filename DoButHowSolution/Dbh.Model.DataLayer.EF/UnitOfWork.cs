@@ -16,23 +16,13 @@ namespace Dbh.Model.EF.UnitOfWork
             _context = new ApplicationDbContext();
             _userContext = new UserDbContext();
         }
-
-        private BlogRepository _blogRepo;
+        
         private AppUserRepository _appUserRepo;
         private QuestionRepository _questionRepo;
         private AnswerRepository _answerRepo;
         private AnswerRatingsRepository _answerRatingsRepo;
-
-        public IBlogRepository Blogs {
-            get {
-                if (_blogRepo == null)
-                {
-                    _blogRepo = new BlogRepository(_context);
-                }
-                return _blogRepo;
-            }
-        }
-
+        private QuestionCategoryRepository _questionCategories;
+        
         public IAppUserRepository AppUsers {
             get {
                 if (_appUserRepo == null)
@@ -72,6 +62,19 @@ namespace Dbh.Model.EF.UnitOfWork
                 return _answerRatingsRepo;
             }
         }
+
+
+        public IQuestionCategoryRepository QuestionCategories {
+            get {
+                if (_questionCategories == null)
+                {
+                    _questionCategories = new QuestionCategoryRepository(_context);
+                }
+                return _questionCategories;
+            }
+        }
+
+
         public void Dispose()
         {
             _context.Dispose();

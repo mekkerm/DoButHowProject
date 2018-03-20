@@ -6,7 +6,6 @@ namespace Dbh.BusinessLayer.Contracts
 {
     public interface IBusinessObjectFactory
     {
-        IBlogs Blogs { get; }
 
 
         IQuestions Questions { get; }

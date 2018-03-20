@@ -107,5 +107,10 @@ namespace Dbh.ServiceLayer.Services
 
             return businessUoW.Questions.GetAnsweredQuestions(skip, take);
         }
+
+        public IEnumerable<QuestionCategory> GetQuestionCategories()
+        {
+            return GetUoW().Questions.GetQuestionCategories();
+        }
     }
 }

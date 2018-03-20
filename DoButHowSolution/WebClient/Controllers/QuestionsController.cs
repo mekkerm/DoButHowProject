@@ -59,6 +59,11 @@ namespace MVCWebClient.Controllers
             }
             var model = new QuestionViewModel();
             model.Title = "How To";
+
+
+            var categories = _questionService.GetQuestionCategories();
+            model.QuestionCategories = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(categories, "Id", "Name");
+
             return View(model);
         }
 
@@ -74,11 +79,11 @@ namespace MVCWebClient.Controllers
                 var result = _questionService.CreateNewQuestion(_mapper.Map(model), creatorName);
                 if (result)
                 {
-                    _toaster.AddToastMessage("Your question has been created!", "", Enums.ToastType.Success);
+                    _toaster.AddSuccessToastMessage("Your question has been created!");
                 }
                 else
                 {
-                    _toaster.AddToastMessage("Your question has not been created!", "", Enums.ToastType.Error);
+                    _toaster.AddErrorToastMessage("Your question has not been created!");
                 }
 
             }

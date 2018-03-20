@@ -138,7 +138,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/navigationBarViewModel.js" asp-append-version="true"></script>
 
-    @*@await Component.InvokeAsync("NToastNotify.Toastr")*@ @*TODO wait for fix https://github.com/nabinked/NToastNotify/issues/30*@
+    @await Component.InvokeAsync("NToastNotify") @*TODO wait for fix https://github.com/nabinked/NToastNotify/issues/30*@
     @RenderSection("Scripts", required: false)
 
 </body>

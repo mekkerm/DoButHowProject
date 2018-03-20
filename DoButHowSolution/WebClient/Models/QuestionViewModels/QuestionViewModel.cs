@@ -1,4 +1,5 @@
-﻿using MVCWebClient.Models.AnswerViewModels;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using MVCWebClient.Models.AnswerViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,6 +31,10 @@ namespace MVCWebClient.Models.QuestionViewModels
         public string Status { get; set; }
         public bool CurrentUserIsTheOwner { get; set; }
         public bool DisableInputs { get; set; }
+
+        public SelectList QuestionCategories { get; set; }
+
+        public int QuestionCategoryId { get; set; }
     }
 
     public class QuestionFullModel : QuestionViewModel

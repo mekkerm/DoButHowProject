@@ -80,6 +80,7 @@ namespace MVCWebClient.Services
             dest.Title = source.Title;
             dest.Description = source.Description;
             dest.Id = source.QuestionId;
+            dest.CategoryId = source.QuestionCategoryId;
 
             return dest;
         }

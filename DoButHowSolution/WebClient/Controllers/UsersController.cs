@@ -90,11 +90,11 @@ namespace MVCWebClient.Controllers
             var result = ChangeRole(emailAddress, currentRole, "User");
             if (result)
             {
-                _toaster.AddToastMessage("'"+ userName+"'" +" role changed to 'User'", "", Enums.ToastType.Success);
+                _toaster.AddSuccessToastMessage("'" + userName+"'" +" role changed to 'User'");
             }
             else
             {
-                _toaster.AddToastMessage("Role change did not succeeded!", "", Enums.ToastType.Error);
+                _toaster.AddErrorToastMessage("Role change did not succeeded!");
             }
 
             return RedirectToAction("Index", "Users");
@@ -107,11 +107,11 @@ namespace MVCWebClient.Controllers
             var result = ChangeRole(emailAddress, currentRole, "Moderator");
             if (result)
             {
-                _toaster.AddToastMessage("'" + userName + "'" + " role changed to 'Moderator'", "", Enums.ToastType.Success);
+                _toaster.AddSuccessToastMessage("'" + userName + "'" + " role changed to 'Moderator'");
             }
             else
             {
-                _toaster.AddToastMessage("Role change did not succeeded!", "", Enums.ToastType.Error);
+                _toaster.AddErrorToastMessage("Role change did not succeeded!");
             }
 
             return RedirectToAction("Index", "Users");
@@ -124,11 +124,11 @@ namespace MVCWebClient.Controllers
             var result = ChangeRole(emailAddress, currentRole, "Admin");
             if (result)
             {
-                _toaster.AddToastMessage("'" + userName + "'" + " role changed to 'Administrator'", "", Enums.ToastType.Success);
+                _toaster.AddSuccessToastMessage("'" + userName + "'" + " role changed to 'Administrator'");
             }
             else
             {
-                _toaster.AddToastMessage("Role change did not succeeded!", "", Enums.ToastType.Error);
+                _toaster.AddErrorToastMessage("Role change did not succeeded!");
             }
 
             return RedirectToAction("Index", "Users");

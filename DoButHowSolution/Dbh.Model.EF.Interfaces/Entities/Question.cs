@@ -33,5 +33,7 @@ namespace Dbh.Model.EF.Entities
         public string RejectReason { get; set; }
 
         public Boolean? HasAnwser { get; set; }
+
+        public int CategoryId { get; set; }
     }
 }

@@ -5,9 +5,11 @@ namespace Dbh.Model.EF.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IBlogRepository Blogs { get; }
 
         IQuestionRepository Questions { get; }
+
+
+        IQuestionCategoryRepository QuestionCategories { get; }
 
         IAppUserRepository AppUsers { get; }
 

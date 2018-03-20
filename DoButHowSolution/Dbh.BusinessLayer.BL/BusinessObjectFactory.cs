@@ -15,18 +15,6 @@ namespace Dbh.BusinessLayer.BL
             _uow = uow;
         }
 
-        private IBlogs _blogs;
-        public IBlogs Blogs {
-            get {
-                if (_blogs == null)
-                {
-                    _blogs = new Blogs(_uow);
-                }
-
-                return _blogs;
-            }
-        }
-
         private IQuestions _questions;
         public IQuestions Questions {
             get {

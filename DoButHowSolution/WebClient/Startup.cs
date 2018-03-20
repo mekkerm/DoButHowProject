@@ -16,6 +16,7 @@ using NToastNotify;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using NToastNotify.Libraries;
 
 namespace WebClient
 {
@@ -58,11 +59,11 @@ namespace WebClient
             }).AddEntityFrameworkStores<Dbh.Model.EF.Context.UserDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().AddNToastNotify(new ToastOption()
+            services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
             {
                 ProgressBar = false,
-                PositionClass = ToastPositions.BottomCenter
-            });;
+                PositionClass = ToastPositions.BottomRight
+            });
 
             services.AddMvc(config =>
             {
@@ -124,7 +125,6 @@ namespace WebClient
             }
 
             app.UseStaticFiles();
-            app.UseNToastNotify();
 
             app.UseAuthentication();
 
@@ -136,6 +136,8 @@ namespace WebClient
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseNToastNotify();
 
             // Time to seed the database
             var initializer = new CompositeDatabaseInitializer(new IDatabaseInitializer[]

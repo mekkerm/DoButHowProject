@@ -133,5 +133,10 @@ namespace Dbh.BusinessLayer.BL
         {
             return _uow.Questions.FindAll(q => bool.Equals(q.HasAnwser, true)).Skip(skip).Take(take);
         }
+
+        public IEnumerable<QuestionCategory> GetQuestionCategories()
+        {
+            return _uow.QuestionCategories.GetAll();
+        }
     }
 }
