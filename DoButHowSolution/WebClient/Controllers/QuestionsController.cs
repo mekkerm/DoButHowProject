@@ -38,16 +38,8 @@ namespace MVCWebClient.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            //var model = new AllQuestionsViewModel();
-
-            //var questions = _questionService.GetApprovedQuestions(Take, Skip);
-            //foreach (var question in questions)
-            //{
-            //    model.Questions.Add(_mapper.Map(question));
-            //}
-
             ViewBag.focus = "Index";
-            return View(/*model*/);
+            return View();
         }
 
         [HttpGet]
@@ -104,17 +96,6 @@ namespace MVCWebClient.Controllers
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                //var username = this.User.Identity.Name;
-                //var questions = _questionService.GetQuestionsOfUser(username);
-                //var model = new AllQuestionsViewModel();
-
-                //foreach (var question in questions)
-                //{
-                //    model.Questions.Add(_mapper.Map(question));
-                //}
-                //ViewBag.focus = "MyQuestions";
-                //return View("Index", model);
-
                 ViewBag.focus = "MyQuestions";
                 return View("Index");
             }
@@ -132,18 +113,7 @@ namespace MVCWebClient.Controllers
 
             if (this.User.Identity.IsAuthenticated)
             {
-                //var username = this.User.Identity.Name;
-                //var questions = _questionService.GetNotApprovedQuestions();
-                //var model = new AllQuestionsViewModel();
-
-                //foreach (var question in questions)
-                //{
-                //    model.Questions.Add(_mapper.Map(question));
-                //}
-                //ViewBag.focus = "QuestionsToApprove";
-                //return View("Index", model);
-
-                ViewBag.focus = "MyQuestions";
+                ViewBag.focus = "QuestionsToApprove";
                 return View("Index");
             }
             else

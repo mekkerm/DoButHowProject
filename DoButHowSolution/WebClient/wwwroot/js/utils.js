@@ -11,6 +11,10 @@
         return "Question" + self.separator() + "Index";
     }
 
+    self.answer = function () {
+        return "Answer" + self.separator() + "Index";
+    }
+
     self.separator = function () {
         return '/';
     }

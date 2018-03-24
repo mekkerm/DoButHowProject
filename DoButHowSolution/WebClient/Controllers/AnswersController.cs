@@ -1,4 +1,5 @@
-﻿using Dbh.ServiceLayer.Contracts;
+﻿using Dbh.Model.EF.Entities;
+using Dbh.ServiceLayer.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVCWebClient.Models.AnswerViewModels;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace MVCWebClient.Controllers
 {
     [Authorize(Policy = "RequireAtLeastUserRole")]
-    public class AnswersController:Controller
+    public class AnswersController : Controller
     {
         private IQuestionServices _questionService;
         private readonly ApplicationUserManager _userManager;
@@ -37,14 +38,7 @@ namespace MVCWebClient.Controllers
 
             if (this.User.Identity.IsAuthenticated)
             {
-                var username = this.User.Identity.Name;
-                var model = new AllAnswersViewModel();
-                var answers = _answerService.GetAnswersOfUser(username);
-                foreach (var answer in answers)
-                {
-                    model.AnswerList.Add(_mapper.Map(answer));
-                }
-                return View(model);
+                return View();
             }
             else
             {
@@ -54,36 +48,59 @@ namespace MVCWebClient.Controllers
 
         public IActionResult MyRejectedAnswers()
         {
-            var model = new AllAnswersViewModel();
-            var username = this.User.Identity.Name;
-            var asnwers = _answerService.GetRejectedQuestionsOfUser(username);
-
-            foreach (var answer in asnwers)
-            {
-                var ans = _mapper.Map(answer);
-                ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
-                model.AnswerList.Add(ans);
-
-            }
             ViewBag.focus = "MyRejectedAnswers";
-            return View("Index", model);
+            return View("Index");
         }
 
         public IActionResult AnswersToApprove()
         {
-            var model = new AllAnswersViewModel();
-            var asnwers = _answerService.GetNotApprovedAnswers();
-
-            foreach (var answer in asnwers)
-            {
-                var ans = _mapper.Map(answer);
-                ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
-                model.AnswerList.Add(ans);
-
-            }
-
             ViewBag.focus = "AnswersToApprove";
-            return View("Index", model);
+            return View("Index");
+        }
+
+        public List<AnswerViewModel> GetAnswers(int take, int skip, string type)
+        {
+            IEnumerable<Answer> answers = null;
+            var model = new List<AnswerViewModel>();
+            switch (type)
+            {
+                case "all":
+                    if (this.User.Identity.IsAuthenticated)
+                    {
+                        var username = this.User.Identity.Name;
+                        answers = _answerService.GetAnswersOfUser(username, skip, take);
+                        foreach (var answer in answers)
+                        {
+                            model.Add(_mapper.Map(answer));
+                        }
+                        return model;
+                    }
+                    break;
+                case "AnswersToApprove":
+                    answers = _answerService.GetNotApprovedAnswers(skip, take);
+
+                    foreach (var answer in answers)
+                    {
+                        var ans = _mapper.Map(answer);
+                        ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
+                        model.Add(ans);
+
+                    }
+                    break;
+                case "MyRejectedAnswers":
+                    var uname = this.User.Identity.Name;
+                    answers = _answerService.GetRejectedQuestionsOfUser(uname, skip, take);
+
+                    foreach (var answer in answers)
+                    {
+                        var ans = _mapper.Map(answer);
+                        ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
+                        model.Add(ans);
+
+                    }
+                    break;
+            }
+            return model;
         }
     }
 }

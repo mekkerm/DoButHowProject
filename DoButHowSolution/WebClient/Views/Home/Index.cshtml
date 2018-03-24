@@ -2,13 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
-<script src="~/js/answerViewModel.js" asp-append-version="true"></script>
+<script src="~/js/homeAnswerViewModel.js" asp-append-version="true"></script>
 <div>
     <div id="answerContainer">
         <div class="flex-container" data-bind="template: { name: 'questionsTemplate', foreach: window.answerViewModel.anwseredQuestions }"></div>
     </div>
     <p id="loading" class="loading-container">
-        <img src="images/loading.gif" alt="Loading…" />
+        <img src="~/images/loading.gif" alt="Loading…" />
     </p>
 </div>
 

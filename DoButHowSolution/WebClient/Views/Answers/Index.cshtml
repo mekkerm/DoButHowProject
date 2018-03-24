@@ -2,58 +2,65 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script src="~/js/answerViewModel.js" asp-append-version="true"></script>
+
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
 
 <div class="questionsContainer">
     @if (User.Identity.IsAuthenticated)
     {
-    <ul id="questionsNavBar" class="nav nav-pills">
-        @switch ((string)(ViewBag.focus))
-        {
-        case "MyRejectedAnswers":
-        <li><a asp-action="">My Answers</a></li>
-        <li class="active"><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
-        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
-        {
-        <li><a asp-action="AnswersToApprove">Answers to approve</a></li>
-        }
-        break;
-        case "AnswersToApprove":
-        <li><a asp-action="">My Answers</a></li>
-        <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
-        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
-        {
-        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
-        }
-        break;
-        default:
-        <li class="active"><a asp-action="">My Answers</a></li>
-        <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
-        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
-        {
-        <li><a asp-action="AnswersToApprove">Answers to approve</a></li>
-        }
+        <ul id="questionsNavBar" class="nav nav-pills">
+            @switch ((string)(ViewBag.focus))
+            {
+                case "MyRejectedAnswers":
+                    <li><a asp-action="">My Answers</a></li>
+                    <li class="active"><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+                    @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+                    {
+                        <li><a asp-action="AnswersToApprove">Answers to approve</a></li>
+                    }
+                    break;
+                case "AnswersToApprove":
+                    <li><a asp-action="">My Answers</a></li>
+                    <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+                    @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+                    {
+                        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
+                    }
+                    break;
+                default:
+                    <li class="active"><a asp-action="">My Answers</a></li>
+                    <li><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
+                    @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+                    {
+                        <li><a asp-action="AnswersToApprove">Answers to approve</a></li>
+                    }
 
-        break;
-        }
-    </ul>
+                    break;
+            }
+        </ul>
     }
 </div>
-    <ul style="display:inline">
-        @foreach (var answer in Model.AnswerList)
-        {
-            <li style="background-color:#f5f5f5">
-                <a asp-area="" asp-controller="Answer" asp-action="" asp-route-id="@answer.AnswerId">
-                    <div class="questionTitle">@answer.QuestionTitle</div>
-                    <p class="questionDescription">@answer.Response</p>
-                    <br />
-                </a>
-            </li>
-        }
-        @if (Model.AnswerList.Count == 0)
-        {
-            <p>There are no answers to approve!</p>
+<div id="answerContainer">
+    <ul data-bind="template: {name:'answerTemplate', foreach: window.answerViewModel.answers }"></ul>
+    <!-- ko if: window.answerViewModel.noMoreItems -->
+    <p data-bind="text: 'There are no answers to approve!'"></p>
+    <!-- /ko -->
+</div>
 
-        }
-    </ul>
+<p id="loading" class="loading-container">
+    <img src="~/images/loading.gif" alt="Loading…" />
+</p>
+
+
+<script type="text/html" id="answerTemplate">
+    <li style="background-color:#f5f5f5">
+        <a data-bind="attr:{href:utils.baseUrl()+utils.separator() + utils.answer() + utils.separator() + $data.answerId}">
+            <div class="questionTitle" data-bind="text: $data.questionTitle"></div>
+            <p class="questionDescription" data-bind="text: $data.response"></p>
+            <br />
+        </a>
+    </li>
+</script>

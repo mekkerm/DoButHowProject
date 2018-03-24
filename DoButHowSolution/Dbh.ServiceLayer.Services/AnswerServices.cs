@@ -28,11 +28,11 @@ namespace Dbh.ServiceLayer.Services
             return businessUoW.SaveChanges() > 0;
         }
 
-        public List<Answer> GetNotApprovedAnswers()
+        public List<Answer> GetNotApprovedAnswers(int skip, int take)
         {
             var businessUoW = GetUoW();
 
-            return businessUoW.Answers.GetNotApprovedAnswers().ToList();
+            return businessUoW.Answers.GetNotApprovedAnswers(skip, take).ToList();
         }
 
         public Answer GetAnswerById(int id)
@@ -74,18 +74,18 @@ namespace Dbh.ServiceLayer.Services
             return businessUoW.Answers.GetAnswersOfQuestion(questionId, username).ToList();
         }
 
-        public List<Answer> GetAnswersOfUser(string username)
+        public List<Answer> GetAnswersOfUser(string username, int skip, int take)
         {
             var businessUoW = GetUoW();
 
-            return businessUoW.Answers.GetAnswersOfUser(username).ToList();
+            return businessUoW.Answers.GetAnswersOfUser(username, skip, take).ToList();
         }
 
-        public List<Answer> GetRejectedQuestionsOfUser(string username)
+        public List<Answer> GetRejectedQuestionsOfUser(string username, int skip, int take)
         {
             var businessUoW = GetUoW();
 
-            return businessUoW.Answers.GetRejectedAnswersOfUser(username).ToList();
+            return businessUoW.Answers.GetRejectedAnswersOfUser(username, skip, take).ToList();
         }
 
         public void CorrectAnswer(int answerId, string response)

@@ -50,5 +50,19 @@
         });
     }
 
+    self.GetAnswers = function (skip, take, type) {
+        return $.ajax({
+            url: utils.baseUrl() + '/' + 'Answers/GetAnswers',
+            data: {
+                take: take,
+                skip: skip,
+                type: type
+            },
+            dataType: 'json',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8'
+        });
+    }
+
 
 })(window.dataServices = window.dataServices || {});

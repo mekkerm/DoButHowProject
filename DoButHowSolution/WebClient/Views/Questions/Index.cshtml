@@ -49,12 +49,17 @@
             </div>
         </a>
     }
-    <br>
+    <br />
+    <br />
+    <br />
     <div id="questionsContainer">
         <ul data-bind="template: {name:'questionTemplate', foreach: window.questionsViewModel.questions }"></ul>
+        <!-- ko if: window.questionsViewModel.noMoreItems -->
+        <p data-bind="text: 'There are no questions!'"></p>
+        <!-- /ko -->
     </div>
     <p id="loading" class="loading-container">
-        <img src="images/loading.gif" alt="Loading…" />
+        <img src="~/images/loading.gif" alt="Loading…" />
     </p>
 
 </div>

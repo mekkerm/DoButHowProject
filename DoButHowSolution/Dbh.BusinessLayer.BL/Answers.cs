@@ -38,9 +38,9 @@ namespace Dbh.BusinessLayer.BL
             
         }
 
-        public IEnumerable<Answer> GetNotApprovedAnswers()
+        public IEnumerable<Answer> GetNotApprovedAnswers(int skip, int take)
         {
-            var answers = _uow.Answers.FindAll(q => !q.IsApproved && !q.IsRejected);
+            var answers = _uow.Answers.FindAll(q => !q.IsApproved && !q.IsRejected).Skip(skip).Take(take);
             foreach (var answer in answers)
             {
                 answer.Creator = _uow.AppUsers.GetUser(answer.CreatorId);
@@ -115,18 +115,18 @@ namespace Dbh.BusinessLayer.BL
             return answers.OrderByDescending(x => x.AverageRating); 
         }
 
-        public IEnumerable<Answer> GetAnswersOfUser(string username)
+        public IEnumerable<Answer> GetAnswersOfUser(string username, int skip, int take)
         {
             var user = _uow.AppUsers.GetUserByName(username);
 
-            return _uow.Answers.FindAll(a => a.CreatorId == user.Id);
+            return _uow.Answers.FindAll(a => a.CreatorId == user.Id).Skip(skip).Take(take);
         }
 
-        public IEnumerable<Answer> GetRejectedAnswersOfUser(string username)
+        public IEnumerable<Answer> GetRejectedAnswersOfUser(string username, int skip, int take)
         {
             var user = _uow.AppUsers.GetUserByName(username);
 
-            return _uow.Answers.FindAll(a => a.CreatorId == user.Id && a.IsRejected);
+            return _uow.Answers.FindAll(a => a.CreatorId == user.Id && a.IsRejected).Skip(skip).Take(take);
         }
 
         public void CorrectAnswer(int answerId, string response)
