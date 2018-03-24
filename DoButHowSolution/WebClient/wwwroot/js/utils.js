@@ -4,7 +4,11 @@
     }
 
     self.answerFor = function () {
-        return "AnswerFor/Index";
+        return "AnswerFor" + self.separator() +"Index";
+    }
+
+    self.question = function () {
+        return "Question" + self.separator() + "Index";
     }
 
     self.separator = function () {

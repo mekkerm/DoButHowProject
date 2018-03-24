@@ -2,70 +2,76 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script src="~/js/questionsViewModel.js" asp-append-version="true"></script>
+
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
 <div class="questionsContainer">
     @if (User.Identity.IsAuthenticated)
     {
-    <ul id="questionsNavBar" class="nav nav-pills">
-        @switch ((string)(ViewBag.focus))
-        {
-        case "QuestionsToApprove":
-        <li><a asp-action="">All questions</a></li>
-        <li><a asp-action="MyQuestions">My questions</a></li>
-        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
-        {
-        <li class="active"><a asp-action="QuestionsToApprove">Questions to approve</a></li>
-        }
-        break;
-        case "MyQuestions":
-        <li><a asp-action="">All questions</a></li>
-        <li class="active"><a asp-action="MyQuestions">My questions</a></li>
-        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
-        {
-        <li><a asp-action="QuestionsToApprove">Questions to approve</a></li>
-        }
-        break;
-        default:
-        <li class="active"><a asp-action="">All questions</a></li>
-        <li><a asp-action="MyQuestions">My questions</a></li>
-        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
-        {
-        <li><a asp-action="QuestionsToApprove">Questions to approve</a></li>
-        }
-        break;
-        }
-    </ul>
+        <ul id="questionsNavBar" class="nav nav-pills">
+            @switch ((string)(ViewBag.focus))
+            {
+                case "QuestionsToApprove":
+                    <li><a asp-action="">All questions</a></li>
+                    <li><a asp-action="MyQuestions">My questions</a></li>
+                    @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+                    {
+                        <li class="active"><a asp-action="QuestionsToApprove">Questions to approve</a></li>
+                    }
+                    break;
+                case "MyQuestions":
+                    <li><a asp-action="">All questions</a></li>
+                    <li class="active"><a asp-action="MyQuestions">My questions</a></li>
+                    @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+                    {
+                        <li><a asp-action="QuestionsToApprove">Questions to approve</a></li>
+                    }
+                    break;
+                default:
+                    <li class="active"><a asp-action="">All questions</a></li>
+                    <li><a asp-action="MyQuestions">My questions</a></li>
+                    @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+                    {
+                        <li><a asp-action="QuestionsToApprove">Questions to approve</a></li>
+                    }
+                    break;
+            }
+        </ul>
     }
     @if (User.Identity.IsAuthenticated)
     {
-    <a asp-action="AskQuestion">
-        <div class="btn btn-primary" style="right:0px; display:inline; position:absolute">
-            <i class="material-icons alignMiddle">help_outline</i>
-            <div class="position-inline">Put a Question</div>
-        </div>
-    </a>
+        <a asp-action="AskQuestion">
+            <div class="btn btn-primary" style="right:0px; display:inline; position:absolute">
+                <i class="material-icons alignMiddle">help_outline</i>
+                <div class="position-inline">Put a Question</div>
+            </div>
+        </a>
     }
     <br>
-    <ul style="display:inline">
-        @foreach (var question in Model.Questions)
-        {
-        <li style="background-color:#f5f5f5">
-            <a asp-area="" asp-controller="Question" asp-action="" asp-route-id="@question.QuestionId">
-                <div class="questionTitle">@question.Title</div>
-                <p class="questionDescription">@question.Description</p>
-                <div style="float:right">@question.Status</div>
-                <br />
-            </a>
-        </li>
-        }
-        @if (Model.Questions.Count == 0)
-        {
-        <p>There are no questions!</p>
+    <div id="questionsContainer">
+        <ul data-bind="template: {name:'questionTemplate', foreach: window.questionsViewModel.questions }"></ul>
+    </div>
+    <p id="loading" class="loading-container">
+        <img src="images/loading.gif" alt="Loading…" />
+    </p>
 
-        }
-    </ul>
 </div>
+
+<script type="text/html" id="questionTemplate">
+    <li style="background-color:#f5f5f5">
+        <a data-bind="attr:{href:utils.baseUrl()+utils.separator() + utils.question() + utils.separator() + $data.questionId}">
+            <div class="questionTitle" data-bind="text: $data.title"></div>
+            <p class="questionDescription" data-bind="text: $data.description"></p>
+            @if (User.Identity.IsAuthenticated && AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+            {
+                <div style="float:right" data-bind="text: $data.status"></div>
+            }
+            <br />
+        </a>
+    </li>
+</script>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_QuestionScriptsPartial"); }

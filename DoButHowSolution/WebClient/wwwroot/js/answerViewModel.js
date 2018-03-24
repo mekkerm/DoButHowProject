@@ -35,8 +35,8 @@ var answerVM = function () {
         };
     }
     
-
-    this.LoadMore();
+    
+    this.LoadMore(() => { setTimeout(() => { $('#loading').hide(); }, 0); });
 }
 
 answerVM.prototype.initialTake = 40;
@@ -46,10 +46,6 @@ answerVM.prototype.adjustParameters = function () {
     this.skip += 20;
     this.take = 20;
 }
-
-
-
-
 
 window.viewModels.push({
     name: "answerViewModel",

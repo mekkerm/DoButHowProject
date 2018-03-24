@@ -73,7 +73,7 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Question> GetAll()
         {
-            var questions = _uow.Questions.GetAll();
+            var questions = _uow.Questions.GetAll().ToList();
             foreach (var question in questions)
             {
                 question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
@@ -91,10 +91,10 @@ namespace Dbh.BusinessLayer.BL
             return question;
         }
 
-        public IEnumerable<Question> GetQuestionsOfUser(string username)
+        public IEnumerable<Question> GetQuestionsOfUser(string username, int take, int skip)
         {
             var user = _uow.AppUsers.GetUserByName(username);
-            var questions = _uow.Questions.FindAll(q => q.CreatorId == user.Id);
+            var questions = _uow.Questions.FindAll(q => q.CreatorId == user.Id).Skip(skip).Take(take).ToList();
             foreach (var question in questions)
             {
                 question.Creator = user;
@@ -103,9 +103,9 @@ namespace Dbh.BusinessLayer.BL
         }
 
 
-        public IEnumerable<Question> GetNotApprovedQuestions()
+        public IEnumerable<Question> GetNotApprovedQuestions(int take, int skip)
         {
-            var questions = _uow.Questions.FindAll(q => !q.IsApproved && !q.IsRejected);
+            var questions = _uow.Questions.FindAll(q => !q.IsApproved && !q.IsRejected).Skip(skip).Take(take).ToList();
             foreach (var question in questions)
             {
                 question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
@@ -113,9 +113,9 @@ namespace Dbh.BusinessLayer.BL
             return questions;
         }
 
-        public IEnumerable<Question> GetApprovedQuestions()
+        public IEnumerable<Question> GetApprovedQuestions(int take, int skip)
         {
-            var questions = _uow.Questions.FindAll(q => q.IsApproved);
+            var questions = _uow.Questions.FindAll(q => q.IsApproved).Skip(skip).Take(take).ToList();
             foreach (var question in questions)
             {
                 question.Creator = _uow.AppUsers.GetUser(question.CreatorId);

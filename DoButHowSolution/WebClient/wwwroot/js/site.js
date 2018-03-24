@@ -10,15 +10,20 @@ if (window.viewModels) {
 
 $(document).ready(function () {
     var win = $(window);
-    $('#loading').hide();
+    
     // Each time the user scrolls
     win.scroll(function () {
         // End of the document reached?
         if ($(document).height() - win.height() === win.scrollTop()) {
-            $('#loading').show();
+            setTimeout(() => { $('#loading').show(); }, 0);
             if (window.answerViewModel) {
                 window.answerViewModel.LoadMore(function () {
-                    $('#loading').hide();
+                    setTimeout(() => { $('#loading').hide(); }, 1000);
+                });
+            }
+            if (window.questionsViewModel) {
+                window.questionsViewModel.LoadMore(function () {
+                    setTimeout(() => { $('#loading').hide(); }, 1000);
                 });
             }
         }

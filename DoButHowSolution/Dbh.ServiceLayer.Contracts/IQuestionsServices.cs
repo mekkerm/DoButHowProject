@@ -16,15 +16,15 @@ namespace Dbh.ServiceLayer.Contracts
         void RejectQuestion(int questionId, string rejectReason, string username);
         void CorrectQuestion(int questionId, string title, string description);
 
-        IEnumerable<Question> GetQuestionsOfUser(string username);
+        IEnumerable<Question> GetQuestionsOfUser(string username, int take, int skip);
 
         /// <summary>
         /// Returns the list of questions which are need to be approved.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Question> GetNotApprovedQuestions();
+        IEnumerable<Question> GetNotApprovedQuestions(int take, int skip);
 
-        IEnumerable<Question> GetApprovedQuestions();
+        IEnumerable<Question> GetApprovedQuestions(int take, int skip);
 
         IEnumerable<Question> GetAll();
 

@@ -19,11 +19,11 @@ namespace Dbh.BusinessLayer.Contracts
 
 
         void CreateQuestion(Question question, string creatorName);
-        IEnumerable<Question> GetQuestionsOfUser(string username);
-        IEnumerable<Question> GetNotApprovedQuestions();
+        IEnumerable<Question> GetQuestionsOfUser(string username, int take, int skip);
+        IEnumerable<Question> GetNotApprovedQuestions(int take, int skip);
 
 
-        IEnumerable<Question> GetApprovedQuestions();
+        IEnumerable<Question> GetApprovedQuestions(int take, int skip);
         string GetQuestionTitle(int questionId);
         IEnumerable<Question> GetAnsweredQuestions(int skip, int take);
 

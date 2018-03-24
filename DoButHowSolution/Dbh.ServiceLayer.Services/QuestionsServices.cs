@@ -46,17 +46,17 @@ namespace Dbh.ServiceLayer.Services
             return businessUoW.Questions.GetAll();
         }
 
-        public IEnumerable<Question> GetApprovedQuestions()
+        public IEnumerable<Question> GetApprovedQuestions(int take, int skip)
         {
             var businessUoW = GetUoW();
-            var questions = businessUoW.Questions.GetApprovedQuestions();
+            var questions = businessUoW.Questions.GetApprovedQuestions(take, skip);
             return questions;
         }
 
-        public IEnumerable<Question> GetNotApprovedQuestions()
+        public IEnumerable<Question> GetNotApprovedQuestions(int take, int skip)
         {
             var businessUoW = GetUoW();
-            var questions = businessUoW.Questions.GetNotApprovedQuestions();
+            var questions = businessUoW.Questions.GetNotApprovedQuestions(take, skip);
             return questions;
         }
 
@@ -87,10 +87,10 @@ namespace Dbh.ServiceLayer.Services
 
         }
 
-        public IEnumerable<Question> GetQuestionsOfUser(string username)
+        public IEnumerable<Question> GetQuestionsOfUser(string username, int take, int skip)
         {
             var businessUoW = GetUoW();
-            var questions = businessUoW.Questions.GetQuestionsOfUser(username);
+            var questions = businessUoW.Questions.GetQuestionsOfUser(username, take, skip);
             return questions;
         }
 

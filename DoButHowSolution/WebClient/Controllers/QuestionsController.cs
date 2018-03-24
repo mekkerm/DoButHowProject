@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using NToastNotify;
+using Dbh.Model.EF.Entities;
 
 namespace MVCWebClient.Controllers
 {
@@ -19,6 +20,7 @@ namespace MVCWebClient.Controllers
         private readonly ApplicationSignInManager _signInManager;
         private readonly MapperService _mapper;
         private readonly IToastNotification _toaster;
+        
 
         public QuestionsController(IQuestionServices service,
             ApplicationUserManager userManager,
@@ -36,16 +38,16 @@ namespace MVCWebClient.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = new AllQuestionsViewModel();
+            //var model = new AllQuestionsViewModel();
 
-            var questions = _questionService.GetApprovedQuestions();
-            foreach (var question in questions)
-            {
-                model.Questions.Add(_mapper.Map(question));
-            }
+            //var questions = _questionService.GetApprovedQuestions(Take, Skip);
+            //foreach (var question in questions)
+            //{
+            //    model.Questions.Add(_mapper.Map(question));
+            //}
 
             ViewBag.focus = "Index";
-            return View(model);
+            return View(/*model*/);
         }
 
         [HttpGet]
@@ -102,21 +104,25 @@ namespace MVCWebClient.Controllers
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                var username = this.User.Identity.Name;
-                var questions = _questionService.GetQuestionsOfUser(username);
-                var model = new AllQuestionsViewModel();
-                
-                foreach (var question in questions)
-                {
-                    model.Questions.Add(_mapper.Map(question));
-                }
+                //var username = this.User.Identity.Name;
+                //var questions = _questionService.GetQuestionsOfUser(username);
+                //var model = new AllQuestionsViewModel();
+
+                //foreach (var question in questions)
+                //{
+                //    model.Questions.Add(_mapper.Map(question));
+                //}
+                //ViewBag.focus = "MyQuestions";
+                //return View("Index", model);
+
                 ViewBag.focus = "MyQuestions";
-                return View("Index", model);
+                return View("Index");
             }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
+
         }
 
         [HttpGet]
@@ -126,21 +132,68 @@ namespace MVCWebClient.Controllers
 
             if (this.User.Identity.IsAuthenticated)
             {
-                var username = this.User.Identity.Name;
-                var questions = _questionService.GetNotApprovedQuestions();
-                var model = new AllQuestionsViewModel();
+                //var username = this.User.Identity.Name;
+                //var questions = _questionService.GetNotApprovedQuestions();
+                //var model = new AllQuestionsViewModel();
 
-                foreach (var question in questions)
-                {
-                    model.Questions.Add(_mapper.Map(question));
-                }
-                ViewBag.focus = "QuestionsToApprove";
-                return View("Index", model);
+                //foreach (var question in questions)
+                //{
+                //    model.Questions.Add(_mapper.Map(question));
+                //}
+                //ViewBag.focus = "QuestionsToApprove";
+                //return View("Index", model);
+
+                ViewBag.focus = "MyQuestions";
+                return View("Index");
             }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        public List<QuestionViewModel> GetQuestions(int take, int skip, string type)
+        {
+            IEnumerable<Question> questions = null;
+            var model = new List<QuestionViewModel>();
+            switch (type)
+            {
+                case "all":
+                    questions = _questionService.GetApprovedQuestions(take, skip);
+                    foreach (var question in questions)
+                    {
+                        model.Add(_mapper.Map(question));
+                    }
+                    return model;
+                case "QuestionsToApprove":
+                    if (this.User.Identity.IsAuthenticated)
+                    {
+                        var username = this.User.Identity.Name;
+                        questions = _questionService.GetNotApprovedQuestions(take, skip);
+
+                        foreach (var question in questions)
+                        {
+                            model.Add(_mapper.Map(question));
+                        }
+                        return model;
+                    }
+                    break;
+                case "MyQuestions":
+                    if (this.User.Identity.IsAuthenticated)
+                    {
+                        var username = this.User.Identity.Name;
+                        questions = _questionService.GetQuestionsOfUser(username, take, skip);
+                        model = new List<QuestionViewModel>();
+
+                        foreach (var question in questions)
+                        {
+                            model.Add(_mapper.Map(question));
+                        }
+                        return model;
+                    }
+                    break;
+            }
+            return model;
         }
         
     }
