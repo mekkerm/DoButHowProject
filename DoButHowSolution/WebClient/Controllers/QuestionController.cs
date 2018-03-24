@@ -46,8 +46,10 @@ namespace MVCWebClient.Controllers
                 return RedirectToAction("Index", "Home");
             }
             var model = _mapper.Map(question);
+            var categories = _questionService.GetQuestionCategories();
+            model.QuestionCategories = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(categories, "Id", "Name");
 
-            
+
             if (this.User.Identity.IsAuthenticated)
             {
                 var username = this.User.Identity.Name;
@@ -124,6 +126,8 @@ namespace MVCWebClient.Controllers
                 return RedirectToAction("Index", "Home");
             }
             var model = _mapper.Map(question);
+            var categories = _questionService.GetQuestionCategories();
+            model.QuestionCategories = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(categories, "Id", "Name");
 
             if (this.User.Identity.IsAuthenticated)
             {

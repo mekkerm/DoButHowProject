@@ -57,7 +57,7 @@ namespace Dbh.BusinessLayer.BL
             question.CreationDate = DateTime.Now;
             question.CreatorId = creator.Id;
             question.IsApproved = false;
-
+            
             _uow.Questions.Add(question);
         }
 
@@ -86,6 +86,7 @@ namespace Dbh.BusinessLayer.BL
         public Question GetQuestionById(int id)
         {
             var question = _uow.Questions.Get(id);
+            question.CategoryDescription = _uow.QuestionCategories.Get(question.CategoryId).Name;
             question.Creator = _uow.AppUsers.GetUser(question.CreatorId);
             return question;
         }
@@ -131,7 +132,15 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Question> GetAnsweredQuestions(int skip, int take)
         {
-            return _uow.Questions.FindAll(q => bool.Equals(q.HasAnwser, true)).Skip(skip).Take(take);
+            var categories = _uow.QuestionCategories.GetAll();
+
+            var questions =_uow.Questions.FindAll(q => bool.Equals(q.HasAnwser, true)).Skip(skip).Take(take);
+            foreach (var question in questions)
+            {
+                question.CategoryDescription = categories.FirstOrDefault(x => x.Id == question.CategoryId).Name;
+            }
+
+            return questions;
         }
 
         public IEnumerable<QuestionCategory> GetQuestionCategories()

@@ -39,6 +39,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label asp-for="QuestionCategoryId" class="col-sm-3 control-label">Category</label>
+                    <div class="col-sm-9">
+                        <select asp-for="QuestionCategoryId" asp-items="@Model.QuestionCategories" class="form-control selcls" disabled='@(Model.DisableInputs ? "disabled" : null)'></select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label asp-for="Description" class="control-label col-sm-3">Description:</label>
                     <div class="col-sm-9">
                         <textarea asp-for="Description" class="form-control" rows="5" disabled='@(Model.DisableInputs ? "disabled" : null)'></textarea>
@@ -46,49 +52,49 @@
                 </div>
 
                 @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
-                {
+    {
 
-                @if (!Model.IsApproved && !Model.IsRejected)
-                {
-                <div class="form-group">
-                    <label class="control-label col-sm-3"></label>
-                    <div class="col-sm-9">
-                        <textarea name="RejectReason" placeholder="Why do you reject this question?" class="form-control" rows="5"></textarea>
+            @if (!Model.IsApproved && !Model.IsRejected)
+{
+            <div class="form-group">
+                <label class="control-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <textarea name="RejectReason" placeholder="Why do you reject this question?" class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <div class="floatleftbutton">
+                        <button type="submit" class="btn btn-primary" asp-action="ApproveQuestion" asp-controller="Question">
+                            <span class="glyphicon glyphicon-ok"></span> Approve
+                        </button>
+                    </div>
+                    <div class="floatleftbutton">
+                        <button type="submit" class="btn btn-primary" asp-action="RejectQuestion" asp-controller="Question">
+                            <span class="glyphicon glyphicon-remove"></span> Reject
+                        </button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3"></label>
-                    <div class="col-sm-9">
-                        <div class="floatleftbutton">
-                            <button type="submit" class="btn btn-primary" asp-action="ApproveQuestion" asp-controller="Question">
-                                <span class="glyphicon glyphicon-ok"></span> Approve
-                            </button>
-                        </div>
-                        <div class="floatleftbutton">
-                            <button type="submit" class="btn btn-primary" asp-action="RejectQuestion" asp-controller="Question">
-                                <span class="glyphicon glyphicon-remove"></span> Reject
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                }
-                }
+            </div>
+}
+}
 
                 @if (Model.CurrentUserIsTheOwner && Model.IsRejected)
-                {
-                <label>Your question was rejected because:</label>
-                <div class="form-group">
-                    <label class="control-label col-sm-3"></label>
-                    <div class="col-sm-9">
-                        <textarea asp-for="RejectReason" disabled name="RejectReason" placeholder="" class="form-control" rows="5"></textarea>
-                    </div>
+    {
+            <label>Your question was rejected because:</label>
+            <div class="form-group">
+                <label class="control-label col-sm-3"></label>
+                <div class="col-sm-9">
+                    <textarea asp-for="RejectReason" disabled name="RejectReason" placeholder="" class="form-control" rows="5"></textarea>
                 </div>
-                <div class="floatleftbutton">
-                    <button type="submit" class="btn btn-primary" asp-action="CorrectQuestion" asp-controller="Question">
-                        <span class="glyphicon glyphicon-ok"></span> Correct
-                    </button>
-                </div>
-                }
+            </div>
+            <div class="floatleftbutton">
+                <button type="submit" class="btn btn-primary" asp-action="CorrectQuestion" asp-controller="Question">
+                    <span class="glyphicon glyphicon-ok"></span> Correct
+                </button>
+            </div>
+}
             </form>
 </div>
 

@@ -35,6 +35,7 @@ namespace MVCWebClient.Models.QuestionViewModels
         public SelectList QuestionCategories { get; set; }
 
         public int QuestionCategoryId { get; set; }
+        public string QuestionCategoryDescription { get; set; }
     }
 
     public class QuestionFullModel : QuestionViewModel

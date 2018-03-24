@@ -35,5 +35,7 @@ namespace Dbh.Model.EF.Entities
         public Boolean? HasAnwser { get; set; }
 
         public int CategoryId { get; set; }
+        [NotMapped]
+        public string CategoryDescription { get; set; }
     }
 }

@@ -83,6 +83,10 @@ namespace MVCWebClient.Controllers
             model.Answer = _mapper.Map(answer);
             model.Question = _mapper.Map(question);
 
+            var categories = _questionService.GetQuestionCategories();
+            model.Question.QuestionCategories = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(categories, "Id", "Name");
+
+
             if (this.User.Identity.IsAuthenticated)
             {
                 var username = this.User.Identity.Name;

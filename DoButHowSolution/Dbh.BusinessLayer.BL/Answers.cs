@@ -111,7 +111,8 @@ namespace Dbh.BusinessLayer.BL
                 answer.CurrentRatingCount = ratingInfo.RatingCount;
                 answer.CurrentUserRating = ratingInfo.CurrentUserRating;
             }
-            return answers;
+            
+            return answers.OrderByDescending(x => x.AverageRating); 
         }
 
         public IEnumerable<Answer> GetAnswersOfUser(string username)

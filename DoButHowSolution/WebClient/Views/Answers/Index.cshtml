@@ -16,7 +16,7 @@
         <li class="active"><a asp-action="MyRejectedAnswers">My rejected Answers</a></li>
         @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
         {
-        <li class="active"><a asp-action="AnswersToApprove">Answers to approve</a></li>
+        <li><a asp-action="AnswersToApprove">Answers to approve</a></li>
         }
         break;
         case "AnswersToApprove":

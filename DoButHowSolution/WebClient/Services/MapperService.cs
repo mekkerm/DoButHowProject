@@ -23,6 +23,7 @@ namespace MVCWebClient.Services
             dest.RejectReason = source.RejectReason;
             dest.Status = source.IsApproved ? "Approved" :
                 source.IsRejected ? "Rejected" : "Created";
+            dest.QuestionCategoryDescription = source.CategoryDescription;
 
             return dest;
         }
@@ -39,6 +40,7 @@ namespace MVCWebClient.Services
             dest.RejectReason = source.RejectReason;
             dest.Status = source.IsApproved ? "Approved" :
                 source.IsRejected ? "Rejected" : "Created";
+            dest.QuestionCategoryDescription = source.CategoryDescription;
             
         }
 
