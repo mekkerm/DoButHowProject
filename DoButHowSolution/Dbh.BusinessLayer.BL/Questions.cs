@@ -1,4 +1,5 @@
 ﻿using Dbh.BusinessLayer.Contracts;
+using Dbh.Elasticsearch.BL.DataIndexing;
 using Dbh.Model.EF.Entities;
 using Dbh.Model.EF.Interfaces;
 using System;
@@ -9,9 +10,21 @@ namespace Dbh.BusinessLayer.BL
 {
     public class Questions : BusinessObjectBase, IQuestions
     {
+        private IIndexer<Question> _qestionIndexer;
+
         public Questions(IUnitOfWork uow)
             : base(uow)
         { }
+
+        private IIndexer<Question> ESQuestionIndexer {
+            get {
+                if (_qestionIndexer == null)
+                {
+                    _qestionIndexer = new QuestionIndexer();
+                }
+                return _qestionIndexer;
+            }
+        }
 
         public void ApproveQuestion(int questionId, string username)
         {
@@ -23,10 +36,11 @@ namespace Dbh.BusinessLayer.BL
             oldQuestion.IsRejected = false;
             oldQuestion.RejectReason = null;
             oldQuestion.ApproverId = user.Id;
+
+            ESQuestionIndexer.IndexData(oldQuestion);
         }
 
-        public
-        void RejectQuestion(int questionId, string rejectReason, string username)
+        public void RejectQuestion(int questionId, string rejectReason, string username)
         {
             var oldQuestion = _uow.Questions.Get(questionId);
             var user = _uow.AppUsers.GetUserByName(username);

@@ -1,5 +1,6 @@
 ﻿
 
+using Dbh.Model.DataLayer.EF;
 using Dbh.Model.EF.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,8 @@ namespace Dbh.Model.EF.Context
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=MARK-PC;Initial Catalog=TestDb2;Integrated Security=True");
+            var connection = Utils.GetInstance().GetDefaultConnection();
+            optionsBuilder.UseSqlServer(connection);
         }
         
     }

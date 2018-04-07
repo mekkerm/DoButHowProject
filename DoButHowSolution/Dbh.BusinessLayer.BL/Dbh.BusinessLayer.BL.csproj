@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dbh.BusinessLayer.Contracts\Dbh.BusinessLayer.Contracts.csproj" />
+    <ProjectReference Include="..\Dbh.Elasticsearch.BL\Dbh.Elasticsearch.BL.csproj" />
     <ProjectReference Include="..\Dbh.Model.EF.Interfaces\Dbh.Model.EF.Interfaces.csproj" />
   </ItemGroup>
 

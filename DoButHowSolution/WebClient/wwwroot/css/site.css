@@ -52,6 +52,9 @@ textarea {
   height: 100px;
   padding: 0px;
 }
+.navbar {
+  height: 100px!important;
+}
 .navbar .logo {
   height: inherit;
 }
@@ -223,4 +226,14 @@ textarea {
   top: 35%;
   z-index: 1500;
   background-color: transparent;
+}
+.ui-autocomplete .ui-menu-item {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  display: block;
+  background-color: white;
+}
+.ui-autocomplete .ui-state-focus {
+  background-color: #cccccc!important;
 }

@@ -1,0 +1,17 @@
+﻿{
+    "settings" : {
+    },
+    "mappings" : {
+        "_doc" : {
+          "properties": {
+            "title": { "type": "text" },
+            "category": { "type": "text" },
+            "suggest": { "type": "completion" },
+            "description": { "type": "text" },
+            "question_id": {
+              "enabled": false
+            }
+          }
+        }
+    }
+}

@@ -8,7 +8,6 @@ namespace Dbh.Model.EF.Interfaces
 
         IQuestionRepository Questions { get; }
 
-
         IQuestionCategoryRepository QuestionCategories { get; }
 
         IAppUserRepository AppUsers { get; }

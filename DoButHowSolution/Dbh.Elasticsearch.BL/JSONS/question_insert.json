@@ -1,0 +1,7 @@
+﻿{
+  "question_id": "{0}",
+  "title": "{1}",
+  "description": "{2}",
+  "category": "{3}",
+  "suggest":  ["{4}"]
+}

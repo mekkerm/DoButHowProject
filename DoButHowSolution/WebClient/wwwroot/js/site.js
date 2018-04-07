@@ -28,6 +28,100 @@ $(document).ready(function () {
             }
         }
     });
+    window.esClient = $.es.Client({
+        hosts: "http://127.0.0.1:9200/"
+    });
+
+    window.esClient.ping({
+        requestTimeout: 30000,
+    }, function (error) {
+        if (error) {
+            console.error('elasticsearch cluster is down!');
+        } else {
+            console.log('All is well');
+        }
+    });
+
+    window.esClient.search({
+        index: 'questions',
+        type: '_doc',
+        body: {
+            "query": {
+                "match_all": {}
+            },
+            "size": 20
+        }
+    }).then(function (resp) {
+        var hits = resp.hits.hits;
+        //debugger;
+        console.log(hits);
+    }, function (err) {
+        console.trace(err.message);
+        });
+
+
+    
+
+    $("#searchInput").autocomplete({
+        appendTo: "#options-menu",
+        autoFocus: true,
+        create: function () {
+            //debugger;
+        },
+        select: function (event, ui) {
+            //debugger;
+        },
+        change: function (event, ui) {
+            //debugger;
+        },
+        source: function (request, response) {
+            var text = request.term;
+            var parts = text.split(" ");
+            
+            var searchTerm = parts[parts.length - 1];
+            parts.pop();
+            var initialText = parts.join(" ");
+            
+            window.esClient.search({
+                index: 'questions',
+                type: '_doc',
+                body: {
+                    "suggest": {
+                        "word-suggest": {
+                            "prefix": searchTerm,
+                            "completion": {
+                                "field": "suggest",
+                                "fuzzy": true
+                            }
+                        }
+                    }
+                }
+            }).then(function (resp) { 
+                console.log(resp.suggest["word-suggest"][0].options);
+                var texts = [];
+                var duplicates = {};
+                $.each(resp.suggest["word-suggest"][0].options, function (index, item) {
+                    if (!duplicates[item.text]) {
+                        texts.push(initialText + " " + item.text);
+                        duplicates[item.text] = {};
+                    }
+                });
+                
+                response(texts);
+            }, function (err) {
+                console.trace(err.message);
+            });
+            //jQuery.get("usernames.action", {
+            //    query: request.term
+            //}, function (data) {
+            //    // assuming data is a JavaScript array such as
+            //    // ["one@abc.de", "onf@abc.de","ong@abc.de"]
+            //    // and not a string
+            //    response(data);
+            //});
+        },
+        minLength: 3
+    });
 });
 
 
