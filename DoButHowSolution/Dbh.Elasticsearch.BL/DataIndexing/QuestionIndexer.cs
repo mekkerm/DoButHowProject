@@ -46,7 +46,7 @@ namespace Dbh.Elasticsearch.BL.DataIndexing
                 var rowTemplate = System.IO.File.ReadAllText(directoryName + "/JSONS/question_insert.json");
                 foreach (var item in questions)
                 {
-                    var row = rowTemplate.Replace("{0}", item.Id.ToString()).Replace("{1}", item.Title).Replace("{2}", item.Description).Replace("{3}", item.CategoryDescription).Replace("{4}", Utils.tokenize(item)).Replace("\n", "");
+                    var row = rowTemplate.Replace("{0}", item.Id.ToString()).Replace("{1}", item.Title).Replace("{2}", Utils.stripHTML(item.Description)).Replace("{3}", item.CategoryDescription).Replace("{4}", Utils.tokenize(item)).Replace("\n", "");
                     body.AppendLine(INSERT_ROW).AppendLine(row);
                 }
 
@@ -76,7 +76,7 @@ namespace Dbh.Elasticsearch.BL.DataIndexing
 
                 var rowTemplate = System.IO.File.ReadAllText(directoryName+"/JSONS/question_insert.json");
 
-                var row = rowTemplate.Replace("{0}", question.Id.ToString()).Replace("{1}", question.Title).Replace("{2}", question.Description).Replace("{3}", question.CategoryDescription).Replace("{4}", Utils.tokenize(question)).Replace("\n", "");
+                var row = rowTemplate.Replace("{0}", question.Id.ToString()).Replace("{1}", question.Title).Replace("{2}", Utils.stripHTML(question.Description)).Replace("{3}", question.CategoryDescription).Replace("{4}", Utils.tokenize(question)).Replace("\n", "");
                 body.AppendLine(row);
 
 

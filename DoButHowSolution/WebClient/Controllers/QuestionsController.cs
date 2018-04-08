@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using NToastNotify;
 using Dbh.Model.EF.Entities;
+using System.Text.RegularExpressions;
 
 namespace MVCWebClient.Controllers
 {
@@ -66,7 +67,13 @@ namespace MVCWebClient.Controllers
         [Authorize(Policy = "RequireAtLeastUserRole")]
         public IActionResult AskQuestion(QuestionViewModel model)
         {
-
+            if (String.IsNullOrEmpty(model.Title) || String.IsNullOrEmpty(StripHTML(model.Description)) || model.QuestionCategoryId == 0)
+            {
+                _toaster.AddWarningToastMessage("Your question is not complete!");
+                var categories = _questionService.GetQuestionCategories();
+                model.QuestionCategories = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(categories, "Id", "Name");
+                return View(model);
+            }
             if (this.User.Identity.IsAuthenticated)
             {
                 var creatorName = this.User.Identity.Name;
@@ -88,6 +95,10 @@ namespace MVCWebClient.Controllers
 
             return RedirectToAction("Index", "Questions");
 
+        }
+        private string StripHTML(string input)
+        {
+            return Regex.Replace(String.Copy(input), "<.*?>", String.Empty);
         }
 
         [HttpGet]

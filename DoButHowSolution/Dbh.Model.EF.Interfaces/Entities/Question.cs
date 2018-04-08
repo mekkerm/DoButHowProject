@@ -11,7 +11,7 @@ namespace Dbh.Model.EF.Entities
         [MaxLength(80)]
         public string Title { get; set; }
 
-        [MaxLength(250)]
+        [MaxLength(100000)]
         public string Description { get; set; }
 
         public string CreatorId { get; set; }

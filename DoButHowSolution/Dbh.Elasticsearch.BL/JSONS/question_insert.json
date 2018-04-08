@@ -3,5 +3,5 @@
   "title": "{1}",
   "description": "{2}",
   "category": "{3}",
-  "suggest":  ["{4}"]
+  "suggest":  [{4}]
 }

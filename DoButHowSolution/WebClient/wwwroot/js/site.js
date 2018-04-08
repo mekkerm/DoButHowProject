@@ -42,31 +42,17 @@ $(document).ready(function () {
         }
     });
 
-    window.esClient.search({
-        index: 'questions',
-        type: '_doc',
-        body: {
-            "query": {
-                "match_all": {}
-            },
-            "size": 20
+    $("#searchInput").keydown(function (x) {
+        if (x.key === "Tab") {
+            x.preventDefault();
+            x.stopPropagation();
         }
-    }).then(function (resp) {
-        var hits = resp.hits.hits;
-        //debugger;
-        console.log(hits);
-    }, function (err) {
-        console.trace(err.message);
-        });
-
-
-    
-
+    });
     $("#searchInput").autocomplete({
         appendTo: "#options-menu",
         autoFocus: true,
-        create: function () {
-            //debugger;
+        focus: function (e) {
+            //console.log(e);
         },
         select: function (event, ui) {
             //debugger;
@@ -88,7 +74,7 @@ $(document).ready(function () {
                 body: {
                     "suggest": {
                         "word-suggest": {
-                            "prefix": searchTerm,
+                            "text": searchTerm,
                             "completion": {
                                 "field": "suggest",
                                 "fuzzy": true
@@ -97,7 +83,7 @@ $(document).ready(function () {
                     }
                 }
             }).then(function (resp) { 
-                console.log(resp.suggest["word-suggest"][0].options);
+                //console.log(resp.suggest["word-suggest"][0].options);
                 var texts = [];
                 var duplicates = {};
                 $.each(resp.suggest["word-suggest"][0].options, function (index, item) {
@@ -111,16 +97,8 @@ $(document).ready(function () {
             }, function (err) {
                 console.trace(err.message);
             });
-            //jQuery.get("usernames.action", {
-            //    query: request.term
-            //}, function (data) {
-            //    // assuming data is a JavaScript array such as
-            //    // ["one@abc.de", "onf@abc.de","ong@abc.de"]
-            //    // and not a string
-            //    response(data);
-            //});
         },
-        minLength: 3
+        minLength: 2
     });
 });
 

@@ -12,7 +12,9 @@
     "knockout-mapping-js": "2.4.2",
     "toastr": "2.1.3",
     "jquery-ui": "jquery.ui#1.12.1",
-    "elasticsearch": "v14.2.2"
+    "elasticsearch": "v14.2.2",
+    "quill": "v1.3.6",
+    "quill-editor-knockout-binding": "ko-quill#v0.1.3"
   },
   "resolutions": {
     "jquery": ">= 1.7.2"

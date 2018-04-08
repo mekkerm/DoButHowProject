@@ -24,9 +24,25 @@ namespace Dbh.Elasticsearch.BL
 
         public string tokenize(string input)
         {
-            var cleanText = input.Replace(".", "").Replace(",", "").Replace(":", "").Replace(";", "");
+            var cleanText = stripHTML(input).Replace(".", "").Replace(",", "").Replace(":", "").Replace(";", "");
             var cleanerText = Regex.Replace(cleanText, @"\s+", " ");
-            return "\"" + string.Join("\", \"", cleanerText.Split(" ")) + "\"";
+            var spl = cleanerText.Split(" ");
+            var splitted = new List<string>();
+
+            foreach (var item in spl)
+            {
+                var processed = Regex.Replace(item, @"([^\w]|_)", "");
+                if (processed != "")
+                {
+                    splitted.Add(processed);
+                }
+            }
+            
+            return "\"" + string.Join("\", \"", splitted) + "\"";
+        }
+        public string stripHTML(string input)
+        {
+            return Regex.Replace(String.Copy(input), "<.*?>", String.Empty);
         }
 
         public string tokenize(Question question)

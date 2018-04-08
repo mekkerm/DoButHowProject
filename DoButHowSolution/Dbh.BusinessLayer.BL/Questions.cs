@@ -30,7 +30,7 @@ namespace Dbh.BusinessLayer.BL
         {
             var oldQuestion = _uow.Questions.Get(questionId);
             var user = _uow.AppUsers.GetUserByName(username);
-
+            oldQuestion.CategoryDescription = _uow.QuestionCategories.Get(oldQuestion.CategoryId).Name;
             oldQuestion.ApproveDate = DateTime.Now;
             oldQuestion.IsApproved = true;
             oldQuestion.IsRejected = false;

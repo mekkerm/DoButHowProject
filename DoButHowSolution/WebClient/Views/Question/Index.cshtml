@@ -5,7 +5,11 @@
 }
 @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService
-<div class="questionsContainer">
+
+
+<script src="~/js/richTextUtils.js"></script>
+
+<div class="questionsContainer" id="questionsContainer">
     @if (User.Identity.IsAuthenticated)
     {
         <div>
@@ -22,66 +26,66 @@
                         <div class="position-inline">Put a Question</div>
                     </div>
                 </a>
-                
+
             </div>
         </div>
 
     }
     <br><br><br>
-            <form class="form-horizontal" method="post">
-                <input asp-for="QuestionId" type="hidden" />
-                <input asp-for="CreatorName" type="hidden" />
-                <input asp-for="CreatorId" type="hidden" />
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label col-sm-3">Title:</label>
-                    <div class="col-sm-9">
-                        <input asp-for="Title" type="text" class="form-control" disabled='@(Model.DisableInputs ? "disabled" : null)'>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="QuestionCategoryId" class="col-sm-3 control-label">Category</label>
-                    <div class="col-sm-9">
-                        <select asp-for="QuestionCategoryId" asp-items="@Model.QuestionCategories" class="form-control selcls" disabled='@(Model.DisableInputs ? "disabled" : null)'></select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label col-sm-3">Description:</label>
-                    <div class="col-sm-9">
-                        <textarea asp-for="Description" class="form-control" rows="5" disabled='@(Model.DisableInputs ? "disabled" : null)'></textarea>
-                    </div>
-                </div>
+    <form class="form-horizontal" method="post">
+        <input asp-for="QuestionId" type="hidden" />
+        <input asp-for="CreatorName" type="hidden" />
+        <input asp-for="CreatorId" type="hidden" />
+        <div class="form-group">
+            <label asp-for="Title" class="control-label col-sm-3">Title:</label>
+            <div class="col-sm-9">
+                <input asp-for="Title" type="text" class="form-control" disabled='@(Model.DisableInputs ? "disabled" : null)'>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="QuestionCategoryId" class="col-sm-3 control-label">Category</label>
+            <div class="col-sm-9">
+                <select asp-for="QuestionCategoryId" asp-items="@Model.QuestionCategories" class="form-control selcls" disabled='@(Model.DisableInputs ? "disabled" : null)'></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label col-sm-3">Description:</label>
+            <div class="col-sm-9">
+                <input asp-for="Description" data-bind="quillControl" class="form-control" style="display:none" rows="5" disabled='@(Model.DisableInputs ? "disabled" : null)'></input>
+            </div>
+        </div>
 
-                @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
-    {
+        @if (AuthorizationService.AuthorizeAsync(User, "RequireAtLeastModeratorRole").Result.Succeeded)
+        {
 
             @if (!Model.IsApproved && !Model.IsRejected)
-{
-            <div class="form-group">
-                <label class="control-label col-sm-3"></label>
-                <div class="col-sm-9">
-                    <textarea name="RejectReason" placeholder="Why do you reject this question?" class="form-control" rows="5"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-3"></label>
-                <div class="col-sm-9">
-                    <div class="floatleftbutton">
-                        <button type="submit" class="btn btn-primary" asp-action="ApproveQuestion" asp-controller="Question">
-                            <span class="glyphicon glyphicon-ok"></span> Approve
-                        </button>
-                    </div>
-                    <div class="floatleftbutton">
-                        <button type="submit" class="btn btn-primary" asp-action="RejectQuestion" asp-controller="Question">
-                            <span class="glyphicon glyphicon-remove"></span> Reject
-                        </button>
+            {
+                <div class="form-group">
+                    <label class="control-label col-sm-3"></label>
+                    <div class="col-sm-9">
+                        <textarea name="RejectReason" placeholder="Why do you reject this question?" class="form-control" rows="5"></textarea>
                     </div>
                 </div>
-            </div>
-}
-}
+                <div class="form-group">
+                    <label class="control-label col-sm-3"></label>
+                    <div class="col-sm-9">
+                        <div class="floatleftbutton">
+                            <button type="submit" class="btn btn-primary" asp-action="ApproveQuestion" asp-controller="Question">
+                                <span class="glyphicon glyphicon-ok"></span> Approve
+                            </button>
+                        </div>
+                        <div class="floatleftbutton">
+                            <button type="submit" class="btn btn-primary" asp-action="RejectQuestion" asp-controller="Question">
+                                <span class="glyphicon glyphicon-remove"></span> Reject
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
 
-                @if (Model.CurrentUserIsTheOwner && Model.IsRejected)
-    {
+        @if (Model.CurrentUserIsTheOwner && Model.IsRejected)
+        {
             <label>Your question was rejected because:</label>
             <div class="form-group">
                 <label class="control-label col-sm-3"></label>
@@ -90,11 +94,13 @@
                 </div>
             </div>
             <div class="floatleftbutton">
-                <button type="submit" class="btn btn-primary" asp-action="CorrectQuestion" asp-controller="Question">
+                <button id="pushButton" type="submit" class="btn btn-primary" asp-action="CorrectQuestion" asp-controller="Question">
                     <span class="glyphicon glyphicon-ok"></span> Correct
                 </button>
             </div>
-}
-            </form>
+        }
+    </form>
 </div>
+
+
 

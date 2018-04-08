@@ -58,6 +58,9 @@ textarea {
 .navbar .logo {
   height: inherit;
 }
+.navbar-nav {
+  padding-top: 26px;
+}
 .searchForm .child {
   height: 100px;
 }
@@ -236,4 +239,10 @@ textarea {
 }
 .ui-autocomplete .ui-state-focus {
   background-color: #cccccc!important;
+}
+.ui-autocomplete li {
+  line-height: 0.1;
+}
+.input-width {
+  width: 300px;
 }
