@@ -3,44 +3,48 @@
 }
 
 <script src="~/js/richTextUtils.js"></script>
-<form id="questionsContainer" class="form-horizontal" method="post">
-    <fieldset>
-        <legend>Question</legend>
-        <input asp-for="QuestionId" type="hidden" />
-        <input asp-for="CreatorName" type="hidden" />
-        <input asp-for="CreatorId" type="hidden" />
-        <div class="form-group">
-            <label asp-for="Title" class="control-label col-sm-2">Title:</label>
-            <div class="col-sm-10">
-                <input asp-for="Title" type="text" class="form-control" disabled="@(Model.DisableInputs ? "disabled" : null)">
+<div id="questionsContainer">
+    <form class="form-horizontal">
+        <fieldset>
+            <legend>Question</legend>
+            <input asp-for="CreatorName" type="hidden" />
+            <input asp-for="CreatorId" type="hidden" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label col-sm-2">Title:</label>
+                <div class="col-sm-10">
+                    <input asp-for="Title" type="text" class="form-control" disabled="@(Model.DisableInputs ? "disabled" : null)">
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label asp-for="QuestionCategoryId" class="col-sm-2 control-label">Category</label>
-            <div class="col-sm-10">
-                <select asp-for="QuestionCategoryId" asp-items="@Model.QuestionCategories" class="form-control selcls" disabled='@(Model.DisableInputs ? "disabled" : null)'></select>
+            <div class="form-group">
+                <label asp-for="QuestionCategoryId" class="col-sm-2 control-label">Category</label>
+                <div class="col-sm-10">
+                    <select asp-for="QuestionCategoryId" asp-items="@Model.QuestionCategories" class="form-control selcls" disabled='@(Model.DisableInputs ? "disabled" : null)'></select>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Description" class="control-label col-sm-2">Description:</label>
-            <div class="col-sm-10">
-                <input asp-for="Description" data-bind="quillControl" class="form-control" rows="5" style="resize: none" disabled="@(Model.DisableInputs ? "disabled" : null)"></input>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label col-sm-2">Description:</label>
+                <div class="col-sm-10">
+                    <input asp-for="Description" data-bind="quillControl" class="form-control" rows="5" style="resize: none" disabled="@(Model.DisableInputs ? "disabled" : null)"></input>
+                </div>
             </div>
-        </div>
-    </fieldset>
-    <fieldset>
-        <legend>Answer</legend>
-        <div class="form-group">
-            <label class="control-label col-sm-2"></label>
-            <div class="col-sm-10">
-                <textarea name="Answer" class="form-control" rows="20" style="resize: none"></textarea>
+        </fieldset>
+    </form>
+    <form class="form-horizontal" method="post">
+        <fieldset>
+            <legend>Answer</legend>
+            <input asp-for="QuestionId" type="hidden" />
+            <div class="form-group">
+                <label class="control-label col-sm-2"></label>
+                <div class="col-sm-10">
+                    <textarea data-bind="quillControl" name="Answer" class="form-control" style="display:none;resize: none"></textarea>
+                </div>
             </div>
-        </div>
-        <div class="floatleftbutton">
-            <button type="submit" class="btn btn-primary" asp-action="AnswerTheQuestion" asp-controller="Question">
-                <span class="glyphicon glyphicon-ok"></span> Submit Answer
-            </button>
-        </div>
-    </fieldset>
-</form>
+            <div class="floatleftbutton">
+                <button id="pushButton" type="submit" class="btn btn-primary" asp-action="AnswerTheQuestion" asp-controller="Question">
+                    <span class="glyphicon glyphicon-ok"></span> Submit Answer
+                </button>
+            </div>
+        </fieldset>
+    </form>
+</div>

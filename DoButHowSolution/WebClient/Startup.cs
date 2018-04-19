@@ -88,6 +88,10 @@ namespace WebClient
             {
                 return new MapperService();
             });
+            services.AddSingleton(serviceProvider =>
+            {
+                return new Utils();
+            });
 
 
             services.AddAuthorization(options =>

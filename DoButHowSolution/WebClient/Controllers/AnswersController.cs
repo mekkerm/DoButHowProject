@@ -7,6 +7,7 @@ using MVCWebClient.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MVCWebClient.Controllers
@@ -19,18 +20,21 @@ namespace MVCWebClient.Controllers
         private readonly ApplicationSignInManager _signInManager;
         private readonly MapperService _mapper;
         private IAnswerServices _answerService;
+        private Utils _utils;
 
         public AnswersController(IQuestionServices service,
             ApplicationUserManager userManager,
            ApplicationSignInManager signInManager,
            MapperService mapper,
-           IAnswerServices answerService)
+           IAnswerServices answerService,
+           Utils utils)
         {
             _questionService = service;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _answerService = answerService;
+            _utils = utils;
         }
 
         public IActionResult Index()
@@ -69,38 +73,34 @@ namespace MVCWebClient.Controllers
                     {
                         var username = this.User.Identity.Name;
                         answers = _answerService.GetAnswersOfUser(username, skip, take);
-                        foreach (var answer in answers)
-                        {
-                            model.Add(_mapper.Map(answer));
-                        }
-                        return model;
+                        
                     }
                     break;
                 case "AnswersToApprove":
                     answers = _answerService.GetNotApprovedAnswers(skip, take);
-
-                    foreach (var answer in answers)
-                    {
-                        var ans = _mapper.Map(answer);
-                        ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
-                        model.Add(ans);
-
-                    }
+                    
                     break;
                 case "MyRejectedAnswers":
                     var uname = this.User.Identity.Name;
                     answers = _answerService.GetRejectedQuestionsOfUser(uname, skip, take);
 
-                    foreach (var answer in answers)
-                    {
-                        var ans = _mapper.Map(answer);
-                        ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
-                        model.Add(ans);
-
-                    }
+                    
                     break;
+            }
+            if (answers != null)
+            {
+                foreach (var answer in answers)
+                {
+                    var ans = _mapper.Map(answer);
+                    ans.Response = _utils.StripHTML(ans.Response);
+                    ans.Response = _utils.FormatString(ans.Response);
+                    ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
+                    model.Add(ans);
+                }
             }
             return model;
         }
+        
+        
     }
 }

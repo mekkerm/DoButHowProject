@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{F823437B-8A48-458B-88C4-519E7781A061}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbh.Model.DataLayer.EF", "Dbh.Model.DataLayer.EF\Dbh.Model.DataLayer.EF.csproj", "{779CC6D4-7CE0-4AE2-8C28-4AD005A79F5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dbh.Model.DataLayer.EF", "Dbh.Model.DataLayer.EF\Dbh.Model.DataLayer.EF.csproj", "{779CC6D4-7CE0-4AE2-8C28-4AD005A79F5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestApp", "ConsoleTestApp\ConsoleTestApp.csproj", "{D15D2CE3-B5C4-4CEE-A219-5ADB05828E03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbh.Model.EF.Interfaces", "Dbh.Model.EF.Interfaces\Dbh.Model.EF.Interfaces.csproj", "{6F8A7846-15DD-45FD-898D-C9670D6F8129}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dbh.Model.EF.Interfaces", "Dbh.Model.EF.Interfaces\Dbh.Model.EF.Interfaces.csproj", "{6F8A7846-15DD-45FD-898D-C9670D6F8129}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{F8275A1B-4DBB-42F7-B339-4623827706E3}"
 EndProject
@@ -17,27 +17,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataLayer", "DataLayer", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{440D100E-0E4E-4715-8410-07ABCFA9DB59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbh.Common.IoCContainer", "Dbh.Common.IoCContainer\Dbh.Common.IoCContainer.csproj", "{EF1859C9-6260-4720-93C7-18A41A205EE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dbh.Common.IoCContainer", "Dbh.Common.IoCContainer\Dbh.Common.IoCContainer.csproj", "{EF1859C9-6260-4720-93C7-18A41A205EE7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceLayer", "ServiceLayer", "{90D433AD-703C-4931-A27E-6E42E6182179}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLayer", "BusinessLayer", "{91E41F19-D7AC-4C39-B185-D55B7CA40ADA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbh.BusinessLayer.Contracts", "Dbh.BusinessLayer.Contracts\Dbh.BusinessLayer.Contracts.csproj", "{6CC71D50-BE42-4001-8C08-997FF42B3DE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dbh.BusinessLayer.Contracts", "Dbh.BusinessLayer.Contracts\Dbh.BusinessLayer.Contracts.csproj", "{6CC71D50-BE42-4001-8C08-997FF42B3DE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbh.BusinessLayer.BL", "Dbh.BusinessLayer.BL\Dbh.BusinessLayer.BL.csproj", "{6156413C-760D-4E65-AF39-D19A53DC2D3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dbh.BusinessLayer.BL", "Dbh.BusinessLayer.BL\Dbh.BusinessLayer.BL.csproj", "{6156413C-760D-4E65-AF39-D19A53DC2D3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbh.ServiceLayer.Contracts", "Dbh.ServiceLayer.Contracts\Dbh.ServiceLayer.Contracts.csproj", "{2CC5C13C-C753-4020-A61B-83F27DBB8024}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dbh.ServiceLayer.Contracts", "Dbh.ServiceLayer.Contracts\Dbh.ServiceLayer.Contracts.csproj", "{2CC5C13C-C753-4020-A61B-83F27DBB8024}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbh.ServiceLayer.Services", "Dbh.ServiceLayer.Services\Dbh.ServiceLayer.Services.csproj", "{65A9C9F5-B463-4F1A-BCE6-D1FEDAB7F255}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dbh.ServiceLayer.Services", "Dbh.ServiceLayer.Services\Dbh.ServiceLayer.Services.csproj", "{65A9C9F5-B463-4F1A-BCE6-D1FEDAB7F255}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{4DC63AF7-64BA-4BAE-8349-7B93D391DC3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCWebClient", "WebClient\MVCWebClient.csproj", "{294033CF-0C33-4E16-823E-048559A05EA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCWebClient", "WebClient\MVCWebClient.csproj", "{294033CF-0C33-4E16-823E-048559A05EA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F4B7642F-812B-4893-A10A-27886BDF8875}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataGeneratorTests", "DataGeneratorTests\DataGeneratorTests.csproj", "{7C03E1AA-2B45-400A-AC3E-0ECD1BC27C9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataGeneratorTests", "DataGeneratorTests\DataGeneratorTests.csproj", "{7C03E1AA-2B45-400A-AC3E-0ECD1BC27C9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbh.Elasticsearch.BL", "Dbh.Elasticsearch.BL\Dbh.Elasticsearch.BL.csproj", "{D6C37227-6AA0-4084-953B-22C04C74736E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElasticsearchTests", "ElasticsearchTests\ElasticsearchTests.csproj", "{AED58539-9D7D-4134-8328-2B60C807A901}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,6 +197,30 @@ Global
 		{7C03E1AA-2B45-400A-AC3E-0ECD1BC27C9E}.Release|x64.Build.0 = Release|Any CPU
 		{7C03E1AA-2B45-400A-AC3E-0ECD1BC27C9E}.Release|x86.ActiveCfg = Release|Any CPU
 		{7C03E1AA-2B45-400A-AC3E-0ECD1BC27C9E}.Release|x86.Build.0 = Release|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Debug|x64.Build.0 = Debug|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Debug|x86.Build.0 = Debug|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Release|x64.ActiveCfg = Release|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Release|x64.Build.0 = Release|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Release|x86.ActiveCfg = Release|Any CPU
+		{D6C37227-6AA0-4084-953B-22C04C74736E}.Release|x86.Build.0 = Release|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Debug|x64.Build.0 = Debug|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Debug|x86.Build.0 = Debug|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Release|x64.ActiveCfg = Release|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Release|x64.Build.0 = Release|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Release|x86.ActiveCfg = Release|Any CPU
+		{AED58539-9D7D-4134-8328-2B60C807A901}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,5 +238,10 @@ Global
 		{4DC63AF7-64BA-4BAE-8349-7B93D391DC3B} = {F8275A1B-4DBB-42F7-B339-4623827706E3}
 		{294033CF-0C33-4E16-823E-048559A05EA4} = {F8275A1B-4DBB-42F7-B339-4623827706E3}
 		{7C03E1AA-2B45-400A-AC3E-0ECD1BC27C9E} = {F4B7642F-812B-4893-A10A-27886BDF8875}
+		{D6C37227-6AA0-4084-953B-22C04C74736E} = {91E41F19-D7AC-4C39-B185-D55B7CA40ADA}
+		{AED58539-9D7D-4134-8328-2B60C807A901} = {F4B7642F-812B-4893-A10A-27886BDF8875}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {259D9202-96D6-436D-A9CA-97642DCC11E2}
 	EndGlobalSection
 EndGlobal

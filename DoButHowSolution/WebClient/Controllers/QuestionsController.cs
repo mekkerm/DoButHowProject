@@ -21,19 +21,22 @@ namespace MVCWebClient.Controllers
         private readonly ApplicationSignInManager _signInManager;
         private readonly MapperService _mapper;
         private readonly IToastNotification _toaster;
+        private readonly Utils _utils;
         
 
         public QuestionsController(IQuestionServices service,
             ApplicationUserManager userManager,
            ApplicationSignInManager signInManager,
            MapperService mapper,
-           IToastNotification toaster)
+           IToastNotification toaster,
+           Utils utils)
         {
             _questionService = service;
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _toaster = toaster;
+            _utils = utils;
         }
 
         [HttpGet]
@@ -67,7 +70,7 @@ namespace MVCWebClient.Controllers
         [Authorize(Policy = "RequireAtLeastUserRole")]
         public IActionResult AskQuestion(QuestionViewModel model)
         {
-            if (String.IsNullOrEmpty(model.Title) || String.IsNullOrEmpty(StripHTML(model.Description)) || model.QuestionCategoryId == 0)
+            if (String.IsNullOrEmpty(model.Title) || String.IsNullOrEmpty(_utils.StripHTML(model.Description)) || model.QuestionCategoryId == 0)
             {
                 _toaster.AddWarningToastMessage("Your question is not complete!");
                 var categories = _questionService.GetQuestionCategories();
@@ -96,10 +99,7 @@ namespace MVCWebClient.Controllers
             return RedirectToAction("Index", "Questions");
 
         }
-        private string StripHTML(string input)
-        {
-            return Regex.Replace(String.Copy(input), "<.*?>", String.Empty);
-        }
+        
 
         [HttpGet]
         [Authorize(Policy = "RequireAtLeastUserRole")]
@@ -140,23 +140,15 @@ namespace MVCWebClient.Controllers
             switch (type)
             {
                 case "all":
-                    questions = _questionService.GetApprovedQuestions(take, skip);
-                    foreach (var question in questions)
                     {
-                        model.Add(_mapper.Map(question));
+                        questions = _questionService.GetApprovedQuestions(take, skip);
+                        break;
                     }
-                    return model;
                 case "QuestionsToApprove":
                     if (this.User.Identity.IsAuthenticated)
                     {
                         var username = this.User.Identity.Name;
                         questions = _questionService.GetNotApprovedQuestions(take, skip);
-
-                        foreach (var question in questions)
-                        {
-                            model.Add(_mapper.Map(question));
-                        }
-                        return model;
                     }
                     break;
                 case "MyQuestions":
@@ -164,18 +156,23 @@ namespace MVCWebClient.Controllers
                     {
                         var username = this.User.Identity.Name;
                         questions = _questionService.GetQuestionsOfUser(username, take, skip);
-                        model = new List<QuestionViewModel>();
 
-                        foreach (var question in questions)
-                        {
-                            model.Add(_mapper.Map(question));
-                        }
-                        return model;
                     }
                     break;
             }
+            if(questions != null)
+            {
+                    foreach (var question in questions)
+                    {
+                    question.Description = _utils.StripHTML(question.Description);
+                    question.Description = _utils.FormatString(question.Description);   
+                        model.Add(_mapper.Map(question));
+                    }
+                    return model;
+
+            }
             return model;
         }
-        
+
     }
 }

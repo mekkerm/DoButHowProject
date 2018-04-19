@@ -6,16 +6,30 @@
         $(element).parent().append("<div id='" + quillId + "'  class='form-control'>" + inputValue + "</div>")
 
         var isDisabled = $(element).attr("disabled") === "disabled";
+        var toolbar = isDisabled ? false : [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
 
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+            //[{ 'direction': 'rtl' }],                         // text direction
+
+            [{ 'size': ['small', false, 'large'/*, 'huge'*/] }],  // custom dropdown
+            //[{ 'header': [1, 2, 3, false] }],
+
+            [{ 'color': [] }/*, { 'background': [] }*/],          // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+
+            ['clean']
+        ]
 
         var quill = new Quill("#" + quillId, {
             readOnly: isDisabled,
             modules: {
-                toolbar: [
-                    [{ header: [1, 2, false] }],
-                    ['bold', 'italic', 'underline'],
-                    ['image', 'code-block']
-                ]
+                toolbar: toolbar
             },
             theme: 'snow'
         });
@@ -25,7 +39,7 @@
         var correctButton = $("#pushButton");
         correctButton.click(function (event) {
             
-            var value = $("#" + quillId).find(".ql-editor").find("p").html();
+            var value = $("#" + quillId).find(".ql-editor")./*find("p").*/html();
             $(element).val(value);
         });
     },
