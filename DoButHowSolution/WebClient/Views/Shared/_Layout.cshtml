@@ -47,10 +47,10 @@
                 <ul class="nav navbar-nav">
 
                     <li style="width:350px">
-                        <form class="searchForm">
+                        <form class="searchForm" method="get" asp-controller="Search">
                             <div class="input-groupa ">
                                 <div>
-                                    <input id="searchInput" class="input-width form-control" style="height:50px; display:inline-block" type="text" placeholder="Search">
+                                    <input id="searchInput" name="search" class="input-width form-control" style="height:50px; display:inline-block" type="text" placeholder="Search">
 
                                     @*<div class="input-group-btn" style="display:inline-block">
                                             <button style="height:50px" class="btn btn-default" type="submit">

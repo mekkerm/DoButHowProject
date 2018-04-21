@@ -24,6 +24,10 @@ namespace Dbh.Elasticsearch.BL
 
         public string tokenize(string input)
         {
+            if (string.IsNullOrEmpty(input))
+            {
+                return "";
+            }
             var cleanText = stripHTML(input).Replace(".", "").Replace(",", "").Replace(":", "").Replace(";", "");
             var cleanerText = Regex.Replace(cleanText, @"\s+", " ");
             var spl = cleanerText.Split(" ");

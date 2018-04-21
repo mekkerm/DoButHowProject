@@ -1,4 +1,5 @@
-﻿using Dbh.Model.EF.Entities;
+﻿using Dbh.BusinessLayer.Contracts;
+using Dbh.Model.EF.Entities;
 using Dbh.ServiceLayer.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -62,10 +63,10 @@ namespace MVCWebClient.Controllers
             return View("Index");
         }
 
-        public List<AnswerViewModel> GetAnswers(int take, int skip, string type)
+        public List<AnswerHeaderDTO> GetAnswers(int take, int skip, string type)
         {
-            IEnumerable<Answer> answers = null;
-            var model = new List<AnswerViewModel>();
+            IEnumerable<AnswerHeaderDTO> answers = null;
+            var model = new List<AnswerHeaderDTO>();
             switch (type)
             {
                 case "all":
@@ -91,11 +92,8 @@ namespace MVCWebClient.Controllers
             {
                 foreach (var answer in answers)
                 {
-                    var ans = _mapper.Map(answer);
-                    ans.Response = _utils.StripHTML(ans.Response);
-                    ans.Response = _utils.FormatString(ans.Response);
-                    ans.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
-                    model.Add(ans);
+                    answer.QuestionTitle = _questionService.GetQuestionTitle(answer.QuestionId);
+                    model.Add(answer);
                 }
             }
             return model;

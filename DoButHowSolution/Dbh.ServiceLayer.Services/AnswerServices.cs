@@ -28,7 +28,7 @@ namespace Dbh.ServiceLayer.Services
             return businessUoW.SaveChanges() > 0;
         }
 
-        public List<Answer> GetNotApprovedAnswers(int skip, int take)
+        public List<AnswerHeaderDTO> GetNotApprovedAnswers(int skip, int take)
         {
             var businessUoW = GetUoW();
 
@@ -74,14 +74,14 @@ namespace Dbh.ServiceLayer.Services
             return businessUoW.Answers.GetAnswersOfQuestion(questionId, username).ToList();
         }
 
-        public List<Answer> GetAnswersOfUser(string username, int skip, int take)
+        public List<AnswerHeaderDTO> GetAnswersOfUser(string username, int skip, int take)
         {
             var businessUoW = GetUoW();
 
             return businessUoW.Answers.GetAnswersOfUser(username, skip, take).ToList();
         }
 
-        public List<Answer> GetRejectedQuestionsOfUser(string username, int skip, int take)
+        public List<AnswerHeaderDTO> GetRejectedQuestionsOfUser(string username, int skip, int take)
         {
             var businessUoW = GetUoW();
 

@@ -28,5 +28,7 @@ namespace Dbh.BusinessLayer.Contracts
         IEnumerable<Question> GetAnsweredQuestions(int skip, int take);
 
         IEnumerable<QuestionCategory> GetQuestionCategories();
+
+        IEnumerable<QuestionHeaderDTO> FindQuestions(string text);
     }
 }

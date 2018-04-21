@@ -38,12 +38,20 @@ namespace Dbh.BusinessLayer.BL
             
         }
 
-        public IEnumerable<Answer> GetNotApprovedAnswers(int skip, int take)
+        public IEnumerable<AnswerHeaderDTO> GetNotApprovedAnswers(int skip, int take)
         {
-            var answers = _uow.Answers.FindAll(q => !q.IsApproved && !q.IsRejected).Skip(skip).Take(take);
+            var answers = _uow.Answers.FindAll(q => !q.IsApproved && !q.IsRejected).Skip(skip).Take(take).Select(x => new AnswerHeaderDTO
+            {
+                Id = x.Id,
+                Response = x.Response,
+                CreatorId = x.CreatorId,
+                QuestionId = x.QuestionId
+            });
+               
             foreach (var answer in answers)
             {
-                answer.Creator = _uow.AppUsers.GetUser(answer.CreatorId);
+                var creator = _uow.AppUsers.GetUser(answer.CreatorId);
+                answer.CreatorName = creator.UserName;
             }
             return answers;
         }
@@ -115,18 +123,28 @@ namespace Dbh.BusinessLayer.BL
             return answers.OrderByDescending(x => x.AverageRating); 
         }
 
-        public IEnumerable<Answer> GetAnswersOfUser(string username, int skip, int take)
+        public IEnumerable<AnswerHeaderDTO> GetAnswersOfUser(string username, int skip, int take)
         {
             var user = _uow.AppUsers.GetUserByName(username);
 
-            return _uow.Answers.FindAll(a => a.CreatorId == user.Id).Skip(skip).Take(take);
+            return _uow.Answers.FindAll(a => a.CreatorId == user.Id).Skip(skip).Take(take).Select(x=> new AnswerHeaderDTO
+            {
+                Id = x.Id,
+                Response = x.Response,
+                QuestionId = x.QuestionId
+            });
         }
 
-        public IEnumerable<Answer> GetRejectedAnswersOfUser(string username, int skip, int take)
+        public IEnumerable<AnswerHeaderDTO> GetRejectedAnswersOfUser(string username, int skip, int take)
         {
             var user = _uow.AppUsers.GetUserByName(username);
 
-            return _uow.Answers.FindAll(a => a.CreatorId == user.Id && a.IsRejected).Skip(skip).Take(take);
+            return _uow.Answers.FindAll(a => a.CreatorId == user.Id && a.IsRejected).Skip(skip).Take(take).Select(x => new AnswerHeaderDTO
+            {
+                Id = x.Id,
+                Response = x.Response,
+                QuestionId = x.QuestionId
+            });
         }
 
         public void CorrectAnswer(int answerId, string response)

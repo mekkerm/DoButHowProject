@@ -1,4 +1,5 @@
-﻿using Dbh.Model.EF.Entities;
+﻿using Dbh.BusinessLayer.Contracts;
+using Dbh.Model.EF.Entities;
 using Dbh.Model.EF.Utility;
 using System;
 using System.Collections.Generic;
@@ -10,14 +11,14 @@ namespace Dbh.ServiceLayer.Contracts
     {
 
         bool AnswerQuestion(int questionId, string answer, string currentUser);
-        List<Answer> GetNotApprovedAnswers(int skip, int take);
+        List<AnswerHeaderDTO> GetNotApprovedAnswers(int skip, int take);
         Answer GetAnswerById(int id);
         void ApproveAnswer(int answerId, string username);
         void RejectAnswer(int answerId, string rejectReason, string username);
         List<Answer> GetAnswers(int skip, int take);
         List<Answer> GetAnswersOfQuestion(int questionId, string username);
-        List<Answer> GetAnswersOfUser(string username, int skip, int take);
-        List<Answer> GetRejectedQuestionsOfUser(string username, int skip, int take);
+        List<AnswerHeaderDTO> GetAnswersOfUser(string username, int skip, int take);
+        List<AnswerHeaderDTO> GetRejectedQuestionsOfUser(string username, int skip, int take);
         void CorrectAnswer(int answerId, string response);
 
         void AddOrModifyAnswerRating(int answerId, string username, decimal rating);

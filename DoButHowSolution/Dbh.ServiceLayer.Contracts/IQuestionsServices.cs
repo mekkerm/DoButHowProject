@@ -1,4 +1,5 @@
-﻿using Dbh.Model.EF.Entities;
+﻿using Dbh.BusinessLayer.Contracts;
+using Dbh.Model.EF.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -33,5 +34,7 @@ namespace Dbh.ServiceLayer.Contracts
         IEnumerable<Question> GetAnsweredQuestions(int skip, int take);
 
         IEnumerable<QuestionCategory> GetQuestionCategories();
+
+        IEnumerable<QuestionHeaderDTO> FindQuestions(string text);
     }
 }

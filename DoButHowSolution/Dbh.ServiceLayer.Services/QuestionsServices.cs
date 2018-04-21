@@ -112,5 +112,10 @@ namespace Dbh.ServiceLayer.Services
         {
             return GetUoW().Questions.GetQuestionCategories();
         }
+
+        public IEnumerable<QuestionHeaderDTO> FindQuestions(string text)
+        {
+            return GetUoW().Questions.FindQuestions(text);
+        }
     }
 }

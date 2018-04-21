@@ -57,7 +57,7 @@
 
 <script type="text/html" id="answerTemplate">
     <li style="background-color:#f5f5f5">
-        <a data-bind="attr:{href:utils.baseUrl()+utils.separator() + utils.answer() + utils.separator() + $data.answerId}">
+        <a data-bind="attr:{href:utils.baseUrl()+utils.separator() + utils.answer() + utils.separator() + $data.id}">
             <div class="questionTitle" data-bind="text: $data.questionTitle"></div>
             <p class="questionDescription" data-bind="text: $data.response"></p>
             <br />

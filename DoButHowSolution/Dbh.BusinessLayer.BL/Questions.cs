@@ -1,5 +1,6 @@
 ﻿using Dbh.BusinessLayer.Contracts;
 using Dbh.Elasticsearch.BL.DataIndexing;
+using Dbh.Elasticsearch.BL.DataQueries;
 using Dbh.Model.EF.Entities;
 using Dbh.Model.EF.Interfaces;
 using System;
@@ -11,6 +12,7 @@ namespace Dbh.BusinessLayer.BL
     public class Questions : BusinessObjectBase, IQuestions
     {
         private IIndexer<Question> _qestionIndexer;
+        private IElasticSearch _qestionFinder;
 
         public Questions(IUnitOfWork uow)
             : base(uow)
@@ -23,6 +25,16 @@ namespace Dbh.BusinessLayer.BL
                     _qestionIndexer = new QuestionIndexer();
                 }
                 return _qestionIndexer;
+            }
+        }
+
+        private IElasticSearch ESQuestionFinder {
+            get {
+                if (_qestionFinder == null)
+                {
+                    _qestionFinder = new ElasticSearch();
+                }
+                return _qestionFinder;
             }
         }
 
@@ -160,6 +172,13 @@ namespace Dbh.BusinessLayer.BL
         public IEnumerable<QuestionCategory> GetQuestionCategories()
         {
             return _uow.QuestionCategories.GetAll();
+        }
+
+        public IEnumerable<QuestionHeaderDTO> FindQuestions(string text)
+        {
+            var hits = ESQuestionFinder.SearchForQuestion(text);/*.Distinct().ToDictionary(x=> x, x=> true);*/
+            return hits;
+            //return _uow.Questions.FindAll(x => hits.ContainsKey(x.Id)).ToList();
         }
     }
 }

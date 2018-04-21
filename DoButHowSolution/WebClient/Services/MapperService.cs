@@ -76,6 +76,16 @@ namespace MVCWebClient.Services
             return results; ;
         }
 
+        public List<QuestionViewModel> Map(IEnumerable<Question> sourceList)
+        {
+            var results = new List<QuestionViewModel>();
+            foreach (var source in sourceList)
+            {
+                results.Add(Map(source));
+            }
+            return results; ;
+        }
+
         public Question Map(QuestionViewModel source)
         {
             var dest = new Question();

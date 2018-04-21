@@ -1,0 +1,11 @@
+﻿{
+  "size": 15,
+  "_source": [ "question_id", "title", "description" ],
+  "query": {
+    "multi_match": {
+      "query": "{0}",
+      "fields": [ "title^3", "description", "category" ],
+      "fuzziness": 6
+    }
+  }
+}
