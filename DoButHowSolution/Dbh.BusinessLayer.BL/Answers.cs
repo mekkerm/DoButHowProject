@@ -108,7 +108,7 @@ namespace Dbh.BusinessLayer.BL
 
         public IEnumerable<Answer> GetAnswersOfQuestion(int questionId, string username)
         {
-            var answers = _uow.Answers.FindAll(a => a.QuestionId == questionId && a.IsApproved);
+            var answers = _uow.Answers.FindAll(a => a.QuestionId == questionId && a.IsApproved).ToList();
             
             
             foreach (var answer in answers)

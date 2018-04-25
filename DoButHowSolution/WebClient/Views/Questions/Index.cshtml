@@ -53,7 +53,7 @@
     <br />
     <br />
     <div id="questionsContainer">
-        <ul data-bind="template: {name:'questionTemplate', foreach: window.questionsViewModel.questions }"></ul>
+        <ul class="list-container" data-bind="template: {name:'questionTemplate', foreach: window.questionsViewModel.questions }"></ul>
         <!-- ko if: window.questionsViewModel.noMoreItems -->
         <p data-bind="text: 'There are no questions!'"></p>
         <!-- /ko -->
@@ -65,7 +65,7 @@
 </div>
 
 <script type="text/html" id="questionTemplate">
-    <li style="background-color:#f5f5f5">
+    <li class="list-item">
         <a data-bind="attr:{href:utils.baseUrl()+utils.separator() + utils.question() + utils.separator() + $data.questionId}">
             <div class="questionTitle" data-bind="text: $data.title"></div>
             <p class="questionDescription" data-bind="text: $data.description"></p>

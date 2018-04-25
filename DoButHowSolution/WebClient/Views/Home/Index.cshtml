@@ -5,7 +5,7 @@
 <script src="~/js/homeAnswerViewModel.js" asp-append-version="true"></script>
 <div>
     <div id="answerContainer">
-        <div class="flex-container" data-bind="template: { name: 'questionsTemplate', foreach: window.answerViewModel.anwseredQuestions }"></div>
+        <ul class="flex-containera list-container" data-bind="template: { name: 'questionsTemplate', foreach: window.answerViewModel.anwseredQuestions }"></ul>
     </div>
     <p id="loading" class="loading-container">
         <img src="~/images/loading.gif" alt="Loading…" />
@@ -13,22 +13,28 @@
 </div>
 
 <script type="text/html" id="questionsTemplate">
-    <div style="display:none" class="questionContainer flex-item" data-bind="fadeVisible, style : { height: '50px' }">
-        <a data-bind="attr:{href:utils.baseUrl()+utils.separator() + utils.answerFor() + utils.separator() + $data.questionId}">
-            <table style="width:100%">
+    <li style="display:none" class="list-item position-middle" data-bind="fadeVisible, style : { height: '50px' }">
+        <a data-bind="attr:{href:utils.baseUrl()+utils.separator() + utils.answerFor() + utils.separator() + $data.id}">
+            <table style="width:100%; position:relative;">
                 <tr>
                     <td data-bind="text: $data.title">
 
                     </td>
-                    <td style="float:right" data-bind="text: $data.questionCategoryDescription">
+                    <td style="float:right" data-bind="text: $data.categoryDescription">
 
                     </td>
                 </tr>
+                <div style="position:absolute; bottom:0px;">
+                    
+                        <i class="material-icons alignMiddle">question_answer</i>
+                        <div class="position-inline" data-bind="text:$data.answerCount"></div>
+                    
+                </div>
             </table>
             @*<div data-bind="text: $data.title">
 
             </div>
-            <div data-bind="text: $data.questionCategoryDescription"> </div>*@
+            <div data-bind="text: $data.categoryDescription"> </div>*@
         </a>
-    </div>
+    </li>
 </script>

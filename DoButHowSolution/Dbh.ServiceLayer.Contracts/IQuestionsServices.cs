@@ -31,7 +31,7 @@ namespace Dbh.ServiceLayer.Contracts
 
         Question GetQuestionById(int id);
         string GetQuestionTitle(int questionId);
-        IEnumerable<Question> GetAnsweredQuestions(int skip, int take);
+        IEnumerable<QuestionHeaderDTO> GetAnsweredQuestions(int skip, int take);
 
         IEnumerable<QuestionCategory> GetQuestionCategories();
 

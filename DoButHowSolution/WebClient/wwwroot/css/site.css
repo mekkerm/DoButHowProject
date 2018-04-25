@@ -135,7 +135,7 @@ textarea {
 }
 /*****************************/
 .questionTitle {
-  background: lightgrey;
+  /*background: lightgrey;*/
 }
 .form-control {
   cursor: auto!important;
@@ -184,8 +184,15 @@ textarea {
 .floatleftbutton .btn {
   width: 150px;
 }
-.questionContainer {
-  width: 340px;
+.position-middle {
+  position: relative;
+  left: 10%;
+}
+.list-container {
+  list-style: none;
+}
+.list-item {
+  width: 90%;
   min-height: 100px;
   margin-bottom: 10px;
   border-style: groove;

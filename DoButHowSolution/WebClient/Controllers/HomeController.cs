@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dbh.ServiceLayer.Contracts;
 using MVCWebClient.Services;
 using MVCWebClient.Models.QuestionViewModels;
+using Dbh.BusinessLayer.Contracts;
 
 namespace WebClient.Controllers
 {
@@ -29,14 +30,15 @@ namespace WebClient.Controllers
             return View();
         }
 
-        [HttpGet(Name = "GetInitialAnswers")]
-        public IActionResult GetInitialAnswers(int skip, int take)
+        [HttpGet(Name = "GetQuestions")]
+        public IActionResult GetQuestions(int skip, int take)
         {
             var answeredQuestions = _questionService.GetAnsweredQuestions(skip, take);
-            var results = new List<QuestionViewModel>();
+            
+            var results = new List<QuestionHeaderDTO>();
             foreach(var a in answeredQuestions)
             {
-                results.Add(_mapper.Map(a));
+                results.Add(a);
             }
             return Json(results);
         }

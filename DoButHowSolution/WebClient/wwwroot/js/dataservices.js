@@ -2,7 +2,7 @@
 
     self.GetAnwseredQuestions = function (skip, take) {
         return $.ajax({
-            url: utils.baseUrl() + '/' + 'Home/GetInitialAnswers',
+            url: utils.baseUrl() + '/' + 'Home/GetQuestions',
             data: {
                 take: take,
                 skip: skip

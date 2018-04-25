@@ -156,14 +156,20 @@ namespace Dbh.BusinessLayer.BL
             return question.Title;
         }
 
-        public IEnumerable<Question> GetAnsweredQuestions(int skip, int take)
+        public IEnumerable<QuestionHeaderDTO> GetAnsweredQuestions(int skip, int take)
         {
             var categories = _uow.QuestionCategories.GetAll();
-
-            var questions =_uow.Questions.FindAll(q => bool.Equals(q.HasAnwser, true)).Skip(skip).Take(take);
+            var questions =_uow.Questions.FindAll(q => bool.Equals(q.HasAnwser, true)).Skip(skip).Take(take).Select(x=> new QuestionHeaderDTO
+            {
+                Description = x.Description,
+                Id = x.Id,
+                Title = x.Title,
+                CategoryId = x.CategoryId
+            }).ToList();
             foreach (var question in questions)
             {
                 question.CategoryDescription = categories.FirstOrDefault(x => x.Id == question.CategoryId).Name;
+                question.AnswerCount = _uow.Answers.FindAll(x => x.QuestionId == question.Id && x.IsApproved == true).Count();
             }
 
             return questions;
