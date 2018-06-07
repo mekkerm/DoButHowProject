@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dbh.Model.EF.Interfaces.Interfaces
+namespace Dbh.Model.EF.Interfaces
 {
     public interface IAppUserRepository : IRepository<ApplicationUser>
     {

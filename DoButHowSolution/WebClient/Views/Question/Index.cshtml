@@ -1,6 +1,6 @@
 @model QuestionViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Question";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using Microsoft.AspNetCore.Authorization
@@ -23,7 +23,7 @@
                 <a asp-action="AskQuestion" asp-controller="Questions" class="bclass">
                     <div class="btn btn-primary" style="display:inline; position:absolute">
                         <i class="material-icons alignMiddle">help_outline</i>
-                        <div class="position-inline">Put a Question</div>
+                        <div class="position-inline">Ask a Question</div>
                     </div>
                 </a>
 

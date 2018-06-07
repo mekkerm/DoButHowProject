@@ -9,11 +9,11 @@ using Dbh.Model.EF.Interfaces;
 
 namespace Dbh.Model.EF.Repositories
 {
-    public class GenericRepository<TEntity> : IRepository<TEntity>
+    public abstract class GenericRepository<TEntity> : IRepository<TEntity>
        where TEntity : BaseEntity
     {
-        protected DbSet<TEntity> _dbSet;
-        private DbContext _ctx;
+        protected readonly DbSet<TEntity> _dbSet;
+        private readonly DbContext _ctx;
 
         public GenericRepository(DbContext context)
         {

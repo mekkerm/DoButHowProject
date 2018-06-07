@@ -15,7 +15,7 @@ namespace Dbh.ServiceLayer.Services
 
         public bool AnswerQuestion(int questionId, string answer, string currentUser)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
             try
             {
                 var result = businessUoW.Answers.CreateAnswer(questionId, answer, currentUser);
@@ -30,21 +30,21 @@ namespace Dbh.ServiceLayer.Services
 
         public List<AnswerHeaderDTO> GetNotApprovedAnswers(int skip, int take)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             return businessUoW.Answers.GetNotApprovedAnswers(skip, take).ToList();
         }
 
         public Answer GetAnswerById(int id)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             return businessUoW.Answers.GetAnswerById(id);
         }
 
         public void ApproveAnswer(int answerId, string username)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             businessUoW.Answers.ApproveAnswer(answerId, username);
 
@@ -53,7 +53,7 @@ namespace Dbh.ServiceLayer.Services
 
         public void RejectAnswer(int answerId, string rejectReason, string username)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             businessUoW.Answers.RejectAnswer(answerId, rejectReason, username);
 
@@ -62,35 +62,35 @@ namespace Dbh.ServiceLayer.Services
 
         public List<Answer> GetAnswers(int skip, int take)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             return businessUoW.Answers.GetAnswers(skip, take).ToList();
         }
 
         public List<Answer> GetAnswersOfQuestion(int questionId, string username)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             return businessUoW.Answers.GetAnswersOfQuestion(questionId, username).ToList();
         }
 
         public List<AnswerHeaderDTO> GetAnswersOfUser(string username, int skip, int take)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             return businessUoW.Answers.GetAnswersOfUser(username, skip, take).ToList();
         }
 
         public List<AnswerHeaderDTO> GetRejectedQuestionsOfUser(string username, int skip, int take)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             return businessUoW.Answers.GetRejectedAnswersOfUser(username, skip, take).ToList();
         }
 
         public void CorrectAnswer(int answerId, string response)
         {
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             businessUoW.Answers.CorrectAnswer(answerId, response);
 
@@ -100,7 +100,7 @@ namespace Dbh.ServiceLayer.Services
         public void AddOrModifyAnswerRating(int answerId, string username, decimal rating)
         {
 
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             businessUoW.Answers.AddOrModifyAnswerRating(answerId, username, rating);
 
@@ -109,7 +109,7 @@ namespace Dbh.ServiceLayer.Services
         public void RemoveAnswerRating(int answerId, string username)
         {
 
-            var businessUoW = GetUoW();
+            var businessUoW = GetBusinessObjectFactory();
 
             businessUoW.Answers.RemoveAnswerRating(answerId, username);
 
@@ -118,7 +118,7 @@ namespace Dbh.ServiceLayer.Services
 
         public RatingInformation GetRatingInformation(int asnwerId, string username)
         {
-            var buow = GetUoW();
+            var buow = GetBusinessObjectFactory();
 
             return buow.Answers.GetRatingInformation(asnwerId, username);
         }

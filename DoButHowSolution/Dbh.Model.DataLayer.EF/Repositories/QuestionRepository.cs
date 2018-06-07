@@ -8,11 +8,8 @@ namespace Dbh.Model.EF.Repositories
 {
     public class QuestionRepository : GenericRepository<Question>, IQuestionRepository
     {
-        private DbContext _ctx;
-        public QuestionRepository(DbContext context) : base(context)
-        {
-            _ctx = context;
-        }
+        public QuestionRepository(DbContext context) : base(context) { _ctx = context; }
+        private readonly DbContext _ctx;
 
         public IEnumerable<Question> GetNotApprovedQuestions()
         {

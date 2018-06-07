@@ -13,6 +13,8 @@ using Dbh.ServiceLayer.Services;
 using MVCWebClient.Services;
 using Microsoft.AspNetCore.Identity;
 using NToastNotify;
+using Microsoft.AspNetCore.Authentication.Google;
+
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -58,6 +60,11 @@ namespace WebClient
             }).AddEntityFrameworkStores<Dbh.Model.EF.Context.UserDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
             services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
             {
                 ProgressBar = false,
@@ -75,24 +82,18 @@ namespace WebClient
             services.AddScoped<ApplicationSignInManager>();
             services.AddScoped<ApplicationUserManager>();
 
-            services.AddScoped<IQuestionServices>(serviceProvider =>
-            {
+            services.AddScoped<IQuestionServices>(serviceProvider => {
                 return new QuestionServices();
             });
-
-            services.AddScoped<IAnswerServices>(serviceProvider =>
-            {
+            services.AddScoped<IAnswerServices>(serviceProvider => {
                 return new AnswerServices();
             });
-            services.AddSingleton(serviceProvider =>
-            {
+            services.AddSingleton(serviceProvider => {
                 return new MapperService();
             });
-            services.AddSingleton(serviceProvider =>
-            {
+            services.AddSingleton(serviceProvider => {
                 return new Utils();
             });
-
 
             services.AddAuthorization(options =>
             {
@@ -104,10 +105,12 @@ namespace WebClient
                 options.AddPolicy("RequireAtLeastAdminRole", policy => policy.RequireRole("Admin"));
 
             });
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //     .AddCookie();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                 .AddCookie();
 
             services.AddScoped<RoleManager<IdentityRole>>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

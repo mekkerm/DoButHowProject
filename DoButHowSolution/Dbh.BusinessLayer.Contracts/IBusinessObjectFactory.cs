@@ -6,13 +6,8 @@ namespace Dbh.BusinessLayer.Contracts
 {
     public interface IBusinessObjectFactory
     {
-
-
         IQuestions Questions { get; }
-
-
         IAnswers Answers { get; }
-
         int SaveChanges();
     }
 }

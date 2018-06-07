@@ -74,7 +74,7 @@ $(document).ready(function () {
                 body: {
                     "suggest": {
                         "word-suggest": {
-                            "text": searchTerm,
+                            "prefix": searchTerm,
                             "completion": {
                                 "field": "suggest",
                                 "fuzzy": true
@@ -84,6 +84,7 @@ $(document).ready(function () {
                 }
             }).then(function (resp) { 
                 //console.log(resp.suggest["word-suggest"][0].options);
+                console.log(resp.took);
                 var texts = [];
                 var duplicates = {};
                 $.each(resp.suggest["word-suggest"][0].options, function (index, item) {

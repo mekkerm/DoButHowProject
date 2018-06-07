@@ -15,7 +15,6 @@ namespace Dbh.Model.EF.Entities
         public string Description { get; set; }
 
         public string CreatorId { get; set; }
-        //[ForeignKey("CreatorUserId")]
         public ApplicationUser Creator { get; set; }
 
         public DateTime CreationDate { get; set; }

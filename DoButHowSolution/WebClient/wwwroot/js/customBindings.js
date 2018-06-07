@@ -8,7 +8,7 @@
         var isDisabled = $(element).attr("disabled") === "disabled";
         var toolbar = isDisabled ? false : [
             ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
+            ['blockquote', 'code-block', 'image'],
 
             [{ 'header': 1 }, { 'header': 2 }],               // custom button values
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
@@ -22,7 +22,7 @@
             [{ 'color': [] }/*, { 'background': [] }*/],          // dropdown with defaults from theme
             [{ 'font': [] }],
             [{ 'align': [] }],
-
+            
             ['clean']
         ]
 

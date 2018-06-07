@@ -1,7 +1,6 @@
 ﻿using System;
 using Dbh.Model.EF.Context;
 using Dbh.Model.EF.Interfaces;
-using Dbh.Model.EF.Interfaces.Interfaces;
 using Dbh.Model.EF.Repositories;
 
 namespace Dbh.Model.EF.UnitOfWork

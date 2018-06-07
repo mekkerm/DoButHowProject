@@ -8,7 +8,7 @@ namespace Dbh.ServiceLayer.Services
 {
     public abstract class ServiceBase
     {
-        protected IBusinessObjectFactory GetUoW()
+        protected IBusinessObjectFactory GetBusinessObjectFactory()
         {
             return Resolver.Get<IBusinessObjectFactory>();
         }

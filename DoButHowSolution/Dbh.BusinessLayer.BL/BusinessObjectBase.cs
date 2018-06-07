@@ -1,7 +1,7 @@
 ﻿using Dbh.Model.EF.Interfaces;
 namespace Dbh.BusinessLayer.BL
 {
-    public class BusinessObjectBase
+    public abstract class BusinessObjectBase
     {
         protected IUnitOfWork _uow;
 

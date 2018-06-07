@@ -36,19 +36,16 @@ namespace MVCWebClient.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int id)
-        {
-            
+        public IActionResult Index(int id)
+        {            
             var question = _questionService.GetQuestionById(id);
             if (question == null)
             {
-
                 return RedirectToAction("Index", "Home");
             }
             var model = _mapper.Map(question);
             var categories = _questionService.GetQuestionCategories();
             model.QuestionCategories = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(categories, "Id", "Name");
-
 
             if (this.User.Identity.IsAuthenticated)
             {
@@ -61,7 +58,6 @@ namespace MVCWebClient.Controllers
             }
 
             model.DisableInputs = !(model.CurrentUserIsTheOwner && model.IsRejected);
-            
             
             return View(model);
         }
